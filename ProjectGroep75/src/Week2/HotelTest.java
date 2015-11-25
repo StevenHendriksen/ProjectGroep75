@@ -1,8 +1,9 @@
-package Week2;
+package ss.week2.test;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
+import ss.week2.hotel.*;
 
 import static org.junit.Assert.*;
 
@@ -65,7 +66,6 @@ public class HotelTest {
         safe.activate(Password.INITIAL);
 
         hotel.checkOut(GUEST_NAME_1);
-        System.out.println(guest.getRoom());
         assertNull("Guest has no room", guest.getRoom());
         assertNull("Room has no guest", room.getGuest());
         assertFalse("Safe is inactive", safe.isActive());
