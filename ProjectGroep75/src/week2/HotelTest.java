@@ -1,4 +1,4 @@
-package Week2;
+package week2;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;

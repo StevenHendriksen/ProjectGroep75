@@ -1,6 +1,6 @@
 package week3;
 
-import Week2.Password;
+import week2.Password;
 
 public class Addition implements OperatorWithIdentity {
 	private Addition add;

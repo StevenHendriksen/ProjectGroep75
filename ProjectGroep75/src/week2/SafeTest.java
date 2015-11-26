@@ -1,4 +1,4 @@
-package Week2;
+package week2;
 
 import org.junit.Before;
 import org.junit.Test;
