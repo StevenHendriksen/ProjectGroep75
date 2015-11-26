@@ -37,6 +37,7 @@ public class RoomTest {
     public void testClose(){
     	room.getSafe().open(pass.INITIAL);
     	room.safeClose();
+    	System.out.println("hey" + " \t " + 5.20);
     	assertFalse(room.getSafe().isOpen());
     }
     @Test
