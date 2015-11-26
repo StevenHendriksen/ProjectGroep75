@@ -1,14 +1,14 @@
 package week3;
 
-public interface Multiplication extends OperatorWithIdentity {
-	/**
-	 * Perform this operation with the specified operands.
-	 */
-	public int operate (int left, int right);
+public class Multiplication implements OperatorWithIdentity {
+	private Multiplication mult;
+	private int result;
 	
-	/**
-	 * The identity for this operator. For any int i,
-	 * this.operate(this.identity(),i) == this.operate(i,this.identity()) == i
-	 */
-	public int identitity();
+	public Multiplication(int first, int second){
+		mult = new Multiplication(first, second);
+		mult.result = first * second;
+	}
+	public int result(){
+		return mult.result;
+	}
 }
