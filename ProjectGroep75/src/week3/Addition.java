@@ -1,16 +1,15 @@
 package week3;
 
-import week2.Password;
-
 public class Addition implements OperatorWithIdentity {
-	private Addition add;
 	private int result;
+
 	
-	public Addition(int first, int second){
-		add = new Addition(first, second);
-		add.result = first + second;
+	public int operate (int left, int right){
+		result = left + right;
+		return result;		
 	}
-	public int result(){
-		return add.result;
+	
+	public int identity (){
+		return 0;
 	}
 }
