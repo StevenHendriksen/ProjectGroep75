@@ -1,8 +1,7 @@
-package ss.week1.test;
+package week1;
 
 import org.junit.Before;
 import org.junit.Test;
-import ss.week1.Password;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -1,4 +1,4 @@
-package ss.week1;
+package week1;
 
 /**
 * Hello World class.

@@ -1,4 +1,4 @@
-package ss.week1;
+package week1;
 
 public class DollarsAndCentsCounter {
 	int dollars = 0;
