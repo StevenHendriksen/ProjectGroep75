@@ -4,7 +4,7 @@ public class StrongChecker extends BasicChecker implements Checker {
 	private String passw;
 	
 	public StrongChecker() {
-		passw = INITIAL;
+		passw = INITPASS;
 	}
 	
 	public boolean acceptable(String password){
