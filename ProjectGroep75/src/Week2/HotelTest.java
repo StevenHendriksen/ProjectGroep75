@@ -1,9 +1,8 @@
-package ss.week2.test;
+package Week2;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
-import ss.week2.hotel.*;
 
 import static org.junit.Assert.*;
 

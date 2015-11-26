@@ -2,6 +2,7 @@ package Week2;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class RoomTest {
@@ -32,4 +33,16 @@ public class RoomTest {
     	assertNotEquals(room.getSafe(), null);
         assertFalse("Safe openable with correct password", room.getSafe().open(pass.INITIAL));
 }
+    @Test
+    public void testClose(){
+    	room.getSafe().open(pass.INITIAL);
+    	room.safeClose();
+    	assertFalse(room.getSafe().isOpen());
+    }
+    @Test
+    public void testgetNumber(){
+		room = new Room(101); 
+		assertEquals(room.getNumber(), 101);
+		
+    }
 }
