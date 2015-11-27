@@ -6,9 +6,9 @@ public class Format {
 
 	public String printLine(String text, double amount) {
 		if(text.length() < 50 && amount < 10000){
-		return String.format("%-50s%s%15s\n",text,"",amount);
+		return String.format("%-50s%15s\n",text,amount);
 		}
 		else
-			return String.format("%-50s%s%15s\n","De tekst was te lang","",amount);
+			return String.format("%-50s%15s\n","De tekst was te lang",amount);
 	}
 }

@@ -1,20 +1,26 @@
 package week3.Hotel;
 
-public class Bill{
+public class Bill {
 	public interface Item {
 		public double getSum();
-//		public String ToString(String text, double amount);
+		// public String ToString(String text, double amount);
 	}
 
 	private double sum;
 	java.io.PrintStream PS;
 	Format format;
-//	private String text = "Bill:\n";
+	private double amount;
+	private String text;
+	// private String text = "Bill:\n";
 
 	public Bill(java.io.PrintStream theOutStream) {
 		PS = theOutStream;
-//		format = new Format(); 
-		
+		format = new Format();
+	}
+
+	public Bill(String text, double amount) {
+		amount = this.amount;
+		text = this.text;
 	}
 
 	public void close() {
@@ -27,11 +33,14 @@ public class Bill{
 
 	public void newItem(Item item) {
 		sum = sum + item.getSum();
-//		item.ToString(, amount))
+		// item.ToString(, amount))
 	}
-	/*
-	public void ToString(String text, double amount){
-		text = text + format.printLine(text, amount);
+
+	public String ToString(String text, double amount) {
+		return text;
 	}
-	*/
+	public double getAmount(){
+		return amount;
+	}
+
 }

@@ -3,9 +3,6 @@ package week3.Hotel;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 public class FormatTest {
     private Format format;
     @Before
@@ -14,10 +11,10 @@ public class FormatTest {
     }
     @Test
     public void testPrintLine(){
-    	format.printLine("lang verhaal over wat iemand zijn uitgave", 5.22);
-    	format.printLine("veel te lang verhaal over wat iemand allemaal heeft uitgegeven", 5.22);
-    	format.printLine("avond eten", 15.22);
-    	format.printLine("ontbijt", 1150.22);
+    	System.out.println(format.printLine("lang verhaal over wat iemand zijn uitgave", 5.22));
+    	System.out.println(format.printLine("veel te lang verhaal over wat iemand allemaal heeft uitgegeven", 5.22));
+    	System.out.println(format.printLine("avond eten", 15.22));
+    	System.out.println(format.printLine("ontbijt", 1150.22));
     	
     }
 
