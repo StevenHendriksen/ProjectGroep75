@@ -25,7 +25,7 @@ public class StrongChecker extends BasicChecker implements Checker {
 	// ------------------ Commands ------------------------
 	/**
 	 * Tests if the password is strong;
-	 * returns boolean based on if it is Strong
+	 * returns boolean based on if the first character is a letter and the last character is a digit.
 	 */
 	public boolean acceptable(String password){
 		if(java.lang.Character.isLetter(password.charAt(0)) && java.lang.Character.isDigit(password.charAt((password.length()) - 1))){
