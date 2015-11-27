@@ -3,24 +3,25 @@ package week3.Hotel;
 public class Bill {
 	public interface Item {
 		public double getSum();
-		// public String ToString(String text, double amount);
+		public void newItem(Item item);
+		public String ToString();
+		public double getAmount();
 	}
 
 	private double sum;
 	java.io.PrintStream PS;
 	Format format;
-	private double amount;
-	private String text;
+	private double am;
+	private String txt;
 	// private String text = "Bill:\n";
 
 	public Bill(java.io.PrintStream theOutStream) {
 		PS = theOutStream;
-		format = new Format();
 	}
 
 	public Bill(String text, double amount) {
-		amount = this.amount;
-		text = this.text;
+		am = amount;
+		txt = text;
 	}
 
 	public void close() {
@@ -33,14 +34,15 @@ public class Bill {
 
 	public void newItem(Item item) {
 		sum = sum + item.getSum();
-		// item.ToString(, amount))
+		PS.println(Format.printLine(Bill.ToString(), Bill.getAmount()));
 	}
 
-	public String ToString(String text, double amount) {
-		return text;
+	public String ToString() {
+		return txt;
 	}
-	public double getAmount(){
-		return amount;
+
+	public double getAmount() {
+		return am;
 	}
 
 }
