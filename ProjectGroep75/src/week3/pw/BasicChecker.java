@@ -26,14 +26,10 @@ public class BasicChecker implements Checker {
 	// ------------------ Commands ------------------------
 	/**
 	 * Tests if the password is acceptable;
-	 * returns boolean based on if it is acceptable
+	 * returns boolean based on if longer then 6 characters and doesn't have a space
 	 */
 	public boolean acceptable(String password){
-		if (password.length() >= 6 && password.contains(" ") == false) {
-			return true;
-		} else {
-			return false;
-		}
+		return (password.length() >= 6 && !password.contains(" "));
 	}
 	/**
 	 * Generate a password

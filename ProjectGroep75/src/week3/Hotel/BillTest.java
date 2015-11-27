@@ -22,6 +22,7 @@ public class BillTest {
 		bill.newItem(BasicItem);
 		BasicItem = new BasicItem("lunch", 5.94);
 		bill.newItem(BasicItem);
+		assertEquals("basicItem.getAmount() is niet gelijk", BasicItem.getAmount(), 5.94, 0);
 		assertTrue(Double.compare(BasicItem.getAmount(), 5.94) == 0);
 		assertTrue(Double.compare(bill.getSum(), 12.24) == 0);
 		bill.close();

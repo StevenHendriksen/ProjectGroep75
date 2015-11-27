@@ -9,9 +9,11 @@ package week3.pw;
 
 public interface Checker {
 	/**
-	 * These methods are all in BasicChecker and StrongChecker
+	 * this class tests if the password is acceptable according to the checker
 	 */
 	public boolean acceptable(String password);
-	
+	/**
+	 * Generates a password that is acceptable
+	 */
 	public String generatePassword();
 }

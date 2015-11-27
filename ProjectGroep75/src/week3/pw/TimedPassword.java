@@ -30,6 +30,7 @@ public class TimedPassword extends Password{
 	 */	
 	public TimedPassword(long valTime){
 		curTime = java.lang.System.currentTimeMillis() + valTime;
+		validTime = valTime;
 	}
 	// ------------------ Commands ------------------------
 	/**
