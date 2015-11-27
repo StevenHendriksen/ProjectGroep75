@@ -50,7 +50,7 @@ public class Bill {
 		return sum;
 	}
 	/**
-	 * Activates the safe when the password is correct;
+	 * New item creates a new item with the specified text/amount;
 	 * 
 	 * @param text
 	 *            formatted String + double
@@ -59,10 +59,7 @@ public class Bill {
 	 */
 	public void newItem(Bill.Item item) {
 		sum = sum + item.getAmount();
-		//PS.println(item.toString());
-		//PS.println(item.getAmount());
 		text = Format.printLine(item.toString(), item.getAmount());
-		//PS.println(text);
 		txt = txt +  text;
 	}
 
