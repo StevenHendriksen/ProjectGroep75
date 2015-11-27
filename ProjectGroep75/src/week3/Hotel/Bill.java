@@ -8,7 +8,6 @@ public class Bill {
 	private double sum;
 	java.io.PrintStream PS;
 	Format format;
-	// private String text = "Bill:\n";
 
 	public Bill(java.io.PrintStream theOutStream) {
 		PS = theOutStream;

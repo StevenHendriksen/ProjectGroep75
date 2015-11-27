@@ -17,6 +17,7 @@ public class BillTest {
 	@Test
 	public void test() {
 		BasicItem = new BasicItem("ontbijt", 6.30);
+		assertTrue(Double.compare(BasicItem, d2)==);
 		System.out.println(BasicItem.getAmount());
 		System.out.println(BasicItem.toString());
 	}
