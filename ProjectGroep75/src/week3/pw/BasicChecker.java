@@ -31,6 +31,8 @@ public class BasicChecker implements Checker {
 	public boolean acceptable(String password){
 		return (password.length() >= 6 && !password.contains(" "));
 	}
+	
+	// ------------------ Query ------------------------
 	/**
 	 * Generate a password
 	 * @param passw
