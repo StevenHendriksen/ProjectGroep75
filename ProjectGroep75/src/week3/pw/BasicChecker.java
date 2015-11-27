@@ -35,6 +35,8 @@ public class BasicChecker implements Checker {
 			return false;
 		}
 	}
+	
+	// ------------------ Query ------------------------
 	/**
 	 * Generate a password
 	 * @param passw
