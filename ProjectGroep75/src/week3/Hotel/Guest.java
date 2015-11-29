@@ -12,7 +12,7 @@ public class Guest {
 	 // ------------------ Instance variables ----------------
 	
 	private String name;
-	private Room room;
+	private PricedRoom room;
 	
 	 // ------------------ Constructor ------------------------
 	
@@ -20,7 +20,7 @@ public class Guest {
      * Creates a <code>Guest</code> with the given name, without a room.
      * @param n is the name of the <code>Guest</code>
      */
-	public Guest(java.lang.String n){
+	public Guest(String n){
 		name = n;
 	}
 	
@@ -56,7 +56,7 @@ public class Guest {
      *        does not have a room.
      */
 	
-	public boolean checkin(Room r){
+	public boolean checkin(PricedRoom r){
 		if (room == null && r.getGuest() == null){
 			room = r;
 			r.setGuest(this);

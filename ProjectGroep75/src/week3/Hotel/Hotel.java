@@ -10,8 +10,8 @@ package week3.Hotel;
 
 public class Hotel {
 	// ------------------ Instance variables ----------------
-	private Room room1;
-	private Room room2;
+	private PricedRoom room1;
+	private PricedRoom room2;
 	private Password pass;
 
 	private String hotelName;
@@ -19,8 +19,8 @@ public class Hotel {
 	// ------------------ Constructor ------------------------
 	
 	public Hotel(String name) {
-		room1 = new Room(101);
-		room2 = new Room(102);
+		room1 = new PricedRoom(101, 90, 10);
+		room2 = new PricedRoom(102, 240, 10);
 		hotelName = name;
 		pass = new Password();
 
