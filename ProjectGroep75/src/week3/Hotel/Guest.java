@@ -59,7 +59,7 @@ public class Guest {
 	public boolean checkin(PricedRoom r){
 		if (room == null && r.getGuest() == null){
 			room = r;
-			r.setGuest(this);
+			room.setGuest(this);
 			return true;
 		}
 		else{
