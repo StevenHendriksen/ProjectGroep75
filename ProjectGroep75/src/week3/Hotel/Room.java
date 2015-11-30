@@ -21,9 +21,13 @@ public class Room {
 	 * @param no
 	 *            number of the new <code>Room</code>
 	 */
-	public Room(int no) {
+	public Room(int no, boolean paidsafe) {
 		number = no;
-		safe = new Safe();
+		if(paidsafe == false){
+			safe = new Safe();
+		}
+		else
+		safe = new PricedSafe(5.20);
 	}
 
 	// ------------------ Queries --------------------------

@@ -1,5 +1,7 @@
 package week3.Hotel;
 
+import java.io.PrintStream;
+
 /**
  * Hotel;
  * 
@@ -7,36 +9,36 @@ package week3.Hotel;
  * @version 1.321397129
  */
 
-
 public class Hotel {
 	// ------------------ Instance variables ----------------
-	private PricedRoom room1;
-	private PricedRoom room2;
+	private Room room1;
+	private Room room2;
 	private Password pass;
 
 	private String hotelName;
 
 	// ------------------ Constructor ------------------------
-	
+
 	public Hotel(String name) {
-		room1 = new PricedRoom(101, 90, 10);
-		room2 = new PricedRoom(102, 240, 10);
+		room1 = new Room(101, true);
+		room2 = new PricedRoom(102, 240, 10, false);
 		hotelName = name;
 		pass = new Password();
 
 	}
 
 	// ------------------ Commands ------------------------
-	
-	//@ ensures \result == getFreeRoom();
-	
+
+	// @ ensures \result == getFreeRoom();
+
 	/**
 	 * Checks in the guest
 	 * 
 	 * @param result
-	 *            Return the room the guest checked in or null if not checked in;
+	 *            Return the room the guest checked in or null if not checked
+	 *            in;
 	 */
-	
+
 	public Room checkIn(String password, String guestname) {
 		Room result = null;
 		Guest guest = new Guest(guestname);
@@ -59,13 +61,13 @@ public class Hotel {
 	 * @param result
 	 *            Return if succesful;
 	 */
-	
-	//@ ensures getFreeRoom() != null ==> \result == true;
-	public boolean checkOut(String guestname){
+
+	// @ ensures getFreeRoom() != null ==> \result == true;
+	public boolean checkOut(String guestname) {
 		boolean result = false;
-		if(guestname != null){
-			Room guestroom = getRoom(guestname);			
-			if(guestroom != null){
+		if (guestname != null) {
+			Room guestroom = getRoom(guestname);
+			if (guestroom != null) {
 				guestroom.getGuest().checkout();
 				guestroom.getSafe().deactivate();
 				result = true;
@@ -74,15 +76,15 @@ public class Hotel {
 		return result;
 	}
 	// ------------------ Queries --------------------------
-	
+
 	/**
 	 * Returns a free room
 	 * 
 	 * @param result
 	 *            A free room;
 	 */
-	
-	//@ pure;
+
+	// @ pure;
 	public Room getFreeRoom() {
 		Room result = null;
 		if (room1.getGuest() == null) {
@@ -93,15 +95,15 @@ public class Hotel {
 
 		return result;
 	}
-	
+
 	/**
 	 * Returns the current room of the guest
 	 * 
 	 * @param result
 	 *            The room of the guest;
 	 */
-	
-	//@ pure;
+
+	// @ pure;
 	public Room getRoom(String guestname) {
 		Room result = null;
 
@@ -113,30 +115,53 @@ public class Hotel {
 
 		return result;
 	}
-	
-	//@ pure;
+
+	// @ pure;
 	/**
 	 * Shows the current password of the Hotel;
 	 * 
 	 * @param pass
 	 *            The password of the safe;
 	 */
-	
+
 	public Password getPassword() {
 		return pass;
 	}
 
-	//@ pure;
+	// @ pure;
 	/**
 	 * Shows the current information of the Hotel;
 	 * 
 	 * @param result
 	 *            The String of the information;
 	 */
-	
+
 	public String toString() {
-		String result = "Hotel: " + hotelName + " room 101: " + room1.getGuest() + " Status of the safe: " + room1.getStateSafe() + " room 102: "
-				+ room2.getGuest() + " Status of the safe: " + room2.getStateSafe();
+		String result = "Hotel: " + hotelName + " room 101: " + room1.getGuest() + " Status of the safe: "
+				+ room1.getStateSafe() + " room 102: " + room2.getGuest() + " Status of the safe: "
+				+ room2.getStateSafe();
 		return result;
+	}
+
+	/**
+	 * Creates and closes a bill that uses the guest name amount of nights and
+	 * the outputstream
+	 */
+
+	public Bill getBill(String guestName, int nights, PrintStream out) {
+
+		Bill bill = new Bill(out);
+		Room room = this.getRoom(guestName);
+		if (room != null && room instanceof PricedRoom) {
+			PricedRoom pricedRoom = (PricedRoom) room;
+			int i = 0;
+			while (i <= nights) {
+				bill.newItem(pricedRoom);
+				bill.newItem(pricedRoom.getSafe());
+				i++;
+			}
+			return bill;
+		}
+		return null;
 	}
 }

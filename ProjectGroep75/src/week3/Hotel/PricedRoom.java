@@ -7,22 +7,20 @@ package week3.Hotel;
  * @version 1.0
  */
 
-public class PricedRoom extends Room implements week3.Hotel.Bill.Item {
+public class PricedRoom extends Room implements Bill.Item {
 	// ------------------ Instance variables ----------------
 	private double rPrice;
-	private double sPrice;
 	PricedRoom room;
-	Safe safe;
+	PricedSafe safe;
 	
-	public PricedRoom(int no, double roomPrice, double safePrice) {
+	public PricedRoom(int no, double roomPrice, double safePrice, boolean paidsafe) {
 		// ------------------ Constructor ------------------------
 		/**
 		 * Concstructs a new PricedSafe and sets the prices;
 		 */	
-		super(no);
+		super(no, paidsafe);
 		safe = new PricedSafe(safePrice);
 		rPrice = roomPrice;
-		sPrice = safePrice;
 	}
 
 	// ------------------ Commands ------------------------
@@ -31,14 +29,22 @@ public class PricedRoom extends Room implements week3.Hotel.Bill.Item {
 	 */
 	
 	public double getAmount() {
-		return rPrice + sPrice;
+		return rPrice;
 	}
 	
 	/**
 	 * Returns the total amount in String format
 	 */
 	public String toString() {
-		return "Total price: " + (rPrice + sPrice);
+		return super.toString() + " price per night: " + (rPrice);
+	}
+	
+	/**
+	 * Returns the safe of the room
+	 */
+	
+	public PricedSafe getSafe(){
+		return safe;
 	}
 
 }
