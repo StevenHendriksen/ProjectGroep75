@@ -13,13 +13,12 @@ public class PricedRoom extends Room implements Bill.Item {
 	PricedRoom room;
 	PricedSafe safe;
 	
-	public PricedRoom(int no, double roomPrice, double safePrice, boolean paidsafe) {
+	public PricedRoom(int no, double roomPrice, double safePrice) {
 		// ------------------ Constructor ------------------------
 		/**
 		 * Concstructs a new PricedSafe and sets the prices;
 		 */	
-		super(no, paidsafe);
-		safe = new PricedSafe(safePrice);
+		super(no, new PricedSafe(safePrice));
 		rPrice = roomPrice;
 	}
 
@@ -37,14 +36,6 @@ public class PricedRoom extends Room implements Bill.Item {
 	 */
 	public String toString() {
 		return super.toString() + " price per night: " + (rPrice);
-	}
-	
-	/**
-	 * Returns the safe of the room
-	 */
-	
-	public PricedSafe getSafe(){
-		return safe;
 	}
 
 }

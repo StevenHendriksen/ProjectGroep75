@@ -20,8 +20,8 @@ public class Hotel {
 	// ------------------ Constructor ------------------------
 
 	public Hotel(String name) {
-		room1 = new Room(101, true);
-		room2 = new PricedRoom(102, 240, 10, false);
+		room1 = new Room(101, new Safe());
+		room2 = new PricedRoom(102, 240, 10);
 		hotelName = name;
 		pass = new Password();
 
@@ -120,7 +120,7 @@ public class Hotel {
 	/**
 	 * Shows the current password of the Hotel;
 	 * 
-	 * @param pass
+	 * @param passo
 	 *            The password of the safe;
 	 */
 
@@ -157,7 +157,9 @@ public class Hotel {
 			int i = 0;
 			while (i <= nights) {
 				bill.newItem(pricedRoom);
-				bill.newItem(pricedRoom.getSafe());
+				if(pricedRoom.getSafe() instanceof PricedSafe){
+					bill.newItem((PricedSafe) pricedRoom.getSafe());
+				}
 				i++;
 			}
 			return bill;
