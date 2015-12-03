@@ -2,8 +2,6 @@ package ss.week4;
 
 import org.junit.Before;
 import org.junit.Test;
-import ss.week4.math.Constant;
-import ss.week4.math.Sum;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
