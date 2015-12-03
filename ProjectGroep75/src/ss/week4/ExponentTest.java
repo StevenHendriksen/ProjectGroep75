@@ -1,8 +1,6 @@
 package ss.week4;
 
 import org.junit.Test;
-import ss.week4.math.Exponent;
-import ss.week4.math.LinearProduct;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
