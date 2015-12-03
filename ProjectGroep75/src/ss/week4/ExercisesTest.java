@@ -1,6 +1,7 @@
-package ss.week4.test;
+package ss.week4;
 
 import org.junit.Test;
+
 import ss.week4.Exercises;
 
 import static org.junit.Assert.assertArrayEquals;

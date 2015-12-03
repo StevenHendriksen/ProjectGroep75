@@ -1,4 +1,4 @@
-package ss.week4.tictactoe;
+package ss.week4;
 
 /**
  * Executable class for the game Tic Tac Toe. The game can be played against the

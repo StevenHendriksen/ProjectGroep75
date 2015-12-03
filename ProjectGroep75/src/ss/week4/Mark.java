@@ -1,4 +1,4 @@
-package ss.week4.tictactoe;
+package ss.week4;
 
 /**
  * Represents a mark in the Tic Tac Toe game. There three possible values:

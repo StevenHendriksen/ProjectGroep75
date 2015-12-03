@@ -1,4 +1,4 @@
-package ss.week4.tictactoe;
+package ss.week4;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package week4;
+package ss.week4;
 
 import ss.week2.Room;
 

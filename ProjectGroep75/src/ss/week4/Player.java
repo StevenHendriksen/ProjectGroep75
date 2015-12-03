@@ -1,4 +1,4 @@
-package ss.week4.tictactoe;
+package ss.week4;
 
 /**
  * Abstract class for keeping a player in the Tic Tac Toe game. Module 2 lab
