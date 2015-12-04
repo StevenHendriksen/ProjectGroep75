@@ -22,7 +22,10 @@ public class Product implements Function{
 		product1 = new Product(functionf.derivative(), functiong);
 		product2 = new Product(functiong.derivative(), functionf);
 		sum = new Sum(product1, product2);
-		
 		return sum;
+	}
+	
+	public Function integrand(){
+		return null;
 	}
 }

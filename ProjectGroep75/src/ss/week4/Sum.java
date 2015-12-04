@@ -19,4 +19,7 @@ public class Sum implements Function{
 		
 		return derivative;
 	}
+	public Function integrand(){
+		return new Sum(new Exponent(functiong.apply(0)) , new Exponent(functionf.apply(0)));
+		}
 }

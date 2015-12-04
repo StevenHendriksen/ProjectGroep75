@@ -5,6 +5,7 @@ public class Polynomial implements Function{
 	private Constant newConstant;
 	private Exponent newExponent;
 	
+	
 	public Polynomial(double[] as, double[] pows){
 		assert as.length == pows.length;
 		array = new LinearProduct[as.length];
@@ -37,5 +38,14 @@ public class Polynomial implements Function{
 		Polynomial pol = new Polynomial(as, pows);
 		
 		return pol;
+	}
+	public Function integrand(){
+		double[] as2 = new double[array.length];
+		double[] pows2 = new double[array.length];
+		for(int i=0; i < array.length; i++){
+			as2[i] = array[i].getConstant().apply(0) / (((Exponent) (array[i].getFunction())).getPower() + 1) ;
+			pows2[i] = ((Exponent) (array[i].getFunction())).getPower() + 1;
+		}
+		return new Polynomial(as2, pows2);
 	}
 }

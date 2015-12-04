@@ -24,4 +24,7 @@ public class LinearProduct extends Product{
 	public Function getFunction() {
 		return functiong;
 	}
+	public Function integrand(){
+		return new LinearProduct(new Constant((constantc.apply(0)) / (functiong.apply(0) -1)), functiong);
+	}
 }

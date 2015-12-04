@@ -1,9 +1,9 @@
 package ss.week4;
 
 public class Exponent implements Function{
-	private int n;
+	private double n;
 	
-	public Exponent (int n){
+	public Exponent (double n){
 		this.n = n;
 	}
 	
@@ -19,7 +19,10 @@ public class Exponent implements Function{
 		return product;
 	}
 	
-	public int getPower(){
+	public double getPower(){
 		return  n;
+	}
+	public Function integrand(){
+		return new Exponent(n-1);
 	}
 }
