@@ -7,7 +7,11 @@ import java.util.Set;
 
 public class MapUtil {
     public static <K, V> boolean isOneOnOne(Map<K, V> map) {
-        // TODO: implement, see exercise P-5.1
+       	for(int i = 0; i < map.values().size(); i++){
+       		if(map.get(i) == map.get(i+1)){
+       			
+       		}
+       	}
         return false;
     }
     public static <K, V> 

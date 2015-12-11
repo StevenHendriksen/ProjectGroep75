@@ -1,4 +1,4 @@
-package ss.week5.test;
+package ss.week5;
 
 import org.junit.Test;
 import ss.week5.MapUtil;
