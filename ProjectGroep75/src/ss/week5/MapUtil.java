@@ -6,14 +6,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapUtil {
+	//@ requires map != null;
+	//@ ensures \result == true || \result == false;
     public static <K, V> boolean isOneOnOne(Map<K, V> map) {
-       	for(int i = 0; i < map.values().size(); i++){
-       		if(map.get(i) == map.get(i+1)){
-       			
+    	for(int i = 1; i < map.values().size(); i++){
+       		for(int j = i; j < map.values().size(); j++){
+       			if(map.get(i) == map.get(j+1)){
+       	       		return false;
+       	       	}
        		}
        	}
-        return false;
+        return true;
     }
+    
     public static <K, V> 
            boolean isSurjectiveOnRange(Map<K, V> map, Set<V> range) {
         // TODO: implement, see exercise P-5.2
