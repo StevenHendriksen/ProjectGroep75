@@ -14,8 +14,7 @@ public class Polynomial implements Function {
 	public double apply(int apply) {
 		double sum = 0;
 		for (int i = 0; i < array.length; i++) {
-			double product = array[i].getConstant().apply(apply) * array[i].getFunction().apply(apply);
-			sum += product;
+			sum = sum + array[i].apply(apply);
 		}
 		return sum;
 	}
