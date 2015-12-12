@@ -23,4 +23,6 @@ public interface Function {
 	 */
 	public String toString();
 	
+	public String print();
+	
 }

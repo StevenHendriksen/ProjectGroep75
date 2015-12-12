@@ -28,4 +28,7 @@ public class Product implements Function{
 	public Function integrand(){
 		return null;
 	}
+	public String print(){
+		return functionf.print() + " * " + functiong.print();
+	}
 }

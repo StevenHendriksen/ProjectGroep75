@@ -22,4 +22,7 @@ public class Sum implements Function{
 	public Function integrand(){
 		return new Sum(new Exponent(functiong.apply(0)) , new Exponent(functionf.apply(0)));
 		}
+	public String print() {
+		return functionf.print() + " * " + functiong.print();
+	}
 }

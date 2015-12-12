@@ -22,4 +22,7 @@ public class Constant implements Function, Integrandable{
 		integrandable = new LinearProduct(new Constant(value), new Exponent(1));
 		return integrandable;
 	}
+	public String print() {
+		return value + " * x";
+	}
 }

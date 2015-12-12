@@ -12,9 +12,9 @@ public class ExponentTest {
 
     @Test
     public void testApply() {
-        assertEquals(1, new Exponent(0).apply(CONSTANT_VALUE), DELTA);
-        assertEquals(35, new Exponent(1).apply(CONSTANT_VALUE), DELTA);
-        assertEquals(1225, new Exponent(2).apply(CONSTANT_VALUE), DELTA);
+        assertEquals(1, Math.pow(CONSTANT_VALUE, new Exponent(0).apply(CONSTANT_VALUE)), DELTA);
+        assertEquals(35, Math.pow(CONSTANT_VALUE, new Exponent(1).apply(CONSTANT_VALUE)), DELTA);
+        assertEquals(1225, Math.pow(CONSTANT_VALUE, new Exponent(2).apply(CONSTANT_VALUE)), DELTA);
     }
 
     @Test

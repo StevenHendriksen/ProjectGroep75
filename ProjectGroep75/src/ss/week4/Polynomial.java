@@ -41,4 +41,11 @@ public class Polynomial implements Function {
 		}
 		return new Polynomial(as2, pows2);
 	}
+	public String print() {
+		String print = "\n";
+		for (int i = 0; i < array.length; i = i + 2) {
+			print = print + array[i].getFunction().apply(0) + "^" + array[i + 1] + "\n";
+		}
+		return "";
+	}
 }

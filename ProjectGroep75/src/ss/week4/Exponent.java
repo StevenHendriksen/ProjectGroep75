@@ -8,11 +8,11 @@ public class Exponent implements Function{
 	}
 	
 	public double apply (int apply){
-		return Math.pow(apply, n);
+		return n;
 	}
 	
 	public Function derivative(){
-		Function exp = new Exponent(n-1);
+		Exponent exp = new Exponent(n-1);
 		Constant constant = new Constant(n);
 		LinearProduct product = new LinearProduct(constant, exp);
 		
@@ -24,5 +24,8 @@ public class Exponent implements Function{
 	}
 	public Function integrand(){
 		return new Exponent(n-1);
+	}
+	public String print(){
+		return "nope";
 	}
 }

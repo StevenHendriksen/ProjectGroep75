@@ -30,9 +30,15 @@ public class MapUtil {
 	}
 
 	public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
-		
-		return null;
-	}
+		Map<V, Set<K>> Map2; 
+		V = 
+		for(int i = 1; i < map.values().size(); i++) {
+			V = V + Map.get(i);
+			
+			
+		}
+		return Map2;
+	} 
 
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
 		// TODO: implement, see exercise P-5.3

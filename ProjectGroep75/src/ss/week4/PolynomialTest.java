@@ -20,6 +20,9 @@ public class PolynomialTest {
 	
 	@Test
 	public void applyTest(){
+		System.out.println(polynomial.apply(0));
+		System.out.println(polynomial.apply(1));
+		System.out.println(polynomial.apply(-2));
         assertEquals(0.0, polynomial.apply(0), DELTA);
         assertEquals(10.0, polynomial.apply(1), DELTA);
         assertEquals(-2.0, polynomial.apply(-1), DELTA);
