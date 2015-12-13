@@ -41,8 +41,8 @@ public class MapUtil {
 		return result;
 	}
 
-	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map, Set<V> range) {
-		if (isOneOnOne(map) == true && isSurjectiveOnRange(map, range) == true) {
+	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
+		if (isOneOnOne(map) == true) {
 			Map<V, K> result = new HashMap<V, K>();
 			for (K key : map.keySet()) {
 				V value = map.get(key);
