@@ -7,6 +7,9 @@ package ss.week4;
  * @author Theo Ruys
  * @version $Revision: 1.4 $
  */
-public class TicTacToe {
-    public static void main(String[] args) {
-        // TODO: implement, see P-4.21
+public class TicTacToe{
+	public static void main(String[] args) {
+		Game game = new Game(new HumanPlayer("Johnny", Mark.XX), new HumanPlayer("Anita", Mark.OO));
+		game.start();
+	}
+}
