@@ -24,24 +24,34 @@ public class MapUtil {
 			if (!map.containsValue(v)) {
 				return false;
 			}
-			
+
 		}
 		return true;
 	}
 
 	public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
-		Map<V, Set<K>> Map2; 
-		V = 
-		for(int i = 1; i < map.values().size(); i++) {
-			V = V + Map.get(i);
-			
-			
+		Map<V, Set<K>> result = new HashMap<V, Set<K>>();
+		for (K key : map.keySet()) {
+			V value = map.get(key);
+			if (!result.containsKey(value)) {
+				result.put(value, new HashSet<K>());
+			}
+			result.get(value).add(key);
 		}
-		return Map2;
-	} 
+		return result;
+	}
 
-	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
-		// TODO: implement, see exercise P-5.3
+	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map, Set<V> range) {
+		if (isOneOnOne(map) == true && isSurjectiveOnRange(map, range) == true) {
+			Map<V, K> result = new HashMap<V, K>();
+			for (K key : map.keySet()) {
+				V value = map.get(key);
+				if (!result.containsKey(value)) {
+					result.put(value, key);
+				}
+			}
+			return result;
+		}
 		return null;
 	}
 
