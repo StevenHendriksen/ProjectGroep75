@@ -2,17 +2,17 @@ package ss.week4;
 
 public class LinearProduct extends Product{
 	private Constant constantc;
-	private Exponent functiong;
+	private Constant functiong;
 	private LinearProduct product1;
 	
-	public LinearProduct(Constant n, Exponent g){
+	public LinearProduct(Constant n, Constant g){
 		super(n, g);
 		constantc = n;
 		functiong = g;
 	}
 	
 	public Function derivative(){
-		product1 = new LinearProduct(new Constant(constantc.apply(0) * (functiong.apply(0))), new Exponent(functiong.apply(0) - 1.0));	
+		product1 = new LinearProduct(new Constant(0), new Constant(0));	
 		return product1;
 	}
 	
@@ -24,12 +24,12 @@ public class LinearProduct extends Product{
 		return functiong;
 	}
 	public Function integrand(){
-		product1 = new LinearProduct(new Constant(constantc.apply(0) / (functiong.apply(0) + 1)), new Exponent(functiong.apply(0) + 1.0));	
+		product1 = new LinearProduct(new Constant(constantc.apply(0) / (functiong.apply(0) + 1)), new Constant(functiong.apply(0) + 1.0));	
 		return product1;
 	}
 	
 	public double apply(int apply){
-		double result = constantc.apply(0)  * Math.pow(apply, functiong.apply(1)) ;
+		double result = constantc.apply(apply)  * functiong.apply(apply) ;
 		return result;
 	}
 	
