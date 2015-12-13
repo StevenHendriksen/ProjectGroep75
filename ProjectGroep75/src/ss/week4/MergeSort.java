@@ -15,7 +15,7 @@ public class MergeSort {
 			int fi = 0;
 			int si = 0;
 			while (fi < list.size() && si < list.size()) {
-				if (fst.get(fi) < snd.get(si)) {
+				if (fst.get(fi).compareTo(snd.get(si)) < 0){
 					res.add(snd.get(fi));
 					fi++;
 				}
