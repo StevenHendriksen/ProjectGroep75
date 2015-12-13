@@ -2,8 +2,6 @@ package ss.week4;
 
 import org.junit.Before;
 import org.junit.Test;
-import ss.week4.tictactoe.Board;
-import ss.week4.tictactoe.Mark;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
