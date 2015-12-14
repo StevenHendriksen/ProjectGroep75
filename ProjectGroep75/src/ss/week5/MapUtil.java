@@ -56,12 +56,22 @@ public class MapUtil {
 	}
 
 	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
-		// TODO: implement, see exercise P-5.4
-		return false;
+		for (int i = 1; i < f.size() + 1; i++) {
+			if (!g.containsKey(f.get(i))) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public static <K, V, W> Map<K, W> compose(Map<K, V> f, Map<V, W> g) {
-		// TODO: implement, see exercise P-5.5
-		return null;
+		Map<K, W> map = new HashMap<K, W>();
+		if (compatible(f, g)) {
+			for (K key : f.keySet()) {
+				map.put(key, g.get(f.get(key)));
+			}
+		}
+		return map;
 	}
 }
