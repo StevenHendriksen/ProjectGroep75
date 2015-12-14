@@ -31,8 +31,8 @@ public class DoublyLinkedListTest {
         list.add(0, object2);
 
         assertEquals(list.size(), 2);
-        assertEquals(object1, list.getNode(1));
-        assertEquals(object2, list.getNode(0));
+        assertEquals(object1, list.getNode(1).getElement());
+        assertEquals(object2, list.getNode(0).getElement());
     }
 
     @Test

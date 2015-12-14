@@ -16,6 +16,8 @@ public class NaiveStrategy implements Strategy{
 			}
 		}
 		
-		return (int) Math.random() * res.size();
+		int index = (int) Math.random() * res.size();
+		
+		return res.get(index);
 	}
 }
