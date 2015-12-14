@@ -10,7 +10,7 @@ package ss.week4;
 public class LinearProduct extends Product {
 	// ------------------ Instance variables ----------------
 	private Constant constantc;
-	private Constant functiong;
+	private Function functiong;
 	private LinearProduct product1;
 
 	// ------------------ Commands -----------------------
@@ -20,7 +20,7 @@ public class LinearProduct extends Product {
 	 * @param functiong
 	 *            the constant g.
 	 */
-	public LinearProduct(Constant n, Constant g) {
+	public LinearProduct(Constant n, Function g) {
 		super(n, g);
 		constantc = n;
 		functiong = g;
@@ -33,8 +33,7 @@ public class LinearProduct extends Product {
 	 *            the derivative of a product of two constants.
 	 */
 	public Function derivative() {
-		product1 = new LinearProduct(new Constant(constantc.apply(0) * constantc.apply(0)),
-				new Constant(functiong.apply(0) - 1));
+		product1 = new LinearProduct(new Constant(constantc.apply(0) * functiong.derivative().apply(0)), new Constant(functiong.apply(0) - 1));
 		return product1;
 	}
 
@@ -59,8 +58,7 @@ public class LinearProduct extends Product {
 	 *            the anti-derivative of a product of two constants.
 	 */
 	public Function integrand() {
-		product1 = new LinearProduct(new Constant(constantc.apply(0) / (functiong.apply(0) + 1)),
-				new Constant(functiong.apply(0) + 1.0));
+		product1 = new LinearProduct(new Constant(constantc.apply(0) * functiong.integrand().apply(0)), new Exponent(functiong.apply(0) + 1));
 		return product1;
 	}
 
@@ -72,7 +70,7 @@ public class LinearProduct extends Product {
 	 *            the product of the two constants.
 	 */
 	public double apply(int apply) {
-		double result = constantc.apply(apply) * Math.pow(apply, functiong.apply(apply));
+		double result = constantc.apply(apply) * functiong.apply(apply);
 		return result;
 	}
 
@@ -80,7 +78,7 @@ public class LinearProduct extends Product {
 	 * Returns a nice string representation of a linear product.
 	 */
 	public String print() {
-		String print = constantc.apply(0) + " * x^" + functiong.apply(0);
+		String print = constantc.apply(0) + "" + functiong.apply(0);
 		return print;
 	}
 }

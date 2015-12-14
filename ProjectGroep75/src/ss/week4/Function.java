@@ -7,22 +7,24 @@ package ss.week4;
  * @version 1.0
  */
 
-public interface Function {	
+public interface Function {
 	/**
 	 * Executes the function to an argument of type double.
 	 */
-	public double apply (int apply);
-	
+	public double apply(int apply);
+
 	/**
 	 * Returns the Function object that is the derivative of the current object.
 	 */
-	public Function derivative ();
+	public Function derivative();
 	
+	public Function integrand();
+
 	/**
 	 * Returns a nice string representation of the function.
 	 */
 	public String toString();
-	
+
 	public String print();
-	
+
 }

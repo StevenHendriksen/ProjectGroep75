@@ -51,10 +51,10 @@ public class LinkedList<Element> {
 	// @ ensures this.size == \old(size) - 1;
 	public void remove(Element element) {
 		Node nextNode = null;
-		Node currentNode = findBefore(element);
+		Node currentNode = findBefore(element).next;
 		Node prevNode = findBefore(element);
 		if(currentNode != null && currentNode.next != null && currentNode.next.next != null){
-			nextNode = currentNode.next.next;
+			nextNode = currentNode.next;
 		}
 		if (nextNode != null)
 			findBefore(element).next = prevNode;
