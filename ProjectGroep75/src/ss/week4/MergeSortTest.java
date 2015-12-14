@@ -20,7 +20,6 @@ public class MergeSortTest {
 
 	@Test
 	public void testMergesortSingleItem() {
-		System.out.println("test1");
 		List<Integer> sequence = new ArrayList<>(Arrays.asList(1));
 		MergeSort.mergesort(sequence);
 		assertEquals(sequence, Arrays.asList(1));
@@ -28,7 +27,6 @@ public class MergeSortTest {
 
 	@Test
 	public void testMergesortSortedList() {
-		System.out.println("test2");
 		List<Integer> sequence = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
 		MergeSort.mergesort(sequence);
 		assertEquals(sequence, Arrays.asList(1, 2, 3, 4, 5));
@@ -40,12 +38,9 @@ public class MergeSortTest {
 
 	@Test
 	public void testMergesortUnsortedList() {
-		System.out.println("test3");
 		List<Integer> sequence = new ArrayList<>(Arrays.asList(3, 2, 1, 5, 4));
-		System.out.println("test4");
 		MergeSort.mergesort(sequence);
-		System.out.println("test4");
-		System.out.println("sequence" + sequence);
+
 		assertEquals(sequence, Arrays.asList(1, 2, 3, 4, 5));
 
 		sequence = new ArrayList<>(Arrays.asList(3, 2, 1, 6, 5, 4));
