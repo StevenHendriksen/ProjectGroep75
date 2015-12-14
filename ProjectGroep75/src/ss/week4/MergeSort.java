@@ -1,9 +1,24 @@
 package ss.week4;
 
+/**
+ * MergeSort
+ * 
+ * @author Stan Peters en Steven Hendriksen
+ * @version $Revision: 1.0 $
+ */
+
 import java.util.*;
 
 public class MergeSort {
 
+	/**
+	 * Returns the merged list.
+	 * 
+	 * @param fst
+	 *            the first side of the mergelist.
+	 * @param snd
+	 *            the second side of the mergelist
+	 */
 	public static <Elem extends Comparable<Elem>> List<Elem> mergesort(List<Elem> list) {
 		List<Elem> res = new ArrayList<Elem>();
 		if (list.size() <= 1) {
@@ -15,20 +30,18 @@ public class MergeSort {
 			int fi = 0;
 			int si = 0;
 			while (fi < list.size() && si < list.size()) {
-				if (fst.get(fi).compareTo(snd.get(si)) < 0){
+				if (fst.get(fi).compareTo(snd.get(si)) < 0) {
 					res.add(snd.get(fi));
 					fi++;
-				}
-				else{
+				} else {
 					res.add(snd.get(si));
 					si++;
 				}
 			}
-			if(fi < fst.size()){
+			if (fi < fst.size()) {
 				List<Elem> c = list.subList(fi, fst.size());
 				res.addAll(c);
-			}
-			else{
+			} else {
 				List<Elem> c = list.subList(si, fst.size());
 				res.addAll(c);
 			}
