@@ -1,7 +1,7 @@
 package ss.week4;
 
 /**
- * Addition
+ * Constant
  * 
  * @author Stan Peters en Steven Hendriksen
  * @version $Revision: 1.0 $
@@ -56,6 +56,6 @@ public class Constant implements Function, Integrandable{
 	 * Returns a nice string representation of a constant.
 	 */
 	public String print() {
-		return value + " * x";
+		return "" + value;
 	}
 }

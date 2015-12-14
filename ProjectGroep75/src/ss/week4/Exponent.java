@@ -1,31 +1,64 @@
 package ss.week4;
 
-public class Exponent implements Function{
+/**
+ * Exponent
+ * 
+ * @author Stan Peters en Steven Hendriksen
+ * @version $Revision: 1.0 $
+ */
+
+public class Exponent implements Function {
+	// ------------------ Instance variables ----------------
 	private double n;
 	
-	public Exponent (double n){
+	// ------------------ Commands -----------------------
+	/**
+	 * @param n
+	 *            the exponent.
+	 */
+	public Exponent(double n) {
 		this.n = n;
 	}
-	
-	public double apply (int apply){
+
+	/**
+	 * Returns the exponent.
+	 */
+	public double apply(int apply) {
 		return n;
 	}
-	
-	public Function derivative(){
-		Exponent exp = new Exponent(n-1);
+
+	/**
+	 * Returns the derivative of a product of an exponent.
+	 * 
+	 * @param derivative
+	 *            the derivative of a product of an exponent.
+	 */
+	public Function derivative() {
+		Constant exp = new Constant(n + 1);
 		Constant constant = new Constant(n);
 		LinearProduct product = new LinearProduct(constant, exp);
-		
+
 		return product;
 	}
-	
-	public double getPower(){
-		return  n;
+
+	/**
+	 * Returns the exponent.
+	 */
+	public double getPower() {
+		return n;
 	}
-	public Function integrand(){
-		return new Exponent(n-1);
+
+	/**
+	 * Returns the anti-derivative of an exponent.
+	 */
+	public Function integrand() {
+		return new Exponent(n - 1);
 	}
-	public String print(){
-		return "nope";
+
+	/**
+	 * Returns a nice string representation of an exponent.
+	 */
+	public String print() {
+		return "x^" + n;
 	}
 }
