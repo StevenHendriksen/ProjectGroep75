@@ -2,7 +2,6 @@ package ss.week5;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
 
 /**
  * A simple class that experiments with the Hex encoding
