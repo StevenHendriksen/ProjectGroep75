@@ -48,7 +48,7 @@ public class Constant implements Function, Integrandable{
 	 * 		the anti-derivative of a constant.
 	 */
 	public Function integrand(){
-		integrandable = new LinearProduct(new Constant(value), new Exponent(1));
+		integrandable = new LinearProduct(new Constant(value), new Constant(1));
 		return integrandable;
 	}
 	
