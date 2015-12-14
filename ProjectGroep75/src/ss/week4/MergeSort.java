@@ -1,52 +1,51 @@
 package ss.week4;
 
-/**
- * MergeSort
- * 
- * @author Stan Peters en Steven Hendriksen
- * @version $Revision: 1.0 $
- */
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MergeSort {
 
-	/**
-	 * Returns the merged list.
-	 * 
-	 * @param fst
-	 *            the first side of the mergelist.
-	 * @param snd
-	 *            the second side of the mergelist
-	 */
-	public static <Elem extends Comparable<Elem>> List<Elem> mergesort(List<Elem> list) {
-		List<Elem> res = new ArrayList<Elem>();
-		if (list.size() <= 1) {
-			return list;
-		} else {
-			List<Elem> fst = mergesort(list.subList(0, list.size() / 2));
-			List<Elem> snd = mergesort(list.subList((list.size() / 2) + 1, list.size()));
+    public static <Elem extends Comparable<Elem>>
 
-			int fi = 0;
-			int si = 0;
-			while (fi < list.size() && si < list.size()) {
-				if (fst.get(fi).compareTo(snd.get(si)) < 0) {
-					res.add(snd.get(fi));
-					fi++;
-				} else {
-					res.add(snd.get(si));
-					si++;
-				}
-			}
-			if (fi < fst.size()) {
-				List<Elem> c = list.subList(fi, fst.size());
-				res.addAll(c);
-			} else {
-				List<Elem> c = list.subList(si, fst.size());
-				res.addAll(c);
-			}
-		}
-		return res;
-	}
+    void mergesort(List<Elem> list) {
+        List<Elem> sequence = new ArrayList<>();
+        sequence.addAll(sort(list));
+        list.clear();
+        list.addAll(sequence);
+    }
+
+    public static <Elem extends Comparable<Elem>>
+
+    List<Elem> sort(List<Elem> list) {
+        if(list.size() <= 1) return list;
+
+        List<Elem> fst = sort(list.subList(0, list.size() / 2));
+        List<Elem> snd = sort(list.subList(list.size() / 2, list.size()));
+
+        List<Elem> finalList = new ArrayList<>();
+
+        int fi = 0;
+        int si = 0;
+
+        while(fi < fst.size() && si < snd.size()) {
+            if(fst.get(fi).compareTo(snd.get(si)) < 0){
+                finalList.add(finalList.size(), fst.get(fi));
+                fi++;
+            } else {
+                finalList.add(finalList.size(), snd.get(si));
+                si++;
+            }
+        }
+
+        if(fi < fst.size()) {
+            finalList.addAll(finalList.size(), fst.subList(fi, fst.size()));
+        }
+        if(si < snd.size()) {
+            finalList.addAll(finalList.size(), snd.subList(si, snd.size()));
+        }
+
+        return finalList;
+    }
 
 }
