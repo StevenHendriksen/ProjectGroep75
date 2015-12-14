@@ -33,7 +33,8 @@ public class LinearProduct extends Product {
 	 *            the derivative of a product of two constants.
 	 */
 	public Function derivative() {
-		product1 = new LinearProduct(new Constant(0), new Constant(0));
+		product1 = new LinearProduct(new Constant(constantc.apply(0) * constantc.apply(0)),
+				new Constant(functiong.apply(0) - 1));
 		return product1;
 	}
 
@@ -63,6 +64,7 @@ public class LinearProduct extends Product {
 		return product1;
 	}
 
+
 	/**
 	 * Returns the product of the two constants.
 	 * 
@@ -70,7 +72,7 @@ public class LinearProduct extends Product {
 	 *            the product of the two constants.
 	 */
 	public double apply(int apply) {
-		double result = constantc.apply(apply) * functiong.apply(apply);
+		double result = constantc.apply(apply) * Math.pow(apply, functiong.apply(apply));
 		return result;
 	}
 

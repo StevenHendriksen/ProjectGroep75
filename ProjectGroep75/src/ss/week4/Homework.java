@@ -7,7 +7,7 @@ public class Homework {
 	}
 
 	public static void main(String[] args) {
-		LinearProduct f1 = new LinearProduct(new Constant(4), new Exponent(4));
+		LinearProduct f1 = new LinearProduct(new Constant(4), new Constant(4));
 		Function f2 = f1.integrand();
 		Function f3 = f1.derivative();
 		String f2s = f2.print();
