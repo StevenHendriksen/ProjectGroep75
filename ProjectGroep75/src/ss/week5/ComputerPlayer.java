@@ -1,26 +1,19 @@
 package ss.week5;
 
 public class ComputerPlayer extends Player{
-	Mark mark;
 	Strategy strategy;
-	String name;
 	
 	public ComputerPlayer(Mark mark, Strategy strategy){
-		super(strategy.getName(), mark);
+		super(strategy.getName() + "-" + mark, mark);
 		this.strategy = strategy;
-		this.mark = mark;
-		name = strategy + "-" + mark;
 	}
 	
 	public ComputerPlayer(Mark mark){
-		super("Naive", mark);
-		strategy = new NaiveStrategy();
-		this.mark = mark;
-		name = strategy.getName() + "-" + mark;
+		this(mark, new NaiveStrategy());
 	}
 	
 	public int determineMove(Board board){
-		return strategy.determineMove(board, mark);
+		return strategy.determineMove(board, getMark());
 	}
 	
 	public Strategy getStrategy(){

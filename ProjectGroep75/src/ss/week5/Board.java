@@ -283,11 +283,11 @@ public class Board {
 		
 		diagonal = 0;
 		
-		for (int i = DIM - 1; i < DIM * DIM; i = i + DIM - 1) {
+		for (int i = DIM - 1; i < DIM * DIM - 1; i = i + DIM - 1) {
 			if (getField(i) == m) {
 				diagonal += 1;
 			}
-			if (diagonal >= DIM) {
+			if (diagonal == DIM) {
 				return true;
 			}
 		}
@@ -307,8 +307,7 @@ public class Board {
 	// this.hasDiagonal(m);
 	/* @ pure */
 	public boolean isWinner(Mark m) {
-		assert m == Mark.XX;
-		assert m == Mark.OO;
+		assert m == Mark.XX || m == Mark.OO;
 		if (this.hasRow(m) || this.hasColumn(m) || this.hasDiagonal(m)) {
 			return true;
 		}
