@@ -10,7 +10,7 @@ public class NaiveStrategy implements Strategy {
 
 	public int determineMove(Board b, Mark m) {
 		List<Integer> res = new ArrayList<Integer>();
-		for (int i = 0; i < Board.DIM; i++) {
+		for (int i = 0; i < Board.DIM * Board.DIM; i++) {
 			if (b.isEmptyField(i)) {
 				res.add(i);
 			}
