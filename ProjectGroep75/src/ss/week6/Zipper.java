@@ -17,9 +17,9 @@ public class Zipper {
     public static String zip2(String s1, String s2) throws TooFewArgumentsException, ArgumentLengthsDifferException {
         String result = "";
         if (s1 == null || s2 == null) {
-            throw new TooFewArgumentsException();	
+            throw new TooFewArgumentsException("problems");	
         } else if (s1.length() != s2.length()) {
-        	throw new ArgumentLengthsDifferException();
+        	throw new ArgumentLengthsDifferException(s1.length(), s2.length());
         }
         for (int i = 0; i < s1.length(); i++) {
             result += Character.toString(s1.charAt(i))

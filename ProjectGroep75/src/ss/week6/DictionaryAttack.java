@@ -120,6 +120,7 @@ public class DictionaryAttack {
 			}
 		}
 		System.out.println(foundPasswords);
+		System.out.println("Passwors found: " + foundPasswords.size());
 	}
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, DecoderException, IOException {
