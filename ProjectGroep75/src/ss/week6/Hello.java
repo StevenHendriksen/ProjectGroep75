@@ -7,10 +7,14 @@ public class Hello {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("Omdat noel een bitch is staat dit hier");
 		Scanner in = new Scanner(System.in);
 		while (in.hasNextLine()) {
-			String line = in.nextLine();
-			System.out.println("Hello " + line);
+			String naam = in.nextLine();
+			if (naam.equals("")) {
+			} else {
+				System.out.println("Hello " + naam);
+			}
 		}
 	}
 }
