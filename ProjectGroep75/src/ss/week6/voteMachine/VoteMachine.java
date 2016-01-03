@@ -22,6 +22,8 @@ public class VoteMachine{
 	
 	public void start(){
 		votetuiview.start();
+		votelist.addObserver(votetuiview);
+		partylist.addObserver(votetuiview);
 	}
 	
 	public void addParty(String party){

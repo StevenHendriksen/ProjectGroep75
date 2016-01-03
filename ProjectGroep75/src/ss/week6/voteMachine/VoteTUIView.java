@@ -2,8 +2,10 @@ package ss.week6.voteMachine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
+import java.util.Observable;
 
-public class VoteTUIView {
+public class VoteTUIView implements Observer {
 	private VoteMachine votemachine;
 	
 	public VoteTUIView() {
@@ -27,5 +29,18 @@ public class VoteTUIView {
 	public String showError(String error){
 		return error;
 		// Errors laten zien
+	}
+	
+	public void update(Observable obs, Object obj){
+		String result;
+		
+		if(obj == "party"){
+			result = "A party is added";
+		}
+		else {
+			result = "A vote is added";
+		}
+		
+		System.out.println(result);
 	}
 } 

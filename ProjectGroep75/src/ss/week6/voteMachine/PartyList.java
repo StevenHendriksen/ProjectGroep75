@@ -2,12 +2,16 @@ package ss.week6.voteMachine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class PartyList {
+public class PartyList extends Observable{
 	private List<String> allParties = new ArrayList<>();
 	
 	public void addParty(String name){
 		allParties.add(name);
+		setChanged();
+		notifyObservers();
+		System.out.println("party");
 	}
 	
 	public boolean hasParty(String name){
