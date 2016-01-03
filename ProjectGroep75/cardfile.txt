@@ -1,0 +1,8 @@
+Clubs 2
+Diamonds 3
+Hearts 4
+Spades 5
+Clubs 6
+Diamonds 7
+Hearts 8
+Spades 9
