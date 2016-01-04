@@ -29,15 +29,24 @@ public class Card {
 
 	// ---- class methods -------------------------------------
 
+	/**
+	 * Main class, creates 8 different cards and prints what those cards
+	 * look like to a file specified in the arguments or to the console if no arguments provided
+	 * 
+	 * @param args
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
+
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
-		Card card1 = new Card(CLUBS, '2');
+		Card card1 = new Card(CLUBS, '1');
 		Card card2 = new Card(DIAMONDS, '3');
 		Card card3 = new Card(HEARTS, '4');
 		Card card4 = new Card(SPADES, '5');
-		Card card5 = new Card(CLUBS, '6');
-		Card card6 = new Card(DIAMONDS, '7');
-		Card card7 = new Card(HEARTS, '8');
-		Card card8 = new Card(SPADES, '9');
+		Card card5 = new Card(CLUBS, 'J');
+		Card card6 = new Card(DIAMONDS, 'K');
+		Card card7 = new Card(HEARTS, 'Q');
+		Card card8 = new Card(SPADES, 'A');
 		if (args.length == 0) {
 			System.out.println(card1.toString());
 			System.out.println(card2.toString());
@@ -62,10 +71,19 @@ public class Card {
 
 	}
 
+	/**
+	 * Receives a DataInputStream and reads it as a card
+	 * 
+	 * @param in
+	 * @return the card contents of the data
+	 * @throws IOException
+	 * @throws EOFException
+	 */
+
 	public static Card read(DataInputStream in) throws IOException, EOFException {
 		Card result = null;
 		String line = in.readUTF();
-		Scanner  spatie = new Scanner(line);	
+		Scanner spatie = new Scanner(line);
 		String suit = spatie.next();
 		String rank = spatie.next();
 		if (isValidSuit(suit.charAt(0)) && isValidRank(rank.toUpperCase().charAt(0))) {
@@ -74,11 +92,20 @@ public class Card {
 		spatie.close();
 		return result;
 	}
-	
+
+	/**
+	 * Receives a BufferedReader and reads it as a card
+	 * 
+	 * @param in
+	 * @return the card contents of the data
+	 * @throws IOException
+	 * @throws EOFException
+	 */
+
 	public static Card read(BufferedReader in) throws IOException, EOFException {
 		Card result = null;
 		String line = in.readLine();
-		Scanner  spatie = new Scanner(line);	
+		Scanner spatie = new Scanner(line);
 		String suit = spatie.next();
 		String rank = spatie.next();
 		if (isValidSuit(suit.charAt(0)) && isValidRank(rank.toUpperCase().charAt(0))) {
@@ -87,11 +114,20 @@ public class Card {
 		spatie.close();
 		return result;
 	}
-	
+
+	/**
+	 * Receives a ObjectInputStream and reads it as a card
+	 * 
+	 * @param in
+	 * @return the card contents of the data
+	 * @throws IOException
+	 * @throws EOFException
+	 */
+
 	public static Card read(ObjectInputStream in) throws IOException, EOFException {
 		Card result = null;
 		String line = in.readUTF();
-		Scanner  spatie = new Scanner(line);	
+		Scanner spatie = new Scanner(line);
 		String suit = spatie.next();
 		String rank = spatie.next();
 		if (isValidSuit(suit.charAt(0)) && isValidRank(rank.toUpperCase().charAt(0))) {
@@ -399,14 +435,35 @@ public class Card {
 		return rankLessThan(this.getRank(), card.getRank());
 	}
 
+	/**
+	 * Writes the data of the card to a DataOutputStream
+	 * 
+	 * @param PW
+	 * @throws IOException
+	 */
+
 	public void write(DataOutputStream PW) throws IOException {
 		PW.writeUTF(toString());
 	}
-	
+
+	/**
+	 * Writes the data of the card to a PrintWriter
+	 * 
+	 * @param PW
+	 * @throws IOException
+	 */
+
 	public void write(PrintWriter PW) throws IOException {
 		PW.println(toString());
 	}
-	
+
+	/**
+	 * Writes the data of the card to a Object
+	 * 
+	 * @param PW
+	 * @throws IOException
+	 */
+
 	public void write(ObjectOutputStream PW) throws IOException {
 		PrintWriter writer = new PrintWriter("UTF-8");
 		writer.write(toString());

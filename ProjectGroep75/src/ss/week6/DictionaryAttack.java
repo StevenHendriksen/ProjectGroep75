@@ -15,7 +15,7 @@ public class DictionaryAttack {
 	private Map<String, String> passwordMap;
 	private Map<String, String> loginMap;
 	private Map<String, String> hashDictionary;
-	private Map<String, String> foundPasswords;	
+	private Map<String, String> foundPasswords;
 	private static final String PATH = ""; // Your path to the test folder
 
 	/**
@@ -108,29 +108,51 @@ public class DictionaryAttack {
 	}
 
 	/**
-	 * Do the dictionary attack.
+	 * Performs the Dictionary Attack and saves the log in data in a hashmap
+	 * After all of the ones we could find it prints all of them
 	 */
-	public void doDictionaryAttack() {
+	public void doDictionaryAttack(String i) {
 		foundPasswords = new HashMap<String, String>();
-		for(String k : hashDictionary.keySet()){
-			if(passwordMap.containsValue(k)){
+		System.out.println("Total Passwords: " + loginMap.keySet().size());
+		System.out.println("Total amount of words: " + hashDictionary.keySet().size());
+		for (String k : hashDictionary.keySet()) {
+			if (passwordMap.containsValue(k)) {
 				loginMap.get(k);
 				foundPasswords.put(loginMap.get(k), hashDictionary.get(k));
+				if (i.equals("print")) {
+					System.out.println("Username: " + loginMap.get(k) + "\nPassword: " + hashDictionary.get(k) + "\n");
+				}
 
 			}
 		}
-		System.out.println(foundPasswords);
-		System.out.println("Passwors found: " + foundPasswords.size());
+		if (i.equals("map")) {
+			System.out.println(foundPasswords);
+		}
+		System.out.println("Passwords found: " + foundPasswords.size());
 	}
+
+	/**
+	 * Creates a new DictionaryAttack instance and then adds then adds the
+	 * contents of "dictionary.txt" Compares those words then with the contents
+	 * of "LeakedPasswords.txt" and saves the log ins found in the attack in a
+	 * map which gets printed
+	 * 
+	 * @param args
+	 * @throws NoSuchAlgorithmException
+	 * @throws DecoderException
+	 * @throws IOException
+	 */
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, DecoderException, IOException {
 		DictionaryAttack da = new DictionaryAttack();
-		da.addToHashDictionary("25mostcommonpasswords.txt");
-		da.addToHashDictionary("linuxwords.txt");
+		da.addToHashDictionary("dictionary.txt");
 		da.readPasswords("LeakedPasswords.txt");
-		da.doDictionaryAttack();
+		da.doDictionaryAttack(args[0]);
 	}
 
+	/**
+	 * @return passwordMap
+	 */
 	public Map<String, String> get() {
 		return passwordMap;
 	}
