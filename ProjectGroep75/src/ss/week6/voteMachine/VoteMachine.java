@@ -21,7 +21,8 @@ public class VoteMachine{
 	public VoteMachine(){
 		partylist = new PartyList();
 		votelist = new VoteList();
-		voteview = new VoteGUIView(this);
+		voteview = new VoteTUIView(this);
+		this.start();
 	}
 	
 	// ------------------ Methods ------------------------
@@ -30,7 +31,6 @@ public class VoteMachine{
 	 */
 	public static void main(String[] args){
 		voteMachine = new VoteMachine();
-		voteMachine.start();
 	}
 	
 	/**
@@ -38,9 +38,9 @@ public class VoteMachine{
 	 * Adds the observer.
 	 */
 	public void start(){
-		voteview.start();
 		votelist.addObserver(voteview);
 		partylist.addObserver(voteview);
+		voteview.start();
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class VoteMachine{
 	/**
 	 * Adds a vote to the votelist;
 	 */
-	public void addvote(String party){
+	public void vote(String party){
 		votelist.addVote(party);
 	}
 	

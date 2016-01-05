@@ -22,8 +22,7 @@ public class PartyList extends Observable{
 	public void addParty(String name){
 		allParties.add(name);
 		setChanged();
-		notifyObservers();
-		System.out.println("party");
+		notifyObservers("party");
 	}
 	
 	/**

@@ -18,8 +18,8 @@ public class VoteTUIView implements Observer, VoteView{
 	private VoteMachine votemachine;
 	
 	// ------------------ Constructor ------------------------
-	public VoteTUIView() {
-		votemachine = new VoteMachine();
+	public VoteTUIView(VoteMachine voteMachine) {
+		this.votemachine = voteMachine;
 	}
 	
 	// ------------------ Methods ------------------------
@@ -37,35 +37,36 @@ public class VoteTUIView implements Observer, VoteView{
 	 * 			Next line;
 	 */
 	public void start(){
-		boolean exit = false;
-		System.out.println("Choose between: VOTE (party), ADD PARTY (party), VOTES, PARTIES, EXIT, HELP");
 		Scanner in = new Scanner(System.in);
-		while (exit == false){
-			while (in.hasNextLine()){
+		while (true){
+			System.out.println("Please input a command.");
+			if (in.hasNextLine()){
 				String line = in.nextLine();
 				Scanner read = new Scanner(line);
 				if(read.hasNext()){
 					String check = read.next();
 					if(check.equals("VOTE")){
 						String party = read.next();
+						votemachine.vote(party);
 					}
 					else if(check.equals("ADD")){
 						String check2 = read.next();
-						if(check.equals("PARTY")){
+						if(check2.equals("PARTY")){
 							String party = read.next();
+							votemachine.addParty(party);
 						}
 					}
 					else if(check.equals("VOTES")){
-						
+						System.out.println(votemachine.getVotes());
 					}
 					else if(check.equals("PARTIES")){
-						
+						System.out.println(votemachine.getParties());
 					}
 					else if(check.equals("EXIT")){
-						
+						System.exit(0);
 					}
 					else if(check.equals("HELP")){
-						
+						System.out.println("Commands: VOTE (party), ADD PARTY (party), VOTES, PARTIES, EXIT, HELP");
 					}
 				}
 			}

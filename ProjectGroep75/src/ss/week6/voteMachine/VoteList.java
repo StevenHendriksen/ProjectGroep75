@@ -20,10 +20,14 @@ public class VoteList extends Observable{
 	 * Adds a vote to the votelist and prints vote;
 	 */
 	public void addVote(String vote){
-		allVotes.put(vote, allVotes.size() + 1);
+		if(allVotes.get(vote) == null){
+			allVotes.put(vote, 1);
+		}
+		else{
+			allVotes.put(vote, allVotes.get(vote) + 1);
+		}
 		setChanged();
-		notifyObservers();
-		System.out.println("vote");
+		notifyObservers("vote");
 	}
 	
 	/**
