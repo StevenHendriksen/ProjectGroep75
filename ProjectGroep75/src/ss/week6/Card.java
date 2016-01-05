@@ -30,8 +30,9 @@ public class Card {
 	// ---- class methods -------------------------------------
 
 	/**
-	 * Main class, creates 8 different cards and prints what those cards
-	 * look like to a file specified in the arguments or to the console if no arguments provided
+	 * Main class, creates 8 different cards and prints what those cards look
+	 * like to a file specified in the arguments or to the console if no
+	 * arguments provided
 	 * 
 	 * @param args
 	 * @throws FileNotFoundException
@@ -113,11 +114,12 @@ public class Card {
 	 * @throws EOFException
 	 */
 
-	public static Card read(ObjectInputStream in) throws IOException, EOFException {
+	public static Card read(ObjectInput in) {
 		try {
 			return (Card) in.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			System.out.println("Something went horribly wrong!");
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -423,14 +425,14 @@ public class Card {
 	/**
 	 * Writes the data of the card to a DataOutputStream
 	 * 
-	 * @param PW
-	 * @throws IOException
+	 * @param pw
 	 */
 
 	public void write(DataOutputStream pw) {
-		try{
-		pw.writeUTF(toString());
-		}catch(IOException e){
+		try {
+			pw.writeChar(suit);
+			pw.writeChar(rank);
+		} catch (IOException e) {
 			System.out.print("Error while writing");
 		}
 	}
@@ -438,8 +440,7 @@ public class Card {
 	/**
 	 * Writes the data of the card to a PrintWriter
 	 * 
-	 * @param PW
-	 * @throws IOException
+	 * @param pw
 	 */
 
 	public void write(PrintWriter pw) {
@@ -449,14 +450,13 @@ public class Card {
 	/**
 	 * Writes the data of the card to a Object
 	 * 
-	 * @param PW
-	 * @throws IOException
+	 * @param pw
 	 */
 
-	public void write(ObjectOutputStream pw) {
-		try{
-		pw.writeObject(this);
-		}catch(IOException e){
+	public void write(ObjectOutput pw) {
+		try {
+			pw.writeObject(this);
+		} catch (IOException e) {
 			System.out.println("Error while writing");
 		}
 	}

@@ -60,7 +60,6 @@ public class DictionaryAttack {
 			throws UnsupportedEncodingException, NoSuchAlgorithmException, DecoderException {
 		String result = null;
 		MessageDigest md = MessageDigest.getInstance("MD5");
-		;
 		byte[] passwordbytes = md.digest(password.getBytes());
 		char[] hexbytes = Hex.encodeHex(passwordbytes);
 		result = new String(hexbytes);
