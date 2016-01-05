@@ -21,7 +21,7 @@ public class VoteMachine{
 	public VoteMachine(){
 		partylist = new PartyList();
 		votelist = new VoteList();
-		voteview = new VoteTUIView(this);
+		voteview = new VoteGUIView(this);
 		this.start();
 	}
 	

@@ -3,8 +3,6 @@ package ss.week6;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.codec.DecoderException;
-
 public class ArgumentLengthsDifferException extends ss.week6.WrongArgumentException{
 	/**
 	 * given 2 ints, it gives the message "ArgumentLengthsDifferException + i + j
