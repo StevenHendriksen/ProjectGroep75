@@ -23,7 +23,6 @@ public class Words {
 				i++;
 			}
 		}
-		System.out.println("Line (or 'end'): end");
 		System.out.println("End of programme.");
 
 	}

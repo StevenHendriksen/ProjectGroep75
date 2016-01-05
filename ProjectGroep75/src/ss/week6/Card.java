@@ -38,7 +38,7 @@ public class Card {
 	 * @throws UnsupportedEncodingException
 	 */
 
-	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void main(String[] args) throws IOException {
 		Card card1 = new Card(CLUBS, '1');
 		Card card2 = new Card(DIAMONDS, '3');
 		Card card3 = new Card(HEARTS, '4');
@@ -47,27 +47,14 @@ public class Card {
 		Card card6 = new Card(DIAMONDS, 'K');
 		Card card7 = new Card(HEARTS, 'Q');
 		Card card8 = new Card(SPADES, 'A');
+		PrintWriter pw;
 		if (args.length == 0) {
-			System.out.println(card1.toString());
-			System.out.println(card2.toString());
-			System.out.println(card3.toString());
-			System.out.println(card4.toString());
-			System.out.println(card5.toString());
-			System.out.println(card6.toString());
-			System.out.println(card7.toString());
-			System.out.println(card8.toString());
+			pw = new PrintWriter(System.out, true);
 		} else {
-			PrintWriter writer = new PrintWriter(args[0], "UTF-8");
-			writer.println(card1.toString());
-			writer.println(card2.toString());
-			writer.println(card3.toString());
-			writer.println(card4.toString());
-			writer.println(card5.toString());
-			writer.println(card6.toString());
-			writer.println(card7.toString());
-			writer.println(card8.toString());
-			writer.close();
+			pw = new PrintWriter(args[0], "UTF-8");
 		}
+		card1.write(pw);
+		pw.close();
 
 	}
 
@@ -80,16 +67,13 @@ public class Card {
 	 * @throws EOFException
 	 */
 
-	public static Card read(DataInputStream in) throws IOException, EOFException {
+	public static Card read(DataInput in) throws IOException, EOFException {
 		Card result = null;
-		String line = in.readUTF();
-		Scanner spatie = new Scanner(line);
-		String suit = spatie.next();
-		String rank = spatie.next();
-		if (isValidSuit(suit.charAt(0)) && isValidRank(rank.toUpperCase().charAt(0))) {
-			result = new Card(suitString2Char(suit), rank.toUpperCase().charAt(0));
+		char suit = in.readChar();
+		char rank = in.readChar();
+		if (isValidSuit(suit) && isValidRank(rank)) {
+			result = new Card(suit, rank);
 		}
-		spatie.close();
 		return result;
 	}
 
@@ -102,9 +86,14 @@ public class Card {
 	 * @throws EOFException
 	 */
 
-	public static Card read(BufferedReader in) throws IOException, EOFException {
+	public static Card read(BufferedReader in) throws EOFException {
 		Card result = null;
-		String line = in.readLine();
+		String line = "";
+		try {
+			line = in.readLine();
+		} catch (IOException e) {
+			return result;
+		}
 		Scanner spatie = new Scanner(line);
 		String suit = spatie.next();
 		String rank = spatie.next();
@@ -125,16 +114,12 @@ public class Card {
 	 */
 
 	public static Card read(ObjectInputStream in) throws IOException, EOFException {
-		Card result = null;
-		String line = in.readUTF();
-		Scanner spatie = new Scanner(line);
-		String suit = spatie.next();
-		String rank = spatie.next();
-		if (isValidSuit(suit.charAt(0)) && isValidRank(rank.toUpperCase().charAt(0))) {
-			result = new Card(suitString2Char(suit), rank.toUpperCase().charAt(0));
+		try {
+			return (Card) in.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("Something went horribly wrong!");
+			return null;
 		}
-		spatie.close();
-		return result;
 	}
 
 	/**
@@ -442,8 +427,12 @@ public class Card {
 	 * @throws IOException
 	 */
 
-	public void write(DataOutputStream PW) throws IOException {
-		PW.writeUTF(toString());
+	public void write(DataOutputStream pw) {
+		try{
+		pw.writeUTF(toString());
+		}catch(IOException e){
+			System.out.print("Error while writing");
+		}
 	}
 
 	/**
@@ -453,8 +442,8 @@ public class Card {
 	 * @throws IOException
 	 */
 
-	public void write(PrintWriter PW) throws IOException {
-		PW.println(toString());
+	public void write(PrintWriter pw) {
+		pw.println(toString());
 	}
 
 	/**
@@ -464,10 +453,12 @@ public class Card {
 	 * @throws IOException
 	 */
 
-	public void write(ObjectOutputStream PW) throws IOException {
-		PrintWriter writer = new PrintWriter("UTF-8");
-		writer.write(toString());
-		writer.close();
+	public void write(ObjectOutputStream pw) {
+		try{
+		pw.writeObject(this);
+		}catch(IOException e){
+			System.out.println("Error while writing");
+		}
 	}
 
 	/*
