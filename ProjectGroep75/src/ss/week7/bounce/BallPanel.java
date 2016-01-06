@@ -15,11 +15,13 @@ import javax.swing.JPanel;
  */
 public class BallPanel extends JPanel implements ActionListener {
 	private List<Ball> balls; // @invariant balls != null
+	private AnimateThread thread;
 
 	public BallPanel() {
 		balls = new java.util.ArrayList<Ball>();
+		thread = new AnimateThread(this);
+		thread.start();
 	}
-
 	/**
 	 * Implements the method from the interface ActionListener
 	 * Move and repaint the balls
@@ -76,6 +78,17 @@ public class BallPanel extends JPanel implements ActionListener {
 		super.paintComponent(g);
 		for (Ball b : balls) {
 			b.draw(g);
+		}
+	}
+	
+	public class AnimateThread extends Thread {
+		private BallPanel ball;
+		public AnimateThread(BallPanel ball){
+			this.ball = ball;
+		}
+		
+		public void run(){
+			ball.animate();
 		}
 	}
 }
