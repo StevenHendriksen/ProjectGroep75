@@ -14,8 +14,13 @@ import javax.swing.JPanel;
  */
 public class Bounce extends JFrame {
 	private JButton start;
-	private BallPanel ballPanel;
+	private static JFrame f;
+	public BallPanel ballPanel;
 
+	public BallPanel getBallPanel(){
+		return ballPanel;
+	}
+	
 	public Bounce() {
 		setTitle("Bounce");
 		ballPanel = new BallPanel();
@@ -26,7 +31,7 @@ public class Bounce extends JFrame {
 
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				ballPanel.addNewBall();
+				ballPanel.addNewBall(f);
 			}
 		});
 		getContentPane().add("South", controlPanel);
@@ -34,7 +39,7 @@ public class Bounce extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new Bounce();
+		f = new Bounce();
 		f.setLocation(200, 200);
 		f.setSize(300, 200);
 		f.setVisible(true);

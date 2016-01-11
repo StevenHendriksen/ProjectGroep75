@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics; //Graphics;
 import java.awt.Point;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
  */
 public class Ball {
 	public JPanel panel;
+	BallPanel ballpanel;
 
 	/*@
 	   requires panel != null;
@@ -29,8 +31,10 @@ public class Ball {
 	 * Collision of two balls has the effect that both balls 
 	 * 'turn around' 180 degrees. Could be better
 	 */
-	public void collide(Ball other) {
+	public void collide(Ball other, JFrame jframe) {
 		if (this.position().distance(other.position()) < BALL_DIAM) {
+			Bounce jframe2  = (Bounce) jframe;
+			jframe2.getBallPanel().addNewBall(jframe);
 			int dxTemp = this.dx;
 			int dyTemp = this.dy;
 			this.dx = other.dx;
