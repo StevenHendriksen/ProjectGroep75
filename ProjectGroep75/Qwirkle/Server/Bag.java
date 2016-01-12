@@ -12,11 +12,11 @@ public class Bag {
 	public static void main(String[] args){
 		Bag bag = new Bag();
 		
-		bag.allCubes();
+		bag.newCubes();
 		bag.takeCube().printCube();
 	}
 	
-	public void allCubes(){
+	public void newCubes(){
 		cubes = new Cube[108];
 		color = Color.RED;
 		shape = Shape.CIRCLE;
@@ -32,6 +32,19 @@ public class Bag {
 	}
 	
 	public Cube takeCube(){
-		return cubes[(int) Math.floor(Math.random() * 108)];
+		int random = (int) Math.floor(Math.random() * 108);
+		Cube randomcube = cubes[random];
+		
+		while(randomcube == null){
+			random = (int) Math.floor(Math.random() * 108);
+		}
+
+		randomcube = null;
+		
+		return randomcube;
+	}
+	
+	public Cube[] cubesInBag(){
+		return cubes;
 	}
 }
