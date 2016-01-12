@@ -2,7 +2,6 @@ package Server;
 
 public class Bag {
 	private Cube[] cubes;
-	private Cube cube;
 	private Color color;
 	private Shape shape;
 	
