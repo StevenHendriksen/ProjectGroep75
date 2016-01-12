@@ -20,4 +20,8 @@ public class Cube {
 	public void printCube(){
 		System.out.println("color: " + color + " shape: " + shape);
 	}
+	public String toString(){
+		return color.name().substring(0, 1) + shape.name().substring(0, 2);
+	}
+	
 }
