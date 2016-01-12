@@ -1,6 +1,5 @@
 package week7.Mandel;
 
-
 /**
  * Class for drawing the Mandel in parallel
  */

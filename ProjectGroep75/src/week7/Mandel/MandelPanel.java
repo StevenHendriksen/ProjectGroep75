@@ -1,6 +1,5 @@
 package week7.Mandel;
 
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -9,19 +8,18 @@ import javax.swing.JPanel;
 
 /**
  * Graphical compontent for drawing a Mandelbrot fractal
+ * 
  * @author Martin Kalin, aangepast door Arend Rensink
  * @version 15-01-2002
  */
-class MandelPanel extends JPanel implements Runnable 
-{
+class MandelPanel extends JPanel implements Runnable {
 	public void draw() {
 		(new MandelThread(this)).start();
 		Thread thread = new Thread(this);
 		thread.start();
 	}
 
-
-	// draw the fractal 
+	// draw the fractal
 	void drawMandel() {
 		Graphics g = getGraphics();
 		int width = getWidth();
@@ -61,9 +59,12 @@ class MandelPanel extends JPanel implements Runnable
 	/** Storage of the pixels */
 	private Color[][] pixels;
 
-	/** 
-	 * used to redraw (parts) of JComponent. For example if it was hidden under another window
-	 * @param g the parts needs to be redrawn
+	/**
+	 * used to redraw (parts) of JComponent. For example if it was hidden under
+	 * another window
+	 * 
+	 * @param g
+	 *            the parts needs to be redrawn
 	 */
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

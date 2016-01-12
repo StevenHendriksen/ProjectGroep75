@@ -103,5 +103,4 @@ public class BallPanel extends JPanel implements ActionListener {
 			ball.animate();
 		}
 	}
-
 }

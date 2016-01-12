@@ -1,6 +1,5 @@
 package week7.Mandel;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -13,9 +12,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * Drawing the mandelbrot set is a time consuming process.
- * The program is meant to illustrate the use of a thread for this proces
- * so the GUI buttons are still responsive to user actions.
+ * Drawing the mandelbrot set is a time consuming process. The program is meant
+ * to illustrate the use of a thread for this proces so the GUI buttons are
+ * still responsive to user actions.
+ * 
  * @author: Martin Kalin
  */
 public class MandelSet {
