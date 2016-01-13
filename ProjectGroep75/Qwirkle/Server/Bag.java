@@ -2,8 +2,6 @@ package Server;
 
 public class Bag {
 	private Tile[] tiles;
-	private Color color;
-	private Shape shape;
 
 	public Bag() {
 	}
@@ -16,16 +14,11 @@ public class Bag {
 
 	public void newBag() {
 		tiles = new Tile[108];
-		color = Color.RED;
-		shape = Shape.CIRCLE;
 		for (int j = 0; j < 36; j++) {
 			for (int i = 0; i < 3; i++) {
-				tiles[i + j * 3] = new Tile(j , color, shape);
+				tiles[i + j * 3] = new Tile(j + 1);
+				tiles[i + j * 3].getTile(j + 1);
 			}
-			if (j % 6 == 0) {
-				shape = shape.other();
-			}
-			color = color.other();
 		}
 	}
 

@@ -6,13 +6,7 @@ import java.io.*;
 public class Server {
 	ServerSocket server = null;
 	Socket connection = null;
-	/**
-	 * Opens a ServerSocket on port 666 and waits for a response from the Python
-	 * code and the Arduino. Returns "Connection failed" when the connection
-	 * fails.
-	 *
-	 * @return a string containing the card ID and location ID
-	 */
+
 	public Server() {
 		try {
 			server = new ServerSocket(666);
