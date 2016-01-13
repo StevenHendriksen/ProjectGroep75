@@ -1,10 +1,10 @@
 package Client;
 
-public class Cube {
+public class Tile {
 	private Color color;
 	private Shape shape;
 	
-	public Cube(Color color, Shape shape){
+	public Tile(Color color, Shape shape){
 		this.color = color;
 		this.shape = shape;
 	}
@@ -17,7 +17,7 @@ public class Cube {
 		return shape;
 	}
 	
-	public void printCube(){
+	public void printTile(){
 		System.out.println("color: " + color + " shape: " + shape);
 	}
 	public String toString(){

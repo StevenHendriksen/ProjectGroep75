@@ -11,7 +11,7 @@ public class Board {
 	public int DIMyp;
 	public int DIMym;
 
-	private Map<String, Cube> cubeLocs = new HashMap<String, Cube>();
+	private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
 
 	public static void main(String[] args) {
 		Board board = new Board();
@@ -19,32 +19,32 @@ public class Board {
 	}
 
 	public Board() {
-		cubeLocs.put("0 0", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("0 1", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("0 2", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("0 3", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("0 4", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("1 3", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("33 43", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("-40 2", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("3 3", new Cube(Color.RED, Shape.CIRCLE));
-		cubeLocs.put("1 -41", new Cube(Color.RED, Shape.CIRCLE));
+		tileLocs.put("0 0", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("0 1", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("0 2", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("0 3", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("0 4", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("1 3", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("33 43", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("-40 2", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("3 3", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("1 -41", new Tile(Color.RED, Shape.CIRCLE));
 		setDIM();
 	}
 
-	public Board(Map<String, Cube> map) {
-		cubeLocs = map;
+	public Board(Map<String, Tile> map) {
+		tileLocs = map;
 		setDIM();
 	}
 
-	public void putCube(int x, int y, Cube cube) {
-		cubeLocs.put(x + " " + y, cube);
+	public void putTile(int x, int y, Tile tile) {
+		tileLocs.put(x + " " + y, tile);
 	}
 
 	public void setDIM() {
 		List<String> x = new ArrayList<String>();
 		List<String> y = new ArrayList<String>();
-		for (String k : cubeLocs.keySet()) {
+		for (String k : tileLocs.keySet()) {
 			x.add((k.split("\\s+")[0]));
 			y.add((k.split("\\s+")[1]));
 		}
@@ -74,13 +74,13 @@ public class Board {
 		return lowest;
 	}
 
-	public Map<String, Cube> getCubeLocs() {
-		return cubeLocs;
+	public Map<String, Tile> getCubeLocs() {
+		return tileLocs;
 	}
 
-	public Cube getCube(int k, int g) {
-		Cube result = null;
-		Cube result2 = cubeLocs.get(k + " " + g);
+	public Tile getTile(int k, int g) {
+		Tile result = null;
+		Tile result2 = tileLocs.get(k + " " + g);
 		if (result2 != null) {
 			result = result2;
 		}
@@ -119,16 +119,16 @@ public class Board {
 	public List<String> createBoardPrint() {
 		List<String> board = new ArrayList<String>();
 		board.add(createxCoords());
-		for (int k = DIMym; k < DIMyp + 1; k++) {
+		for (int k = DIMyp; k >= DIMym - 1; k--) {
 			board.add(createDivider());
-			board.add(createCubeLine(k));
+			board.add(createTileLine(k));
 		}
 		board.add(createDivider());
 		board.add(createxCoords());
 		return board;
 	}
 
-	public String createCubeLine(int k) {
+	public String createTileLine(int k) {
 		String cubesLine = "";
 		if (k < 0) {
 			if (k < -9) {
@@ -144,9 +144,10 @@ public class Board {
 			}
 		}
 		for (int g = DIMxm; g <= DIMxp; g++) {
+			System.out.println(g + " " + k);
 			String cube = "   ";
-			if (getCube(g, k) != null) {
-				cube = getCube(g, k).toString();
+			if (getTile(g, k) != null) {
+				cube = getTile(g, k).toString();
 			}
 			cubesLine = cubesLine + cube + "|";
 		}
