@@ -31,8 +31,8 @@ public class Board {
 		cubeLocs.put("1 -41", new Cube(Color.RED, Shape.CIRCLE));
 		setDIM();
 	}
-	
-	public Board(Map<String, Cube> map){
+
+	public Board(Map<String, Cube> map) {
 		cubeLocs = map;
 		setDIM();
 	}
@@ -143,7 +143,6 @@ public class Board {
 				cubesLine = k + "  :|";
 			}
 		}
-
 		for (int g = DIMxm; g <= DIMxp; g++) {
 			String cube = "   ";
 			if (getCube(g, k) != null) {
