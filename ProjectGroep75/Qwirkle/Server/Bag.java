@@ -1,12 +1,11 @@
 package Server;
 
 public class Bag {
-	private Cube[] cubes;
+	private Tile[] tiles;
 	private Color color;
 	private Shape shape;
 
 	public Bag() {
-
 	}
 
 	public static void main(String[] args) {
@@ -16,12 +15,12 @@ public class Bag {
 	}
 
 	public void newBag() {
-		cubes = new Cube[108];
+		tiles = new Tile[108];
 		color = Color.RED;
 		shape = Shape.CIRCLE;
 		for (int j = 0; j < 36; j++) {
 			for (int i = 0; i < 3; i++) {
-				cubes[i + j * 3] = new Cube(color, shape);
+				tiles[i + j * 3] = new Tile(j , color, shape);
 			}
 			if (j % 6 == 0) {
 				shape = shape.other();
@@ -30,48 +29,48 @@ public class Bag {
 		}
 	}
 
-	public Cube takeCube() {
+	public Tile takeTile() {
 		int random = (int) Math.floor(Math.random() * 108);
-		Cube randomcube = cubes[random];
+		Tile randomtile = tiles[random];
 
-		while (randomcube == null) {
+		while (randomtile == null) {
 			random = (int) Math.floor(Math.random() * 108);
 		}
 
-		randomcube = null;
+		randomtile = null;
 
-		return randomcube;
+		return randomtile;
 	}
 
-	public void getCube(Cube cube){
+	public void getTile(Tile tile){
 		boolean inBag = false;
 		for(int i = 0; i < 108; i++){
-			if(cubes[i] == cube){
-				if(i % 3 == 0 && cubes[i + 1] == null){
-					cubes[i + 1] = cube;
+			if(tiles[i] == tile){
+				if(i % 3 == 0 && tiles[i + 1] == null){
+					tiles[i + 1] = tile;
 				}
-				else if(i % 3 == 0 && cubes[i + 2] == null){
-					cubes[i + 2] = cube;
+				else if(i % 3 == 0 && tiles[i + 2] == null){
+					tiles[i + 2] = tile;
 				}
-				else if(i % 3 == 1 && cubes[i - 1] == null){
-					cubes[i - 1] = cube;
+				else if(i % 3 == 1 && tiles[i - 1] == null){
+					tiles[i - 1] = tile;
 				}
-				else if(i % 3 == 1 && cubes[i + 1] == null){
-					cubes[i + 1] = cube;
+				else if(i % 3 == 1 && tiles[i + 1] == null){
+					tiles[i + 1] = tile;
 				}
-				else if(i % 3 == 2 && cubes[i - 2] == null){
-					cubes[i - 2] = cube;
+				else if(i % 3 == 2 && tiles[i - 2] == null){
+					tiles[i - 2] = tile;
 				}
-				else if(i % 3 == 2 && cubes[i - 1] == null){
-					cubes[i - 1] = cube;
+				else if(i % 3 == 2 && tiles[i - 1] == null){
+					tiles[i - 1] = tile;
 				}
 				inBag = true;
 			}
 		}
 		if (!inBag){
 			for(int i = 0; i < 108; i++){
-				if(cubes[i] == null){
-					cubes[i] = cube;
+				if(tiles[i] == null){
+					tiles[i] = tile;
 				}
 			}
 		}
@@ -80,7 +79,7 @@ public class Bag {
 	public Bag deepCopy() {
 		Bag bag = new Bag();
 		for (int i = 0; i < 108; i++) {
-			cubes[i] = this.cubes[i];
+			tiles[i] = this.tiles[i];
 		}
 		return bag;
 	}
@@ -89,7 +88,7 @@ public class Bag {
 		boolean empty = true;
 
 		for (int i = 0; i < 108; i++) {
-			if (cubes[i] != null) {
+			if (tiles[i] != null) {
 				empty = false;
 			}
 		}
@@ -97,7 +96,7 @@ public class Bag {
 		return empty;
 	}
 
-	public Cube[] cubesInBag() {
-		return cubes;
+	public Tile[] tilesInBag() {
+		return tiles;
 	}
 }

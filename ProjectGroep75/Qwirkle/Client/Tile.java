@@ -1,5 +1,8 @@
 package Client;
 
+import Client.Color;
+import Client.Shape;
+
 public class Tile {
 	private Color color;
 	private Shape shape;
