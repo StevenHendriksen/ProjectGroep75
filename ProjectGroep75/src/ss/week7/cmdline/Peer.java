@@ -13,8 +13,6 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-import ss.week6.Card;
-
 /**
  * Peer for a simple client-server application
  * @author  Theo Ruys
