@@ -41,6 +41,54 @@ public class Board {
 		tileLocs.put(x + " " + y, tile);
 	}
 
+	public int tileToInt(Tile tile){
+		int result = 0;
+		result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
+		return result;
+	}
+	
+	public Tile intToTile(int i){
+		int color = i % 6;
+		int shape = i - color;
+		return new Tile(intToColor(color), intToShape(shape));
+	}
+	
+	public Shape intToShape(int i) {
+        if (i == 1) {
+            return Shape.CIRCLE;
+        } else if (i == 2) {
+            return Shape.CRISSCROSS;
+        } else if (i == 3) {
+            return Shape.DIAMOND;
+        } else if (i == 4) {
+            return Shape.SQUARE;
+        } else if (i == 5) {
+            return Shape.PLUS;
+        } else if (i == 6) {
+            return Shape.STAR;
+        } else {
+            return null;
+        }
+    }
+	
+	public Color intToColor(int i){
+        if (i == 1) {
+            return Color.RED;
+        } else if (i == 2) {
+            return Color.ORANGE;
+        } else if (i == 3) {
+            return Color.YELLOW;
+        } else if (i == 4) {
+            return Color.GREEN;
+        } else if (i == 5) {
+            return Color.BLUE;
+        } else if (i == 6) {
+            return Color.PURPLE;
+        } else {
+        	return null;
+        }
+	}
+	
 	public void setDIM() {
 		List<String> x = new ArrayList<String>();
 		List<String> y = new ArrayList<String>();

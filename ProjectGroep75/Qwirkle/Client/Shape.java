@@ -20,4 +20,24 @@ public enum Shape {
             return null;
         }
     }
+	
+	public int shapeToInt() {
+        if (this == CIRCLE) {
+            return 1;
+        } else if (this == CRISSCROSS) {
+            return 2;
+        } else if (this == DIAMOND) {
+            return 3;
+        } else if (this == SQUARE) {
+            return 4;
+        } else if (this == PLUS) {
+            return 6;
+        } else if (this == STAR) {
+            return 5;
+        } else {
+            return 0;
+        }
+    }
+	
+
 }
