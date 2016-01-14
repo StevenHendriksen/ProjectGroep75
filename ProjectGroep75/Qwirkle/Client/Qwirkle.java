@@ -1,5 +1,7 @@
 package Client;
 
+import Server.Board;
+
 /**
  * 
  * Executable client class for Qwirkle

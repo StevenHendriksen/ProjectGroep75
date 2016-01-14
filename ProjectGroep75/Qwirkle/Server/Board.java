@@ -1,8 +1,11 @@
-package Client;
+package Server;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import Client.Tile;
+
 import java.util.HashMap;
 
 public class Board {
