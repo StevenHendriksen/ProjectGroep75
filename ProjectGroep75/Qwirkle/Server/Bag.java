@@ -29,7 +29,7 @@ public class Bag {
 			random = (int) Math.floor(Math.random() * 108);
 		}
 
-		randomtile = null;
+		tiles[random] = null;
 
 		return randomtile;
 	}
