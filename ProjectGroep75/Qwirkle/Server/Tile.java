@@ -8,10 +8,10 @@ public class Tile {
 	private Shape shape;
 	private int number;
 
-	public Tile(int number, Color color, Shape shape) {
+	public Tile(Color color, Shape shape) {
 		this.color = color;
 		this.shape = shape;
-		this.number = number;
+		this.getNumber(color, shape);
 	}
 
 	public Tile(int number) {
@@ -27,12 +27,31 @@ public class Tile {
 			if (number == i + 1){
 				return;
 			}
+			
 			if ((i+1) % 6 == 0 && i != 0) {
 				this.shape = shape.other();
 			}
+			
 			this.color = color.other();
 		}
-
+	}
+	
+	public void getNumber(Color color, Shape shape){
+		Color instanceColor = Color.RED;
+		Shape instanceShape = Shape.CIRCLE;
+		
+		for (int i = 0; i < 36; i++) {
+			if (instanceColor == this.color && instanceShape == this.shape){
+				number = i + 1;
+				return;
+			}
+			
+			if ((i+1) % 6 == 0 && i != 0) {
+				instanceShape = instanceShape.other();
+			}
+			
+			instanceColor = instanceColor.other();
+		}
 	}
 
 	public Color hasColor() {

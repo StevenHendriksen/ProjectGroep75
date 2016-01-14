@@ -17,7 +17,6 @@ public class Bag {
 		for (int j = 0; j < 36; j++) {
 			for (int i = 0; i < 3; i++) {
 				tiles[i + j * 3] = new Tile(j + 1);
-				tiles[i + j * 3].getTile(j + 1);
 			}
 		}
 	}

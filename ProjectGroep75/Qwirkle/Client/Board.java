@@ -22,16 +22,16 @@ public class Board {
 	}
 
 	public Board() {
-		tileLocs.put("0 0", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("0 1", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("0 2", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("0 3", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("0 4", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("1 3", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("33 43", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("-40 2", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("3 3", new Tile(Color.RED, Shape.CIRCLE));
-		tileLocs.put("1 -41", new Tile(Color.RED, Shape.CIRCLE));
+		tileLocs.put("0 0", new Tile(1));
+		tileLocs.put("0 1", new Tile(1));
+		tileLocs.put("0 2", new Tile(1));
+		tileLocs.put("0 3", new Tile(1));
+		tileLocs.put("0 4", new Tile(1));
+		tileLocs.put("1 3", new Tile(1));
+		tileLocs.put("33 43", new Tile(1));
+		tileLocs.put("-40 2", new Tile(1));
+		tileLocs.put("3 3", new Tile(1));
+		tileLocs.put("1 -41", new Tile(1));
 		setDIM();
 	}
 
