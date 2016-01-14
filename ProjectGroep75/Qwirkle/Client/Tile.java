@@ -1,77 +1,51 @@
 package Client;
 
-import Client.Color;
-import Client.Shape;
-
 public class Tile {
 	private Color color;
 	private Shape shape;
-	private int number;
-
-	public Tile(Color color, Shape shape) {
+	
+	public Tile(Color color, Shape shape){
 		this.color = color;
 		this.shape = shape;
-		this.getNumber(color, shape);
 	}
-
-	public Tile(int number) {
-		this.number = number;
-		this.getTile(number);
+	
+	public Color hasColor(){
+		return color;
 	}
-
-	public void getTile(int number) {
-		this.color = Color.RED;
-		this.shape = Shape.CIRCLE;
-
-		for (int i = 0; i < 36; i++) {
-			if (number == i + 1){
-				return;
-			}
-			
-			if ((i+1) % 6 == 0 && i != 0) {
-				this.shape = shape.other();
-			}
-			
+	
+	public Shape hasShape(){
+		return shape;
+	}
+	
+	public Tile(int i) {
+		shape = shape.CIRCLE;
+		color = color.RED;
+		int shapeNumber = i % 6;
+		int colorNumber = (i / 6) + 1;
+		if (shapeNumber == 0) {
+			shapeNumber = 6;
+		}
+		intToColor(colorNumber);
+		intToShape(shapeNumber);
+	}
+	
+	public void intToColor(int i){
+		for(int j = 1; j < i; j++){
 			this.color = color.other();
 		}
 	}
 	
-	public void getNumber(Color color, Shape shape){
-		Color instanceColor = Color.RED;
-		Shape instanceShape = Shape.CIRCLE;
-		
-		for (int i = 0; i < 36; i++) {
-			if (instanceColor == this.color && instanceShape == this.shape){
-				number = i + 1;
-				return;
-			}
-			
-			if ((i+1) % 6 == 0 && i != 0) {
-				instanceShape = instanceShape.other();
-			}
-			
-			instanceColor = instanceColor.other();
+	public void intToShape(int i){
+		for(int j = 1; j < i; j++){
+			this.shape = shape.other();
 		}
 	}
-
-	public Color hasColor() {
-		return color;
-	}
-
-	public Shape hasShape() {
-		return shape;
-	}
-
-	public int hasNumber() {
-		return number;
-	}
-
-	public void printTile() {
+	
+	public void printTile(){
 		System.out.println("color: " + color + " shape: " + shape);
 	}
-
-	public String toString() {
+	public String toString(){
 		return color.name().substring(0, 1) + shape.name().substring(0, 2);
 	}
-
+	
 }

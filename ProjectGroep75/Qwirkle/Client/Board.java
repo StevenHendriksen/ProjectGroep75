@@ -3,9 +3,6 @@ package Client;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import Server.Tile;
-
 import java.util.HashMap;
 
 public class Board {
@@ -15,24 +12,18 @@ public class Board {
 	public int DIMym;
 
 	private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
+	List<String> chatEntry = new ArrayList<String>();
 
 	public static void main(String[] args) {
 		Board board = new Board();
-		board.print();
+		board.chatEntry("Stan", "hoi Stan", false);
+		board.chatEntry("you", "hoi Steven", true);
+		board.update();
 	}
 
 	public Board() {
-		tileLocs.put("0 0", new Tile(1));
-		tileLocs.put("0 1", new Tile(1));
-		tileLocs.put("0 2", new Tile(1));
-		tileLocs.put("0 3", new Tile(1));
-		tileLocs.put("0 4", new Tile(1));
-		tileLocs.put("1 3", new Tile(1));
-		tileLocs.put("33 43", new Tile(1));
-		tileLocs.put("-40 2", new Tile(1));
-		tileLocs.put("3 3", new Tile(1));
-		tileLocs.put("1 -41", new Tile(1));
 		setDIM();
+		update();
 	}
 
 	public Board(Map<String, Tile> map) {
@@ -40,58 +31,18 @@ public class Board {
 		setDIM();
 	}
 
-	public void putTile(int x, int y, Tile tile) {
-		tileLocs.put(x + " " + y, tile);
+	public void putTile(int x, int y, int tile) {
+		tileLocs.put(x + " " + y, new Tile(tile));
 	}
 
-	public int tileToInt(Tile tile){
+	public int tileToInt(Tile tile) {
 		int result = 0;
 		result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
 		return result;
 	}
+
 	
-	public Tile intToTile(int i){
-		int color = i % 6;
-		int shape = i - color;
-		return new Tile(intToColor(color), intToShape(shape));
-	}
-	
-	public Shape intToShape(int i) {
-        if (i == 1) {
-            return Shape.CIRCLE;
-        } else if (i == 2) {
-            return Shape.CRISSCROSS;
-        } else if (i == 3) {
-            return Shape.DIAMOND;
-        } else if (i == 4) {
-            return Shape.SQUARE;
-        } else if (i == 5) {
-            return Shape.PLUS;
-        } else if (i == 6) {
-            return Shape.STAR;
-        } else {
-            return null;
-        }
-    }
-	
-	public Color intToColor(int i){
-        if (i == 1) {
-            return Color.RED;
-        } else if (i == 2) {
-            return Color.ORANGE;
-        } else if (i == 3) {
-            return Color.YELLOW;
-        } else if (i == 4) {
-            return Color.GREEN;
-        } else if (i == 5) {
-            return Color.BLUE;
-        } else if (i == 6) {
-            return Color.PURPLE;
-        } else {
-        	return null;
-        }
-	}
-	
+
 	public void setDIM() {
 		List<String> x = new ArrayList<String>();
 		List<String> y = new ArrayList<String>();
@@ -147,8 +98,17 @@ public class Board {
 		return divider;
 	}
 
+	public String createOtherDivider() {
+		String divider = "+";
+		for (int i = DIMxp; i >= DIMxm; i--) {
+			divider = divider + "----";
+		}
+		divider = divider + "---+";
+		return divider;
+	}
+
 	public String createxCoords() {
-		String xCoords = "    |";
+		String xCoords = " y/x|";
 		for (int h = DIMxm; h <= DIMxp; h++) {
 			if (h < 0) {
 				if (h < -9) {
@@ -170,12 +130,11 @@ public class Board {
 	public List<String> createBoardPrint() {
 		List<String> board = new ArrayList<String>();
 		board.add(createxCoords());
-		for (int k = DIMyp; k >= DIMym - 1; k--) {
+		for (int k = DIMyp; k >= DIMym; k--) {
 			board.add(createDivider());
 			board.add(createTileLine(k));
 		}
 		board.add(createDivider());
-		board.add(createxCoords());
 		return board;
 	}
 
@@ -195,7 +154,6 @@ public class Board {
 			}
 		}
 		for (int g = DIMxm; g <= DIMxp; g++) {
-			System.out.println(g + " " + k);
 			String cube = "   ";
 			if (getTile(g, k) != null) {
 				cube = getTile(g, k).toString();
@@ -205,11 +163,63 @@ public class Board {
 		return cubesLine;
 	}
 
-	public void print() {
+	public List<String> createChatBox() {
+		List<String> chat = new ArrayList<String>();
+		chat.add(createOtherDivider());
+		int j = 0;
+		if (chat.size() == 0) {
+		} else {
+			if (chatEntry.size() > 5) {
+				j = 5;
+			} else {
+				j = chatEntry.size();
+			}
+		}
+		if (j != 0) {
+			for (int i = chatEntry.size() - 1; i >= chatEntry.size() - j; i--) {
+				chat.add(chatEntry.get(i));
+				chat.add(createOtherDivider());
+			}
+		}
+		chat.add("| Chat Box:                                                                             |");
+		chat.add(createOtherDivider());
+		return chat;
+	}
+
+	public void chatEntry(String name, String msg, boolean bool) {
+		if (bool) {
+			String message = "| to " + name + ": " + msg;
+			setDIM();
+			System.out.println(createOtherDivider().length());
+			for(int i = 0; i <= createOtherDivider().length() - 9 - name.length() - msg.length() ; i++){
+				message = message + " ";
+			}
+			message = message + "|";
+			chatEntry.add(message);
+		} else {
+			String message = "| from " + name + ": " + msg;
+			setDIM();
+			System.out.println(createOtherDivider().length());
+			for(int i = 0; i <= createOtherDivider().length() - 11 - name.length() - msg.length() ; i++){
+				message = message + " ";
+			}
+			message = message + "|";
+			chatEntry.add(message);
+		}
+	}
+
+	public void clear() {
+		for (int i = 0; i < 50; i++)
+			System.out.println();
+	}
+
+	public void update() {
+		setDIM();
+		clear();
 		List<String> board = createBoardPrint();
+		board.addAll(board.size(), createChatBox());
 		for (int j = board.size(); j > 0; j--) {
 			System.out.println(board.get(j - 1));
 		}
-		System.out.println("Done printing");
 	}
 }
