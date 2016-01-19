@@ -20,4 +20,22 @@ public enum Color {
         	return null;
         }
     }
+	
+	public int colorToInt(){
+        if (this == RED) {
+            return 1;
+        } else if (this == ORANGE) {
+            return 2;
+        } else if (this == YELLOW) {
+            return 3;
+        } else if (this == GREEN) {
+            return 4;
+        } else if (this == BLUE) {
+            return 5;
+        } else if (this == PURPLE) {
+            return 6;
+        } else {
+        	return 0;
+        }
+	}
 }

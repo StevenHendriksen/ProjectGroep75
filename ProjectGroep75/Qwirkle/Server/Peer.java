@@ -1,7 +1,5 @@
 package Server;
 
-import Client.Board;
-
 public class Peer {
 	Serverboard board;
 	Bag bag;

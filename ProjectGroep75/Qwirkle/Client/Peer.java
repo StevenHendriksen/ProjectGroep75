@@ -79,9 +79,7 @@ public class Peer {
 			fullCommand.close();
 		} catch (
 
-		java.util.NoSuchElementException e)
-
-		{
+		java.util.NoSuchElementException e) {
 			System.out.println("Invalid Server command");
 		}
 	}

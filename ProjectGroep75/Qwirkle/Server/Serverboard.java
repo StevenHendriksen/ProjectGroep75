@@ -14,7 +14,7 @@ public class Serverboard {
 	public int DIMyp;
 	public int DIMym;
 
-	private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
+	private Map<String, Servertile> tileLocs = new HashMap<String, Servertile>();
 	List<String> chatEntry = new ArrayList<String>();
 
 	public static void main(String[] args) {
@@ -29,16 +29,16 @@ public class Serverboard {
 		update();
 	}
 
-	public Serverboard(Map<String, Tile> map) {
+	public Serverboard(Map<String, Servertile> map) {
 		tileLocs = map;
 		setDIM();
 	}
 
 	public void putTile(int x, int y, int tile) {
-		tileLocs.put(x + " " + y, new Tile(tile));
+		tileLocs.put(x + " " + y, new Servertile(tile));
 	}
 
-	public int tileToInt(Tile tile) {
+	public int tileToInt(Servertile tile) {
 		int result = 0;
 		result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
 		return result;
@@ -79,13 +79,13 @@ public class Serverboard {
 		return lowest;
 	}
 
-	public Map<String, Tile> getCubeLocs() {
+	public Map<String, Servertile> getCubeLocs() {
 		return tileLocs;
 	}
 
-	public Tile getTile(int k, int g) {
-		Tile result = null;
-		Tile result2 = tileLocs.get(k + " " + g);
+	public Servertile getTile(int k, int g) {
+		Servertile result = null;
+		Servertile result2 = tileLocs.get(k + " " + g);
 		if (result2 != null) {
 			result = result2;
 		}
