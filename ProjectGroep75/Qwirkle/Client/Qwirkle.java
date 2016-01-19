@@ -1,6 +1,6 @@
 package Client;
 
-import Server.Board;
+import Server.Serverboard;
 
 /**
  * 
@@ -12,7 +12,7 @@ import Server.Board;
 
 public class Qwirkle {
 	public static void main(String[] args){
-		Board board = new Board();
+		Serverboard board = new Serverboard();
 		board.putTile(-10, -10, 8);
 		board.putTile(10,10,3);
 		board.putTile(-10,10,31);

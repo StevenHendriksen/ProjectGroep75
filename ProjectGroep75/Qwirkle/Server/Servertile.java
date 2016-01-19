@@ -1,10 +1,10 @@
 package Server;
 
-public class Tile {
+public class Servertile {
 	private Color color;
 	private Shape shape;
 	
-	public Tile(Color color, Shape shape){
+	public Servertile(Color color, Shape shape){
 		this.color = color;
 		this.shape = shape;
 	}
@@ -17,7 +17,7 @@ public class Tile {
 		return shape;
 	}
 	
-	public Tile(int i) {
+	public Servertile(int i) {
 		shape = shape.CIRCLE;
 		color = color.RED;
 		int shapeNumber = i % 6;

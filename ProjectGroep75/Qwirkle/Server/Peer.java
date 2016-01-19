@@ -3,9 +3,9 @@ package Server;
 import Client.Board;
 
 public class Peer {
-	Board board;
+	Serverboard board;
 	Bag bag;
-	Tile tile;
+	Servertile tile;
 
 	
     String CLIENT_MOVE_PUT = "MOVE_PUT";
@@ -18,7 +18,6 @@ public class Peer {
     String CLIENT_MOVE_TRADE = "MOVE_TRADE";
     
     public void moveTrade(int number){
-    	tile.getTile(number);
     	bag.getTile(tile);
     	bag.takeTile();
     }

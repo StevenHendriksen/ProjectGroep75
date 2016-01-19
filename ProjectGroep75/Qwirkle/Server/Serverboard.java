@@ -8,7 +8,7 @@ import Client.Tile;
 
 import java.util.HashMap;
 
-public class Board {
+public class Serverboard {
 	public int DIMxp;
 	public int DIMxm;
 	public int DIMyp;
@@ -18,18 +18,18 @@ public class Board {
 	List<String> chatEntry = new ArrayList<String>();
 
 	public static void main(String[] args) {
-		Board board = new Board();
+		Serverboard board = new Serverboard();
 		board.chatEntry("Stan", "hoi Stan", false);
 		board.chatEntry("you", "hoi Steven", true);
 		board.update();
 	}
 
-	public Board() {
+	public Serverboard() {
 		setDIM();
 		update();
 	}
 
-	public Board(Map<String, Tile> map) {
+	public Serverboard(Map<String, Tile> map) {
 		tileLocs = map;
 		setDIM();
 	}
