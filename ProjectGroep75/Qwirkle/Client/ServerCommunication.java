@@ -7,11 +7,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ServerCommunication {
+public class ServerCommunication extends Thread {
 	Socket echoSocket = null;
 	PrintWriter out = null;
 	String hostName;
 	int portNumber;
+	Peer peer = null;
 
 	public static void main(String[] args) {
 		String hostName = args[0];
@@ -20,36 +21,62 @@ public class ServerCommunication {
 		ServerCommunication sc = new ServerCommunication(hostName, portNumber);
 		sc.Write(input);
 		sc.Write("Close");
-		while(true){
-			
+		while (true) {
+
 		}
 	}
 
 	public ServerCommunication(String hostName, int portNumber) {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
+		peer = new Peer();
 		try {
-			System.out.println("Conect Socket " + hostName + " " + portNumber);
+			System.out.println("Conect Socket " + hostName + ":" + portNumber);
 			echoSocket = new Socket(hostName, portNumber);
+			System.out.println("Connected " + echoSocket);
 			out = new PrintWriter(echoSocket.getOutputStream(), true);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 
+	public void run() {
+		System.out.println("Reading");
+		Read();
+	}
+
 	public void Write(String str) {
 		out.println(str);
-		System.out.println(str);
+		System.out.println("Sent to Server: " + str);
 	}
-	
-	public void Close(){
+
+	public void Close() {
 		try {
 			echoSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void Read() {
+		try {
+			while (true) {
+				BufferedReader inputStream = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+
+				String serverMessage = "";
+				while (!serverMessage.equals("Close")) {
+					serverMessage = inputStream.readLine();
+					if (!serverMessage.equals("") && !serverMessage.equals("Close")) {
+						peer.handleCommand(serverMessage);
+					}
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void ReadAndWrite() {
 		System.out.println("Naar de Server toe:");
 		try {

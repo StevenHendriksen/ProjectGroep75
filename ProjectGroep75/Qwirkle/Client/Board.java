@@ -25,7 +25,6 @@ public class Board {
 	}
 
 	public Board() {
-		setDIM();
 		update();
 	}
 

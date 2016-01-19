@@ -11,20 +11,29 @@ import Server.Serverboard;
  */
 
 public class Qwirkle {
-	public static void main(String[] args){
+	static String hostName = "192.168.1.104";
+	static int portNumber = 673;
+
+	public static void main(String[] args) {
 		Serverboard board = new Serverboard();
+		Peer peer = new Peer();
+		ServerCommunication sc2 = new ServerCommunication(hostName, portNumber);
+		Thread sc = new Thread(sc2);
+		sc2.Write("Hoi Stan");
+		sc2.Write("Close");
+		sc.start();
 		board.putTile(-10, -10, 8);
-		board.putTile(10,10,3);
-		board.putTile(-10,10,31);
-		board.putTile(10,-10,10);
-		board.putTile(0,0,9);
-		board.chatEntry("Steven", "What do you think?", true);
-		board.chatEntry("Steven", "Quite fancy", false);
-		board.chatEntry("Steven", "it's actually quite amazing", true);
-		board.chatEntry("Steven", "yeah agreed", false);
-		board.chatEntry("Steven", "What else should we add?", true);
-		board.chatEntry("Steven", "leaderboards or lobby maybe?", false);
-		board.chatEntry("Steven", "pretty good idea", true);
-		board.update();	
+		board.putTile(10, 10, 3);
+		board.putTile(-10, 10, 31);
+		board.putTile(10, -10, 10);
+		board.putTile(0, 0, 9);
+		board.chatEntry("Steven", "Banter", true);
+		board.chatEntry("Steven", "Banter", false);
+		board.chatEntry("Steven", "Banter", true);
+		board.chatEntry("Steven", "Banter", false);
+		board.chatEntry("Steven", "Banter", true);
+		board.chatEntry("Steven", "Banter", false);
+		board.chatEntry("Steven", "Banter", true);
+		board.update();
 	}
 }
