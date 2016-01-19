@@ -6,7 +6,6 @@ import java.io.*;
 public class Server extends Thread {
 	ServerSocket server = null;
 	Socket connection = null;
-	WriteThread write = null;
 	PrintWriter out;
 
 	public Server() {
