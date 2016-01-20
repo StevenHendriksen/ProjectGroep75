@@ -8,7 +8,7 @@ public class Server extends Thread {
 	Socket connection = null;
 	PrintWriter out;
 
-	public Server() {
+	public Server(){
 		try {
 			server = new ServerSocket(673);
 			System.out.println(
