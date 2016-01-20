@@ -16,6 +16,7 @@ public class Board {
 
 	private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
 	List<String> chatEntry = new ArrayList<String>();
+	List<String> consoleEntry = new ArrayList<String>();
 
 	public static void main(String[] args) {
 		Board board = new Board();
@@ -25,7 +26,6 @@ public class Board {
 	}
 
 	public Board() {
-		update();
 	}
 
 	public Board(Map<String, Tile> map) {
@@ -43,8 +43,6 @@ public class Board {
 		return result;
 	}
 
-	
-
 	public void setDIM() {
 		List<String> x = new ArrayList<String>();
 		List<String> y = new ArrayList<String>();
@@ -55,7 +53,7 @@ public class Board {
 		DIMxp = getHighest(x);
 		DIMyp = getHighest(y);
 		DIMxm = getLowest(x);
-		DIMym = getLowest(x);
+		DIMym = getLowest(y);
 	}
 
 	public int getHighest(List<String> list) {
@@ -179,35 +177,62 @@ public class Board {
 		}
 		if (j != 0) {
 			for (int i = chatEntry.size() - 1; i >= chatEntry.size() - j; i--) {
-				chat.add(chatEntry.get(i));
-				chat.add(createOtherDivider());
+				chat.add(convertFormat(chatEntry.get(i)));
 			}
 		}
-		chat.add("| Chat Box:                                                                             |");
+		String message = "Chat box:";
+		chat.add(convertFormat(message));
 		chat.add(createOtherDivider());
 		return chat;
 	}
 
-	public void chatEntry(String name, String msg, boolean bool) {
-		if (bool) {
-			String message = "| to " + name + ": " + msg;
-			setDIM();
-			System.out.println(createOtherDivider().length());
-			for(int i = 0; i <= createOtherDivider().length() - 9 - name.length() - msg.length() ; i++){
-				message = message + " ";
-			}
-			message = message + "|";
-			chatEntry.add(message);
+	public List<String> createConsole() {
+		List<String> console = new ArrayList<String>();
+		console.add(createOtherDivider());
+		int j = 0;
+		if (console.size() == 0) {
 		} else {
-			String message = "| from " + name + ": " + msg;
-			setDIM();
-			System.out.println(createOtherDivider().length());
-			for(int i = 0; i <= createOtherDivider().length() - 11 - name.length() - msg.length() ; i++){
-				message = message + " ";
+			if (consoleEntry.size() > 5) {
+				j = 5;
+			} else {
+				j = consoleEntry.size();
 			}
-			message = message + "|";
-			chatEntry.add(message);
 		}
+		if (j != 0) {
+			for (int i = consoleEntry.size() - 1; i >= consoleEntry.size() - j; i--) {
+				console.add(convertFormat(consoleEntry.get(i)));
+			}
+		}
+		String message = "Console:";
+		console.add(convertFormat(message));
+		console.add(createOtherDivider());
+		return console;
+	}
+
+	public String convertFormat(String msg) {
+		String message = "| " + msg;
+		setDIM();
+		int j = createOtherDivider().length() - message.length() - 2;
+		for (int i = 0; i <= j; i++) {
+			message = message + " ";
+		}
+		message = message + "|";
+		return message;
+	}
+
+	public void consoleEntry(String msg) {
+		consoleEntry.add("  " + msg);
+	}
+
+	public void chatEntry(String name, String msg, boolean bool) {
+		String message = "";
+		if (bool) {
+			message = "  to " + name + ": " + msg;
+		} else {
+
+			message = "  from " + name + ": " + msg;
+		}
+		chatEntry.add(message);
 	}
 
 	public void clear() {
@@ -218,8 +243,9 @@ public class Board {
 	public void update() {
 		setDIM();
 		clear();
-		List<String> board = createBoardPrint();
-		board.addAll(board.size(), createChatBox());
+		List<String> board = createChatBox();
+		board.addAll(board.size(), createBoardPrint());
+		board.addAll(board.size(), createConsole());
 		for (int j = board.size(); j > 0; j--) {
 			System.out.println(board.get(j - 1));
 		}

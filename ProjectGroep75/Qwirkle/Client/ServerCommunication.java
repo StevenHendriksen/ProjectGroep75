@@ -14,29 +14,26 @@ public class ServerCommunication extends Thread {
 	int portNumber;
 	Peer peer = null;
 
-	public static void main(String[] args) {
-		String hostName = args[0];
-		int portNumber = Integer.parseInt(args[1]);
-		String input = args[2];
-		ServerCommunication sc = new ServerCommunication(hostName, portNumber);
-		sc.Write(input);
-		sc.Write("Close");
-		while (true) {
-
-		}
-	}
-
-	public ServerCommunication(String hostName, int portNumber) {
+	/*
+	 * public static void main(String[] args) { String hostName = args[0]; int
+	 * portNumber = Integer.parseInt(args[1]); String input = args[2];
+	 * ServerCommunication sc = new ServerCommunication(hostName, portNumber,
+	 * new Board(), new Peer()); sc.Write(input); sc.Write("Close"); while
+	 * (true) {
+	 * 
+	 * } }
+	 */
+	public ServerCommunication(String hostName, int portNumber, Board board, Peer peer) {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
-		peer = new Peer();
+		this.peer = peer;
 		try {
-			System.out.println("Conect Socket " + hostName + ":" + portNumber);
+			System.out.println("Conecting Socket " + hostName + ":" + portNumber);
 			echoSocket = new Socket(hostName, portNumber);
 			System.out.println("Connected " + echoSocket);
 			out = new PrintWriter(echoSocket.getOutputStream(), true);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e2) {
+			System.out.println("Failed to connect");
 		}
 	}
 
