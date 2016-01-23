@@ -15,8 +15,9 @@ public class Board {
 	public int DIMym;
 
 	private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
-	List<String> chatEntry = new ArrayList<String>();
-	List<String> consoleEntry = new ArrayList<String>();
+	private List<String> chatEntry = new ArrayList<String>();
+	private List<String> consoleEntry = new ArrayList<String>();
+	private Tile[] hand = {};
 
 	public static void main(String[] args) {
 		Board board = new Board();
@@ -31,6 +32,10 @@ public class Board {
 	public Board(Map<String, Tile> map) {
 		tileLocs = map;
 		setDIM();
+	}
+
+	public void setHand(Tile[] tiles) {
+		hand = tiles;
 	}
 
 	public void putTile(int x, int y, int tile) {
@@ -192,8 +197,8 @@ public class Board {
 		int j = 0;
 		if (console.size() == 0) {
 		} else {
-			if (consoleEntry.size() > 5) {
-				j = 5;
+			if (consoleEntry.size() > 10) {
+				j = 10;
 			} else {
 				j = consoleEntry.size();
 			}
@@ -239,13 +244,26 @@ public class Board {
 		for (int i = 0; i < 50; i++)
 			System.out.println();
 	}
+	
+	public List<String> createHandPrint(){
+		List<String> handPrints = new ArrayList<String>();
+		
+		String handPrint = "Tiles:";
+		for (int k = 0; k < hand.length; k++){
+			handPrint = handPrint + " " +  hand[k];
+		}
+		handPrints.add(convertFormat(handPrint));
+		handPrints.add(createOtherDivider());
+		return handPrints;
+	}
 
 	public void update() {
 		setDIM();
 		clear();
-		List<String> board = createChatBox();
+		List<String> board = createConsole();
+		board.addAll(board.size(), createHandPrint());
 		board.addAll(board.size(), createBoardPrint());
-		board.addAll(board.size(), createConsole());
+		board.addAll(board.size(), createChatBox());
 		for (int j = board.size(); j > 0; j--) {
 			System.out.println(board.get(j - 1));
 		}

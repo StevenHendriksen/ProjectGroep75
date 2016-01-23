@@ -65,6 +65,7 @@ public class ServerCommunication extends Thread {
 					serverMessage = inputStream.readLine();
 					if (!serverMessage.equals("") && !serverMessage.equals("Close")) {
 						peer.handleCommand(serverMessage);
+						System.out.println(serverMessage);
 					}
 				}
 			}

@@ -6,6 +6,7 @@ public class Peer {
 
 	private Board board = null;
 	private Qwirkle game = null;
+	private Player player = null;
 
 	public static void main(String[] args) {
 		Qwirkle game = new Qwirkle();
@@ -22,9 +23,10 @@ public class Peer {
 		game.peer.handleCommand("GAMEEND");
 	}
 
-	public Peer(Board board, Qwirkle game) {
+	public Peer(Board board, Qwirkle game, Player player) {
 		this.board = board;
 		this.game = game;
+		this.player = player;
 	}
 
 	public void handleCommand(String cmd) {
@@ -35,15 +37,15 @@ public class Peer {
 			Scanner fullCommand = new Scanner(str);
 
 			String command = fullCommand.next();
-			if (command.equals("IDENTIFYOK")) {
+			if (command.equals("SERVER_IDENTIFYOK")) {
 				System.out.println("Succesfully connected");
 				game.connected();
 			}
-			if (command.equals("GAMESTART")) {
+			if (command.equals("SERVER_GAMESTART")) {
 				System.out.println("Game is starting");
 				game.Start();
 			}
-			if (command.equals("GAMEEND")) {
+			if (command.equals("SERVER_GAMEEND")) {
 				System.out.println("Game has ended");
 				String name = fullCommand.next();
 				String output = name + " " + fullCommand.next();
@@ -52,25 +54,25 @@ public class Peer {
 				}
 				game.End(output);
 			}
-			if (command.equals("TURN")) {
+			if (command.equals("SERVER_TURN")) {
 				String name = fullCommand.next();
 				System.out.println("Turn: " + name);
 				game.turn(name);
 			}
-			if (command.equals("PASS")) {
+			if (command.equals("SERVER_PASS")) {
 				String name = fullCommand.next();
 				System.out.println("Player Passed: " + name);
 				game.pass(name);
 			}
-			if (command.equals("DRAWTILE")) {
+			if (command.equals("SERVER_DRAWTILE")) {
 				String output = "Tiles Drawn:";
 				while (fullCommand.hasNext()) {
-					output = output + " " + fullCommand.next();
+					//adds the previously mentioned
+					player.addTile(new Tile(new Integer(fullCommand.next())));
 				}
 				System.out.println(output);
 			}
-			if (command.equals("MOVEOK_PUT")) {
-				String output = "Tiles placed:";
+			if (command.equals("SERVER_MOVEOK_PUT")) {
 				Scanner fullCommandTiles = new Scanner(cmd);
 				fullCommandTiles.next();
 				while (fullCommandTiles.hasNext()) {
@@ -83,20 +85,19 @@ public class Peer {
 					System.out.println("putTile: " + x + y + tileInt);
 					board.putTile(x, y, tileInt);
 					in.close();
-					
-
+					board.consoleEntry("added: " + tile);
 				}
-				System.out.println("tiles put");
-				
+				System.out.println("tiles places");
+
 				fullCommandTiles.close();
 			}
-			if (command.equals("MOVEOK_TRADE")) {
+			if (command.equals("SERVER_MOVEOK_TRADE")) {
 				System.out.println("Tiles traded: " + fullCommand.next());
 			}
-			if (command.equals("ERROR")) {
+			if (command.equals("SERVER_ERROR")) {
 				System.out.println("Error: " + fullCommand.next());
 			}
-			if (command.equals("CHATOK")) {
+			if (command.equals("SERVER_CHATOK")) {
 				String name = fullCommand.next();
 				String output = name + " " + fullCommand.next();
 				while (fullCommand.hasNext()) {
@@ -115,7 +116,7 @@ public class Peer {
 			e.printStackTrace();
 			scan.close();
 			board.update();
-			
+
 		}
 	}
 }
