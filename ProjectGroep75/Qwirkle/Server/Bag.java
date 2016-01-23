@@ -11,6 +11,12 @@ public class Bag {
 		newBag();
 	}
 
+	public static void main(String[] args){
+		Bag bag = new Bag();
+		
+		bag.takeTile();
+	}
+	
 	//OK
 	public void newBag() {
 		tiles = new Servertile[108];
@@ -23,23 +29,24 @@ public class Bag {
 
 	//OK
 	public Servertile takeTile() {
-		Servertile result;
+		Servertile result = null;
 		
 		List<Servertile> baglist = new ArrayList<Servertile>();
+		
 		for(int i = 0; i<108; i++){
-			if (tiles[i] == null){
+			if (tiles[i] != null){
 				baglist.add(tiles[i]);
 			}
 		}
 			
-		int random = (int) Math.floor(Math.random() * baglist.size());
+		if(baglist.size() > 0){
+			int random = (int) Math.floor(Math.random() * baglist.size());
+			result = baglist.get(random);
 
-		
-		result = baglist.get(random);
-
-		for(int j = 0; j<108; j++){
-			if(tiles[random] == tiles[j]){
-				tiles[random] = null;
+			for(int j = 0; j<108; j++){
+				if(baglist.get(random) == tiles[j]){
+					tiles[random] = null;
+				}
 			}
 		}
 		
