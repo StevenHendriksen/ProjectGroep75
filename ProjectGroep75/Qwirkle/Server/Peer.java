@@ -1,24 +1,97 @@
 package Server;
 
-public class Peer {
-	Serverboard board;
-	Bag bag;
-	Servertile tile;
+import java.util.Scanner;
 
-	
-    String CLIENT_MOVE_PUT = "MOVE_PUT";
-    
-    public void movePut(int x, int y, int tile){
-    	board.putTile(x, y, tile);
-    }
-    
-    
-    String CLIENT_MOVE_TRADE = "MOVE_TRADE";
-    
-    public void moveTrade(int number){
-    	bag.getTile(tile);
-    	bag.takeTile();
-    }
-    
-    
+public class Peer {
+	Gamelogic gamelogic;
+	Player player;
+	Serverboard board;
+
+	public Peer(Gamelogic gamelogic, Serverboard board) {
+		this.gamelogic = gamelogic;
+		this.board = board;
+	}
+
+	public String handleCommand(String cmd) {
+		try {
+			String result = "";
+			Scanner scan = new Scanner(cmd);
+			String str = scan.nextLine();
+			Scanner fullCommand = new Scanner(str);
+
+			String command = fullCommand.next();
+
+			if (command.equals("CLIENT_IDENTIFY")) {
+				this.player = new Player(fullCommand.next());
+				gamelogic.putPlayer(player);
+				result = "SERVER_IDENTIFYOK";
+			} 
+			else if (command.equals("CLIENT_DRAWTILE")) {
+				gamelogic.turn();
+				for (int i = 0; i < 6; i++) {
+					if (player.tiles[i] == null) {
+						player.tiles[i] = gamelogic.drawTile();
+					}
+				}
+				result = "SERVER_DRAWTILE";
+			} 
+			else if (command.equals("CLIENT_QUIT")) {
+				result = "SERVER_GAMEEND";
+			} 
+			else if (command.equals("CLIENT_QUEUE")) {
+				int numberplayers = new Integer(fullCommand.next());
+
+				if (gamelogic.gameStart(numberplayers)) {
+					result = "SERVER_GAMESTART";
+
+					for (int i = 0; i < numberplayers; i++) {
+						result = result + " " + gamelogic.hasPlayers().get(i).hasName();
+					}
+				}
+			} 
+			else if (command.equals("CLIENT_MOVE_PUT")) {
+				result = "SERVER_MOVEOK_PUT";
+				Scanner fullCommandTiles = new Scanner(cmd);
+				fullCommandTiles.next();
+				while (fullCommandTiles.hasNext()) {
+					String tile = fullCommandTiles.next();
+					String tile2 = tile.replaceAll("[^\\dA-Za-z ]", " ");
+					Scanner in = new Scanner(tile2);
+					int tileInt = new Integer(in.next());
+					int x = new Integer(in.next());
+					int y = new Integer(in.next());
+					if (gamelogic.moveOkPut(tileInt, x, y).equals("MOVEOK_PUT")) {
+						board.putTile(x, y, tileInt);
+						result = result + " " + tileInt + "@" + x + "," + y;
+					} else {
+						result = "SERVER_ERROR: INVALID MOVE";
+					}
+					in.close();
+				}
+				fullCommandTiles.close();
+			} 
+			else if (command.equals("CLIENT_MOVE_TRADE")) {
+				result = "SERVER_MOVEOK_TRADE";
+
+				while (fullCommand.hasNext()) {
+					int inttile = new Integer(fullCommand.next());
+					if (gamelogic.moveOkTrade() == "MOVEOK_TRADE") {
+						gamelogic.moveTrade(inttile);
+					} else {
+						result = "SERVER_ERROR: INVALID TRADE";
+					}
+				}
+			}
+
+			scan.close();
+			fullCommand.close();
+			return result;
+		} 
+		
+		catch (java.util.NoSuchElementException e){
+			String result = "Invalid Server command";
+			e.printStackTrace();
+			return result;
+		}
+	}
 }

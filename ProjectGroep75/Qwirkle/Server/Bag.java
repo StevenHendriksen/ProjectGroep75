@@ -1,17 +1,17 @@
 package Server;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Bag {
 	private Servertile[] tiles;
-
+	private Servertile tile;
+	
 	public Bag() {
+		newBag();
 	}
 
-	public static void main(String[] args) {
-		Bag bag = new Bag();
-
-		bag.newBag();
-	}
-
+	//OK
 	public void newBag() {
 		tiles = new Servertile[108];
 		for (int j = 0; j < 36; j++) {
@@ -21,53 +21,41 @@ public class Bag {
 		}
 	}
 
+	//OK
 	public Servertile takeTile() {
-		int random = (int) Math.floor(Math.random() * 108);
-		Servertile randomtile = tiles[random];
-
-		while (randomtile == null) {
-			random = (int) Math.floor(Math.random() * 108);
+		Servertile result;
+		
+		List<Servertile> baglist = new ArrayList<Servertile>();
+		for(int i = 0; i<108; i++){
+			if (tiles[i] == null){
+				baglist.add(tiles[i]);
+			}
 		}
+			
+		int random = (int) Math.floor(Math.random() * baglist.size());
 
-		tiles[random] = null;
+		
+		result = baglist.get(random);
 
-		return randomtile;
+		for(int j = 0; j<108; j++){
+			if(tiles[random] == tiles[j]){
+				tiles[random] = null;
+			}
+		}
+		
+		return result;
 	}
 
-	public void getTile(Servertile tile){
-		boolean inBag = false;
+	//Ok
+	public void putTile(int tile){
 		for(int i = 0; i < 108; i++){
-			if(tiles[i] == tile){
-				if(i % 3 == 0 && tiles[i + 1] == null){
-					tiles[i + 1] = tile;
-				}
-				else if(i % 3 == 0 && tiles[i + 2] == null){
-					tiles[i + 2] = tile;
-				}
-				else if(i % 3 == 1 && tiles[i - 1] == null){
-					tiles[i - 1] = tile;
-				}
-				else if(i % 3 == 1 && tiles[i + 1] == null){
-					tiles[i + 1] = tile;
-				}
-				else if(i % 3 == 2 && tiles[i - 2] == null){
-					tiles[i - 2] = tile;
-				}
-				else if(i % 3 == 2 && tiles[i - 1] == null){
-					tiles[i - 1] = tile;
-				}
-				inBag = true;
-			}
-		}
-		if (!inBag){
-			for(int i = 0; i < 108; i++){
-				if(tiles[i] == null){
-					tiles[i] = tile;
-				}
+			if(tiles[i] == null){
+				tiles[i] = this.tile;
 			}
 		}
 	}
 
+	//Ok
 	public Bag deepCopy() {
 		Bag bag = new Bag();
 		for (int i = 0; i < 108; i++) {
@@ -76,6 +64,7 @@ public class Bag {
 		return bag;
 	}
 
+	//Ok
 	public boolean emptyBag() {
 		boolean empty = true;
 
@@ -88,6 +77,7 @@ public class Bag {
 		return empty;
 	}
 
+	//Ok
 	public Servertile[] tilesInBag() {
 		return tiles;
 	}

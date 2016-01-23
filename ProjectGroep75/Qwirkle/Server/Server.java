@@ -7,14 +7,22 @@ public class Server extends Thread {
 	ServerSocket server = null;
 	Socket connection = null;
 	PrintWriter out;
+	Gamelogic gamelogic;
+	Serverboard board;
+	Player player;
+	Peer peer;
+	Bag bag;
 
-	public Server(){
+	public Server() {
 		try {
-			server = new ServerSocket(673);
+			server = new ServerSocket(667);
+			bag = new Bag();
+			board = new Serverboard();
+			gamelogic = new Gamelogic(board, bag);
+			peer = new Peer(gamelogic, board);
 			System.out.println(
-					"Waiting for client on port 673 swith IP-adress: " + Inet4Address.getLocalHost().getHostAddress());
+					"Waiting for client on port 666 swith IP-adress: " + Inet4Address.getLocalHost().getHostAddress());
 			connection = server.accept();
-			System.out.println("Connection established.");
 			out = new PrintWriter(connection.getOutputStream(), true);
 		} catch (Exception e) {
 			System.out.println("Error while trying to make a server: " + e);
@@ -39,13 +47,16 @@ public class Server extends Thread {
 				String clientMessage = "";
 
 				while (!clientMessage.equals("Close")) {
-					clientMessage = inputStream.readLine();
-					if (!clientMessage.equals("") && !clientMessage.equals("Close")) {
+					if(!clientMessage.equals("")){
 						System.out.println(clientMessage);
+						write(peer.handleCommand(clientMessage));
+						if(peer.handleCommand(clientMessage) == "SERVER_GAMEEND"){
+							this.close();
+						}
 					}
-				}
 
-				write("IDENTIFYOK");
+					clientMessage = inputStream.readLine();
+				}
 			}
 
 		} catch (IOException e) {
@@ -64,6 +75,5 @@ public class Server extends Thread {
 
 	public void write(String str) {
 		out.println(str);
-		System.out.println("shit geprint");
 	}
 }

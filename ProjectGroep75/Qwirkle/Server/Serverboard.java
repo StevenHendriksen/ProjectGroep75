@@ -25,8 +25,6 @@ public class Serverboard {
 	}
 
 	public Serverboard() {
-		setDIM();
-		update();
 	}
 
 	public Serverboard(Map<String, Servertile> map) {

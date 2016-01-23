@@ -1,5 +1,7 @@
 package Server;
 
+import Client.Tile;
+
 public class Servertile {
 	private Color color;
 	private Shape shape;
@@ -7,14 +9,6 @@ public class Servertile {
 	public Servertile(Color color, Shape shape){
 		this.color = color;
 		this.shape = shape;
-	}
-	
-	public Color hasColor(){
-		return color;
-	}
-	
-	public Shape hasShape(){
-		return shape;
 	}
 	
 	public Servertile(int i) {
@@ -29,6 +23,14 @@ public class Servertile {
 		intToShape(shapeNumber);
 	}
 	
+	public Color hasColor(){
+		return color;
+	}
+	
+	public Shape hasShape(){
+		return shape;
+	}
+	
 	public void intToColor(int i){
 		for(int j = 1; j < i; j++){
 			this.color = color.other();
@@ -40,6 +42,13 @@ public class Servertile {
 			this.shape = shape.other();
 		}
 	}
+	
+	public int tileToInt(Servertile tile) {
+		int result = 0;
+		result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
+		return result;
+	}
+
 	
 	public void printTile(){
 		System.out.println("color: " + color + " shape: " + shape);
