@@ -44,6 +44,9 @@ public class lobby {
 	}
 
 	public void Print() {
+		for (int i = 0; i < 50; i++){
+			System.out.println();
+		}
 		List<String> lobby = createLobby();
 		for (int j = lobby.size(); j > 0; j--) {
 			System.out.println(lobby.get(j - 1));
@@ -53,5 +56,6 @@ public class lobby {
 	public void Connected(String ip, int port) {
 		connectedIp = ip;
 		this.port = port;
+		Print();
 	}
 }

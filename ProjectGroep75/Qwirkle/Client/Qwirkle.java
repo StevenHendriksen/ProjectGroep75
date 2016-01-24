@@ -62,6 +62,8 @@ public class Qwirkle {
 		board.update();
 	}
 
+	// ------------------ Constructor ------------------------
+	
 	public Qwirkle() {
 		// A little interface for the start to ask for the ip/port and to start
 		// up any neccesary things
@@ -90,7 +92,11 @@ public class Qwirkle {
 			System.out.println("Re-enter name: ");
 			name = in.nextLine();
 		}
-		board = new Board();
+		if (functions.contains("CHAT")) {
+			board = new Board(true);
+		} else {
+			board = new Board(false);
+		}
 		player = new Player(name);
 		peer = new Peer(board, this, player);
 		lobby = new lobby();
@@ -126,6 +132,10 @@ public class Qwirkle {
 
 	public void pass(String name) {
 		System.out.println("Pass: " + name);
+	}
+
+	public lobby getLobby() {
+		return lobby;
 	}
 
 	public void help() {

@@ -1,6 +1,8 @@
 package Client;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Peer {
 
@@ -58,19 +60,20 @@ public class Peer {
 				String name = fullCommand.next();
 				System.out.println("Turn: " + name);
 				game.turn(name);
+				board.update();
 			}
 			if (command.equals("SERVER_PASS")) {
 				String name = fullCommand.next();
 				System.out.println("Player Passed: " + name);
 				game.pass(name);
+				board.update();
 			}
 			if (command.equals("SERVER_DRAWTILE")) {
-				String output = "Tiles Drawn:";
 				while (fullCommand.hasNext()) {
-					//adds the previously mentioned
+					// adds the previously mentioned
 					player.addTile(new Tile(new Integer(fullCommand.next())));
 				}
-				System.out.println(output);
+				board.update();
 			}
 			if (command.equals("SERVER_MOVEOK_PUT")) {
 				Scanner fullCommandTiles = new Scanner(cmd);
@@ -88,8 +91,8 @@ public class Peer {
 					board.consoleEntry("added: " + tile);
 				}
 				System.out.println("tiles places");
-
 				fullCommandTiles.close();
+				board.update();
 			}
 			if (command.equals("SERVER_MOVEOK_TRADE")) {
 				System.out.println("Tiles traded: " + fullCommand.next());
@@ -106,11 +109,16 @@ public class Peer {
 				System.out.println(output);
 				board.chatEntry(name, output, true);
 			}
+			if (command.equals("SERVER_LOBBY")) {
+				while (fullCommand.hasNext()) {
+					game.getLobby().addPlayer(fullCommand.next());
+				}
+				game.getLobby().Print();
+			}
 			scan.close();
 			fullCommand.close();
-			board.update();
+			
 		} catch (
-
 		java.util.NoSuchElementException e) {
 			System.out.println("Invalid Server command: " + str);
 			e.printStackTrace();
