@@ -4,7 +4,7 @@ package Client;
  *Board;
  * 
  * @author Stan Peters en Steven Hendriksen
- * @version 1.0
+ * @version $Revision: 1.0 $
  */
 
 import java.util.ArrayList;

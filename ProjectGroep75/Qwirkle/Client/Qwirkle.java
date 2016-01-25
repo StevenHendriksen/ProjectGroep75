@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 
 public class Qwirkle {
+	// ------------------ Instance variables ----------------
 	static String hostName = "192.168.1.104";
 	static int portNumber = 673;
 	private Board board;
@@ -20,7 +21,12 @@ public class Qwirkle {
 	private static final String functions = "CHAT";
 	private lobby lobby;
 	private Player player;
-
+	
+	/**
+	 * Main used for testing purposes mainly
+	 * @param args
+	 */
+	
 	public static void main(String[] args) {
 		Qwirkle qwirkle = new Qwirkle();
 		qwirkle.help();
@@ -33,6 +39,10 @@ public class Qwirkle {
 		qwirkle.sc.Write("CLIENT_MOVE_PUT 1@0,0 7@0,1 13@0,2");
 
 	}
+	
+	/**
+	 * Test method used to quickly insert a lot of commands that would normally come from the server
+	 */
 
 	public void test() {
 		peer.handleCommand("GAMESTART");
@@ -63,10 +73,12 @@ public class Qwirkle {
 	}
 
 	// ------------------ Constructor ------------------------
+
+	/**
+	 * Qwirkle constructor, used to start an instance of Qwirkle, asks for some basic information like ip of server, port, alias
+	 */
 	
 	public Qwirkle() {
-		// A little interface for the start to ask for the ip/port and to start
-		// up any neccesary things
 		System.out.println("Welcome to Qwirkle, to connect to a server, enter the following");
 
 		Scanner in = new Scanner(System.in);
@@ -112,31 +124,56 @@ public class Qwirkle {
 		in.close();
 	}
 
+	
+	/**
+	 * Starts the actual game instead of the start up screen
+	 */
+	
 	public void Start() {
 		// creates the board and does the main thing
 		board.update();
 	}
+	
+	/**
+	 * Called when the game ends and shows the scores of all the players
+	 */
 
 	public void End(String str) {
 		// End screen
 		board.clear();
 		System.out.println(str);
 	}
-
-	public void connected() {
-	}
-
+	
+	/**
+	 * sets the turn of the player to the name provided
+	 * @param name
+	 */
+	
 	public void turn(String name) {
 		System.out.println("Turn: " + name);
 	}
+	
+	/**
+	 * Used to indicate that the player passed
+	 * @param name
+	 */
 
 	public void pass(String name) {
 		System.out.println("Pass: " + name);
 	}
+	
+	/**
+	 * returns the instance of lobby
+	 * @return
+	 */
 
 	public lobby getLobby() {
 		return lobby;
 	}
+	
+	/**
+	 * prints all the commands you can use
+	 */
 
 	public void help() {
 		System.out.println("Available Commands:");

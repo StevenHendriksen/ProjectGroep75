@@ -1,8 +1,13 @@
 package Client;
 
+/**
+ * Peer for the command send by the server
+ * 
+ * @author Stan peters en Steven Hendriksen
+ * @version $Revision: 1.0 $
+ */
+
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Peer {
 
@@ -30,6 +35,11 @@ public class Peer {
 		this.game = game;
 		this.player = player;
 	}
+	
+	public Peer(){
+		board = new Board(false);
+		player = new Player("GenericName");
+	}
 
 	public void handleCommand(String cmd) {
 		Scanner scan = new Scanner(cmd);
@@ -41,7 +51,6 @@ public class Peer {
 			String command = fullCommand.next();
 			if (command.equals("SERVER_IDENTIFYOK")) {
 				System.out.println("Succesfully connected");
-				game.connected();
 			}
 			if (command.equals("SERVER_GAMESTART")) {
 				System.out.println("Game is starting");
