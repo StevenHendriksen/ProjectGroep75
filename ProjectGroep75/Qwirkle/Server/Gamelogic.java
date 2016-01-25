@@ -190,59 +190,77 @@ public class Gamelogic {
 	public void score(int x, int y, int tile) {
 		this.tile = new Servertile(tile);
 		int score = 1;
-
+		int qwirkle1 = 1;
+		int qwirkle2 = 1;
+		
 		System.out.println(board.getTile(x + 1, y));
 		if (board.getTile(x + 1, y) != null) {
 			if (board.getTile(x + 1, y).hasColor().equals(this.tile.hasColor())) {
 				score = score + 1;
+				qwirkle1 = qwirkle1 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x + i + 1, y) != null
 							&& board.getTile(x + i + 1, y).hasColor() == board.getTile(x + i, y).hasColor()) {
 						score = score + 1;
+						qwirkle1 = qwirkle1 + 1;
 					} else {
 						break;
 					}
 				}
 			}
-			if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
+			else if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
+				qwirkle2 = qwirkle2 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x + i + 1, y) != null
 							&& board.getTile(x + i + 1, y).hasShape() == board.getTile(x + i, y).hasShape()) {
 						score = score + 1;
+						qwirkle2 = qwirkle2 + 1;
 					} else {
 						break;
 					}
 				}
+			}
+			if(qwirkle1 == 6 || qwirkle2 == 6){
+				score = score + 6;
 			}
 		}
 
 		if (board.getTile(x - 1, y) != null) {
 			if (board.getTile(x - 1, y).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
+				qwirkle1 = qwirkle1 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x - i - 1, y) != null
 							&& board.getTile(x - i - 1, y).hasColor() == board.getTile(x - i, y).hasColor()) {
 						score = score + 1;
+						qwirkle1 = qwirkle1 + 1;
 					} else {
 						break;
 					}
 				}
 			}
-			if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
+			else if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
+				qwirkle2 = qwirkle2 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x - i - 1, y) != null
 							&& board.getTile(x - i - 1, y).hasShape() == board.getTile(x - i, y).hasShape()) {
 						score = score + 1;
+						qwirkle2 = qwirkle2 + 1;
 					} else {
 						break;
 					}
 				}
 			}
+			if(qwirkle1 == 6 || qwirkle2 == 6){
+				score = score + 6;
+			}
 		}
 
 		if (board.getTile(x, y + 1) != null) {
+			int qwirkle1 = 1;
+			int qwirkle2 = 1;
 			if (score > 1) {
 				score = score + 1;
 			}
