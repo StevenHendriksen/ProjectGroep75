@@ -25,7 +25,6 @@ public class Peer {
 
 			if (command.equals("CLIENT_IDENTIFY")) {
 				this.player = new Player(fullCommand.next(), bag);
-				System.out.println("Player put: " + player.hasName() + "    " + this);
 				gamelogic.putPlayer(player);
 				result = "SERVER_IDENTIFYOK";
 			} 
@@ -33,8 +32,6 @@ public class Peer {
 				result = "LOBBYOK";
 
 				for(int i = 1; i < gamelogic.hasPlayers().size(); i++){
-					System.out.println(gamelogic.hasPlayers().size());
-					System.out.println("HENK      " + gamelogic.hasPlayers().get(i).hasName());
 					result = result + " " + gamelogic.hasPlayers().get(i).hasName();
 				}
 				

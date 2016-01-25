@@ -120,19 +120,19 @@ public class Gamelogic {
 	// Ok
 	public void putPlayer(Player player) {
 		boolean result = true;
-		
-		if(players.size() != 0){
-			for(int i = 0; i < players.size(); i++){
-				if(players.get(i).hasName().equals(player.hasName())){
+
+		if (players.size() != 0) {
+			for (int i = 0; i < players.size(); i++) {
+				if (players.get(i).hasName().equals(player.hasName())) {
 					result = false;
+					break;
 				}
 			}
-		}
-		else{
+		} else {
 			players.add(player);
 		}
 		
-		if(result){
+		if (result && players.size()!= 0) {
 			players.add(player);
 		}
 	}
@@ -146,12 +146,17 @@ public class Gamelogic {
 	public boolean gameStart(int size) {
 		boolean result = false;
 
-		if (players.size() == size && size > 1 && size < 5) {
+		if (players.size() >= size && size > 1 && size < 5) {
 			result = true;
 		}
 
-		for (int i = 0; i < players.size(); i++) {
-			players.get(i).getTiles();
+		if (result) {
+			players.remove(0);
+			System.out.println("Playersize is : " + players.size());
+			for (int i = 0; i < players.size(); i++) {
+				System.out.println(players.get(i).hasName());
+				players.get(i).getTiles();
+			}
 		}
 
 		return result;
@@ -191,7 +196,8 @@ public class Gamelogic {
 			if (board.getTile(x + 1, y).hasColor().equals(this.tile.hasColor())) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x + i + 1, y) != null && board.getTile(x + i + 1, y).hasColor() == board.getTile(x + i, y).hasColor()) {
+					if (board.getTile(x + i + 1, y) != null
+							&& board.getTile(x + i + 1, y).hasColor() == board.getTile(x + i, y).hasColor()) {
 						score = score + 1;
 					} else {
 						break;
@@ -201,7 +207,8 @@ public class Gamelogic {
 			if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x + i + 1, y) != null && board.getTile(x + i + 1, y).hasShape() == board.getTile(x + i, y).hasShape()) {
+					if (board.getTile(x + i + 1, y) != null
+							&& board.getTile(x + i + 1, y).hasShape() == board.getTile(x + i, y).hasShape()) {
 						score = score + 1;
 					} else {
 						break;
@@ -214,7 +221,8 @@ public class Gamelogic {
 			if (board.getTile(x - 1, y).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x - i - 1, y) != null && board.getTile(x - i - 1, y).hasColor() == board.getTile(x - i, y).hasColor()) {
+					if (board.getTile(x - i - 1, y) != null
+							&& board.getTile(x - i - 1, y).hasColor() == board.getTile(x - i, y).hasColor()) {
 						score = score + 1;
 					} else {
 						break;
@@ -224,7 +232,8 @@ public class Gamelogic {
 			if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x - i - 1, y) != null && board.getTile(x - i - 1, y).hasShape() == board.getTile(x - i, y).hasShape()) {
+					if (board.getTile(x - i - 1, y) != null
+							&& board.getTile(x - i - 1, y).hasShape() == board.getTile(x - i, y).hasShape()) {
 						score = score + 1;
 					} else {
 						break;
@@ -234,13 +243,14 @@ public class Gamelogic {
 		}
 
 		if (board.getTile(x, y + 1) != null) {
-			if (score > 1){
+			if (score > 1) {
 				score = score + 1;
 			}
 			if (board.getTile(x, y + 1).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x, y + i + 1) != null && board.getTile(x, y + i + 1).hasColor() == board.getTile(x, y + i).hasColor()) {
+					if (board.getTile(x, y + i + 1) != null
+							&& board.getTile(x, y + i + 1).hasColor() == board.getTile(x, y + i).hasColor()) {
 						score = score + 1;
 					} else {
 						break;
@@ -250,7 +260,8 @@ public class Gamelogic {
 			if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x, y + i + 1) != null && board.getTile(x, y + i + 1).hasShape() == board.getTile(x, y + i).hasShape()) {
+					if (board.getTile(x, y + i + 1) != null
+							&& board.getTile(x, y + i + 1).hasShape() == board.getTile(x, y + i).hasShape()) {
 						score = score + 1;
 					} else {
 						break;
@@ -260,13 +271,14 @@ public class Gamelogic {
 		}
 
 		if (board.getTile(x, y - 1) != null) {
-			if (score > 1){
+			if (score > 1) {
 				score = score + 1;
 			}
 			if (board.getTile(x, y - 1).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x, y - i - 1) != null && board.getTile(x, y - i - 1).hasColor() == board.getTile(x, y - i).hasColor()) {
+					if (board.getTile(x, y - i - 1) != null
+							&& board.getTile(x, y - i - 1).hasColor() == board.getTile(x, y - i).hasColor()) {
 						score = score + 1;
 					} else {
 						break;
@@ -276,7 +288,8 @@ public class Gamelogic {
 			if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				for (int i = 1; i < 5; i++) {
-					if (board.getTile(x, y - i - 1) != null && board.getTile(x, y - i - 1).hasShape() == board.getTile(x, y - i).hasShape()) {
+					if (board.getTile(x, y - i - 1) != null
+							&& board.getTile(x, y - i - 1).hasShape() == board.getTile(x, y - i).hasShape()) {
 						score = score + 1;
 					} else {
 						break;
