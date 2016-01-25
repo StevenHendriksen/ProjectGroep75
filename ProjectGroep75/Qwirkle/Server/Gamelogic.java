@@ -7,10 +7,6 @@ public class Gamelogic {
 	private Bag bag;
 	private Serverboard board;
 	private Servertile tile;
-	private String SERVER_MOVE_TRADE = "MOVEOK_TRADE";
-	private String SERVER_MOVE_PUT = "MOVEOK_PUT";
-	private String SERVER_GAMEEND = "GAMEEND";
-	private String SERVER_PASS = "PASS";
 	private List<Player> players = new ArrayList<Player>();
 	private int current = 0;
 
@@ -30,7 +26,7 @@ public class Gamelogic {
 		String result = "0";
 
 		if (!bag.emptyBag()) {
-			result = SERVER_MOVE_TRADE;
+			result = "MOVEOK_TRADE";
 		}
 
 		return result;
@@ -76,7 +72,7 @@ public class Gamelogic {
 		}
 
 		if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
-			result = SERVER_MOVE_PUT;
+			result = "MOVEOK_PUT";
 		}
 
 		return result;
@@ -98,7 +94,7 @@ public class Gamelogic {
 		String result = "";
 
 		if (bag.emptyBag()) {
-			result = SERVER_GAMEEND;
+			result = "GAMEEND";
 		}
 
 		return result;
@@ -110,7 +106,7 @@ public class Gamelogic {
 
 		for (int i = 0; i < 6; i++) {
 			if (player.hasTiles()[i] == this.tile) {
-				result = SERVER_PASS;
+				result = "PASS";
 			}
 		}
 
@@ -184,7 +180,6 @@ public class Gamelogic {
 	// Ok
 	public void movePut(int x, int y, int tile) {
 		board.putTile(x, y, tile);
-		this.score(x, y, tile);
 	}
 
 	public void score(int x, int y, int tile) {
@@ -192,6 +187,8 @@ public class Gamelogic {
 		int score = 1;
 		int qwirkle1 = 1;
 		int qwirkle2 = 1;
+		int qwirkle3 = 1;
+		int qwirkle4 = 1;
 		
 		System.out.println(board.getTile(x + 1, y));
 		if (board.getTile(x + 1, y) != null) {
@@ -259,60 +256,73 @@ public class Gamelogic {
 		}
 
 		if (board.getTile(x, y + 1) != null) {
-			int qwirkle1 = 1;
-			int qwirkle2 = 1;
 			if (score > 1) {
 				score = score + 1;
 			}
 			if (board.getTile(x, y + 1).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
+				qwirkle3 = qwirkle3 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x, y + i + 1) != null
 							&& board.getTile(x, y + i + 1).hasColor() == board.getTile(x, y + i).hasColor()) {
 						score = score + 1;
+						qwirkle3 = qwirkle3 + 1;
 					} else {
 						break;
 					}
 				}
 			}
-			if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
+			else if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
+				qwirkle4 = qwirkle4 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x, y + i + 1) != null
 							&& board.getTile(x, y + i + 1).hasShape() == board.getTile(x, y + i).hasShape()) {
 						score = score + 1;
+						qwirkle4 = qwirkle4 + 1;
 					} else {
 						break;
 					}
 				}
+			}
+			if(qwirkle3 == 6 || qwirkle4 == 6){
+				score = score + 6;
 			}
 		}
 
 		if (board.getTile(x, y - 1) != null) {
-			if (score > 1) {
+			if (score > 1 && (qwirkle3 > 1 || qwirkle4 > 1)) {
 				score = score + 1;
 			}
 			if (board.getTile(x, y - 1).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
+				qwirkle3 = qwirkle3 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x, y - i - 1) != null
 							&& board.getTile(x, y - i - 1).hasColor() == board.getTile(x, y - i).hasColor()) {
 						score = score + 1;
+						qwirkle3 = qwirkle3 + 1;
 					} else {
 						break;
 					}
 				}
 			}
-			if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
+			else if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
+				qwirkle4 = qwirkle4 + 1;
 				for (int i = 1; i < 5; i++) {
 					if (board.getTile(x, y - i - 1) != null
 							&& board.getTile(x, y - i - 1).hasShape() == board.getTile(x, y - i).hasShape()) {
 						score = score + 1;
+						qwirkle4 = qwirkle4 + 1;
 					} else {
 						break;
 					}
 				}
+			}
+			
+			if(qwirkle3 == 6 || qwirkle4 == 6){
+				score = score + 6;
 			}
 		}
 
