@@ -128,7 +128,7 @@ public class Gamelogic {
 			players.add(player);
 		}
 		
-		if (result && players.size()!= 0) {
+		if (result && players.size()> 1) {
 			players.add(player);
 		}
 	}

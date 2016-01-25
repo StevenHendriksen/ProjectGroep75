@@ -31,7 +31,7 @@ public class Peer {
 			else if (command.equals("CLIENT_LOBBY")) {
 				result = "LOBBYOK";
 
-				for(int i = 1; i < gamelogic.hasPlayers().size(); i++){
+				for(int i = 0; i < gamelogic.hasPlayers().size(); i++){
 					result = result + " " + gamelogic.hasPlayers().get(i).hasName();
 				}
 				
