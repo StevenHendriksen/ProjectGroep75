@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import Server.Player;
 import Server.Bag;
