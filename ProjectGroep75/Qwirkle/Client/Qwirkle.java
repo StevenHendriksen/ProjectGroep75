@@ -12,13 +12,13 @@ import java.util.Scanner;
 
 public class Qwirkle {
 	// ------------------ Instance variables ----------------
-	static String hostName = "192.168.1.104";
-	static int portNumber = 673;
+	static String hostName = "192.168.0.1";
+	static int portNumber = 3215;
 	private Board board;
 	public Peer peer; // change to private in final version
 	private ServerCommunication sc = null;
 	private Thread scThread = null;
-	private static final String functions = "CHAT";
+	private static final String functions = "CHAT,LOBBY";
 	private lobby lobby;
 	private Player player;
 	
@@ -28,16 +28,8 @@ public class Qwirkle {
 	 */
 	
 	public static void main(String[] args) {
-		Qwirkle qwirkle = new Qwirkle();
-		qwirkle.help();
-		Tile[] tiles2 = new Tile[2];
-		tiles2[0] = new Tile(2);
-		tiles2[1] = new Tile(3);
-		qwirkle.board.setHand(tiles2);
-		qwirkle.test();
-		qwirkle.sc.Write("CLIENT_QUEUE 1");
-		qwirkle.sc.Write("CLIENT_MOVE_PUT 1@0,0 7@0,1 13@0,2");
-
+		new Qwirkle();
+		
 	}
 	
 	/**
@@ -104,6 +96,7 @@ public class Qwirkle {
 			System.out.println("Re-enter name: ");
 			name = in.nextLine();
 		}
+		
 		if (functions.contains("CHAT")) {
 			board = new Board(true);
 		} else {
@@ -111,7 +104,6 @@ public class Qwirkle {
 		}
 		player = new Player(name);
 		peer = new Peer(board, this, player);
-		lobby = new lobby();
 		System.out.println(ip + port);
 		sc = new ServerCommunication(ip, port, board, peer);
 		if (sc.echoSocket == null) {
@@ -119,9 +111,31 @@ public class Qwirkle {
 			scThread = new Thread(sc);
 			scThread.start();
 			sc.Write("CLIENT_IDENTIFY " + name + " " + functions);
+			sc.Write("CLIENT_LOBBY");
 		}
-		lobby.Connected(ip, port);
 		in.close();
+	}
+	
+	public Qwirkle(String ip, int port, String name){
+		if (functions.contains("CHAT")) {
+			board = new Board(true);
+		} else {
+			board = new Board(false);
+		}
+		
+		
+		player = new Player(name);
+		peer = new Peer(board, this, player);
+		System.out.println(ip + port);
+		sc = new ServerCommunication(ip, port, board, peer);
+		
+		if (sc.echoSocket == null) {
+		} else {
+			scThread = new Thread(sc);
+			scThread.start();
+			sc.Write("CLIENT_IDENTIFY " + name + " " + functions);
+			sc.Write("CLIENT_LOBBY");
+		}
 	}
 
 	

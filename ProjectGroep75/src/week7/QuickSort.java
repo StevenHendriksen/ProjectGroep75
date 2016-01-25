@@ -1,7 +1,7 @@
-package ss.week7;
-
+package week7;
 
 public class QuickSort {
+	
     public static void qsort(int[] a) {
         qsort(a, 0, a.length - 1);
     }
@@ -13,7 +13,6 @@ public class QuickSort {
         }
     }
     public static int partition(int[] a, int first, int last) {
-
         int mid = (first + last) / 2;
         int pivot = a[mid];
         swap(a, mid, last); // put pivot at the end of the array
@@ -34,16 +33,4 @@ public class QuickSort {
         a[i] = a[j];
         a[j] = tmp;
     }
-
-    public class QuickThread extends Thread {
-		private Quicksort quicksort;
-
-		public AnimateThread(Quicksort quicksort) {
-			this.quicksort = quicksort;
-		}
-
-		public void run() {
-			ball.animate();
-		}
-	}
 }

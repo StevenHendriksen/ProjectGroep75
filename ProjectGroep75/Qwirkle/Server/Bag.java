@@ -10,12 +10,6 @@ public class Bag {
 	public Bag() {
 		newBag();
 	}
-
-	public static void main(String[] args){
-		Bag bag = new Bag();
-		
-		bag.takeTile();
-	}
 	
 	//OK
 	public void newBag() {
@@ -45,7 +39,8 @@ public class Bag {
 
 			for(int j = 0; j<108; j++){
 				if(baglist.get(random) == tiles[j]){
-					tiles[random] = null;
+					tiles[j] = null;
+					return result;
 				}
 			}
 		}
@@ -57,18 +52,10 @@ public class Bag {
 	public void putTile(int tile){
 		for(int i = 0; i < 108; i++){
 			if(tiles[i] == null){
-				tiles[i] = this.tile;
+				tiles[i] = new Servertile(tile);
+				return;
 			}
 		}
-	}
-
-	//Ok
-	public Bag deepCopy() {
-		Bag bag = new Bag();
-		for (int i = 0; i < 108; i++) {
-			tiles[i] = this.tiles[i];
-		}
-		return bag;
 	}
 
 	//Ok

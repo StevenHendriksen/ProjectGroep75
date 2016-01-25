@@ -42,10 +42,10 @@ public class ServerCommunication extends Thread {
 		this.portNumber = portNumber;
 		this.peer = peer;
 		try {
-			System.out.println("Conecting Socket " + hostName + ":" + portNumber);
 			echoSocket = new Socket(hostName, portNumber);
 			System.out.println("Connected " + echoSocket);
 			out = new PrintWriter(echoSocket.getOutputStream(), true);
+			System.out.println("Conecting Socket " + hostName + ":" + portNumber);
 		} catch (IOException e2) {
 			System.out.println("Failed to connect");
 		}

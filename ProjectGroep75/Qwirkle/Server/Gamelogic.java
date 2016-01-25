@@ -86,11 +86,6 @@ public class Gamelogic {
 	public boolean equal(Servertile tile, Servertile tile2) {
 		boolean result = false;
 
-		System.out.println(tile.hasColor());
-		System.out.println(tile2.hasColor());
-		System.out.println(tile.hasShape());
-		System.out.println(tile2.hasShape());
-
 		if (tile.hasColor() == tile2.hasColor() && tile.hasShape() == tile2.hasShape()) {
 			result = true;
 		}
@@ -124,7 +119,22 @@ public class Gamelogic {
 
 	// Ok
 	public void putPlayer(Player player) {
-		players.add(player);
+		boolean result = true;
+		
+		if(players.size() != 0){
+			for(int i = 0; i < players.size(); i++){
+				if(players.get(i).hasName().equals(player.hasName())){
+					result = false;
+				}
+			}
+		}
+		else{
+			players.add(player);
+		}
+		
+		if(result){
+			players.add(player);
+		}
 	}
 
 	// Ok
@@ -136,8 +146,12 @@ public class Gamelogic {
 	public boolean gameStart(int size) {
 		boolean result = false;
 
-		if (players.size() > size) {
+		if (players.size() == size && size > 1 && size < 5) {
 			result = true;
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).getTiles();
 		}
 
 		return result;
@@ -145,18 +159,20 @@ public class Gamelogic {
 
 	// Ok
 	public Player turn() {
-		return players.get(current % 4);
+		return players.get(current % players.size());
 	}
 
 	// Ok
 	public Player nextTurn() {
 		int result = 0;
+		current = current + 1;
 
-		if (current % 4 < 3) {
-			result = current % 4;
+		if (current % players.size() < players.size() - 1) {
+			result = current % players.size();
 		} else {
 			result = 0;
 		}
+
 		return players.get(result);
 	}
 
@@ -168,105 +184,121 @@ public class Gamelogic {
 
 	public void score(int x, int y, int tile) {
 		this.tile = new Servertile(tile);
-		int score = 0;
-		
-		
-		if (board.getTile(x + 1, y).hasColor() == this.tile.hasColor()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x + i + 1, y).hasColor() == board.getTile(x + i, y).hasColor()){
-					score = score + 1;
+		int score = 1;
+
+		System.out.println(board.getTile(x + 1, y));
+		if (board.getTile(x + 1, y) != null) {
+			if (board.getTile(x + 1, y).hasColor().equals(this.tile.hasColor())) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x + i + 1, y) != null && board.getTile(x + i + 1, y).hasColor() == board.getTile(x + i, y).hasColor()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
-				else{
-					break;
+			}
+			if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x + i + 1, y) != null && board.getTile(x + i + 1, y).hasShape() == board.getTile(x + i, y).hasShape()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
 			}
 		}
-		if (board.getTile(x - 1, y).hasColor() == this.tile.hasColor()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x - i - 1, y).hasColor() == board.getTile(x - i, y).hasColor()){
-					score = score + 1;
+
+		if (board.getTile(x - 1, y) != null) {
+			if (board.getTile(x - 1, y).hasColor() == this.tile.hasColor()) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x - i - 1, y) != null && board.getTile(x - i - 1, y).hasColor() == board.getTile(x - i, y).hasColor()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
-				else{
-					break;
+			}
+			if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x - i - 1, y) != null && board.getTile(x - i - 1, y).hasShape() == board.getTile(x - i, y).hasShape()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
 			}
 		}
-		if (board.getTile(x, y + 1).hasColor() == this.tile.hasColor()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x, y + i + 1).hasColor() == board.getTile(x, y + i).hasColor()){
-					score = score + 1;
+
+		if (board.getTile(x, y + 1) != null) {
+			if (score > 1){
+				score = score + 1;
+			}
+			if (board.getTile(x, y + 1).hasColor() == this.tile.hasColor()) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x, y + i + 1) != null && board.getTile(x, y + i + 1).hasColor() == board.getTile(x, y + i).hasColor()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
-				else{
-					break;
+			}
+			if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x, y + i + 1) != null && board.getTile(x, y + i + 1).hasShape() == board.getTile(x, y + i).hasShape()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
 			}
 		}
-		if (board.getTile(x, y - 1).hasColor() == this.tile.hasColor()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x, y - i - 1).hasColor() == board.getTile(x, y - i).hasColor()){
-					score = score + 1;
+
+		if (board.getTile(x, y - 1) != null) {
+			if (score > 1){
+				score = score + 1;
+			}
+			if (board.getTile(x, y - 1).hasColor() == this.tile.hasColor()) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x, y - i - 1) != null && board.getTile(x, y - i - 1).hasColor() == board.getTile(x, y - i).hasColor()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
-				else{
-					break;
+			}
+			if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
+				score = score + 1;
+				for (int i = 1; i < 5; i++) {
+					if (board.getTile(x, y - i - 1) != null && board.getTile(x, y - i - 1).hasShape() == board.getTile(x, y - i).hasShape()) {
+						score = score + 1;
+					} else {
+						break;
+					}
 				}
 			}
 		}
-		if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x + i + 1, y).hasShape() == board.getTile(x + i, y).hasShape()){
-					score = score + 1;
-				}
-				else{
-					break;
-				}
-			}
-		}
-		if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x - i - 1, y).hasShape() == board.getTile(x - i, y).hasShape()){
-					score = score + 1;
-				}
-				else{
-					break;
-				}
-			}
-		}
-		if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x, y + i + 1).hasShape() == board.getTile(x, y + i).hasShape()){
-					score = score + 1;
-				}
-				else{
-					break;
-				}
-			}
-		}
-		if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
-			score = score + 1;
-			for(int i = 1; i < 5; i ++){
-				if(board.getTile(x, y - i - 1).hasShape() == board.getTile(x, y - i).hasShape()){
-					score = score + 1;
-				}
-				else{
-					break;
-				}
-			}
-		}
-		
-	turn().changeScore(score);
+
+		turn().changeScore(score);
 	}
 
 	// Ok
 	public void moveTrade(int number) {
 		bag.putTile(number);
-		bag.takeTile();
+
+		Servertile instancetile = new Servertile(number);
+
+		for (int i = 0; i < 6; i++) {
+			if (turn().hasTiles()[i] == instancetile) {
+				turn().changeTiles(bag.takeTile(), i);
+			}
+		}
 	}
 
 	// Ok

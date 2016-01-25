@@ -1,7 +1,4 @@
 package Server;
-
-import Client.Tile;
-
 public class Servertile {
 	private Color color;
 	private Shape shape;

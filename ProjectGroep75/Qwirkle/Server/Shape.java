@@ -31,9 +31,9 @@ public enum Shape {
         } else if (this == SQUARE) {
             return 4;
         } else if (this == PLUS) {
-            return 6;
-        } else if (this == STAR) {
             return 5;
+        } else if (this == STAR) {
+            return 6;
         } else {
             return 0;
         }

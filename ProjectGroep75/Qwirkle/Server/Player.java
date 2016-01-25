@@ -6,10 +6,11 @@ public class Player {
 	Bag bag;
 	int score;
 	
-	public Player(String name){
+	public Player(String name, Bag bag){
 		this.name = name;
 		tiles = new Servertile[6];
 		score = 0;
+		this.bag = bag;
 	}
 	
 	public String hasName(){
@@ -24,6 +25,10 @@ public class Player {
 	
 	public Servertile[] hasTiles(){
 		return tiles;
+	}
+	
+	public void changeTiles(Servertile tile, int i){
+		tiles[i] = tile;
 	}
 	
 	public int hasScore(){

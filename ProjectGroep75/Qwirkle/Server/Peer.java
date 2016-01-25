@@ -6,9 +6,11 @@ public class Peer {
 	Gamelogic gamelogic;
 	Player player;
 	Serverboard board;
+	Bag bag;
 
-	public Peer(Gamelogic gamelogic, Serverboard board) {
+	public Peer(Gamelogic gamelogic, Serverboard board, Bag bag) {
 		this.gamelogic = gamelogic;
+		this.bag = bag;
 		this.board = board;
 	}
 
@@ -22,10 +24,26 @@ public class Peer {
 			String command = fullCommand.next();
 
 			if (command.equals("CLIENT_IDENTIFY")) {
-				this.player = new Player(fullCommand.next());
+				this.player = new Player(fullCommand.next(), bag);
+				System.out.println("Player put: " + player.hasName() + "    " + this);
 				gamelogic.putPlayer(player);
 				result = "SERVER_IDENTIFYOK";
 			} 
+			else if (command.equals("CLIENT_LOBBY")) {
+				result = "LOBBYOK";
+
+				for(int i = 1; i < gamelogic.hasPlayers().size(); i++){
+					System.out.println(gamelogic.hasPlayers().size());
+					System.out.println("HENK      " + gamelogic.hasPlayers().get(i).hasName());
+					result = result + " " + gamelogic.hasPlayers().get(i).hasName();
+				}
+				
+				if(gamelogic.hasPlayers().size() > 4){
+					if(gamelogic.gameStart(4)){
+						result = result + " GAMEHASSTARTED";
+					}
+				}
+			}
 			else if (command.equals("CLIENT_DRAWTILE")) {
 				gamelogic.turn();
 				for (int i = 0; i < 6; i++) {
