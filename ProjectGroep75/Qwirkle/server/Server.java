@@ -13,6 +13,7 @@ public class Server extends Thread {
   Bag bag;
   String clientMessage = "";
   Connection connection;
+  public String functions = "CHAT,LOBBY";
 
   // ------------------ Constructor ------------------------
   /**
@@ -31,7 +32,7 @@ public class Server extends Thread {
    */
   public Server() {
     try {
-      server = new ServerSocket(4444);
+      server = new ServerSocket(3333);
       bag = new Bag();
       board = new Serverboard(true);
       gamelogic = new Gamelogic(board, bag);
@@ -86,6 +87,10 @@ public class Server extends Thread {
           gamelogic.hasPlayers().get(p).getConnection().getOut());
     }
 
+  }
+  
+  public String getfunctions() {
+    return functions;
   }
 
 }

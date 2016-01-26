@@ -32,7 +32,7 @@ public class Gamelogic {
    */
   public Servertile drawTile(Player player) {
     Servertile tile = bag.takeTile();
-    player.getConnection().write("SERVER_DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
+    player.getConnection().write("DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
     return bag.takeTile();
   }
 

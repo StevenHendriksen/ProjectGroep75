@@ -9,8 +9,6 @@ public class Bag {
 
   public static void main(String[] args) {
     Bag bag = new Bag();
-
-    bag.newBag();
   }
 
   public void newBag() {
@@ -64,13 +62,6 @@ public class Bag {
     }
   }
 
-  public Bag deepCopy() {
-    Bag bag = new Bag();
-    for (int i = 0; i < 108; i++) {
-      tiles[i] = this.tiles[i];
-    }
-    return bag;
-  }
 
   public boolean emptyBag() {
     boolean empty = true;

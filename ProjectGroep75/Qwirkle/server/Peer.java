@@ -27,58 +27,64 @@ public class Peer {
 
       String command = fullCommand.next();
 
-      if (command.equals("CLIENT_IDENTIFY")) {
+      if (command.equals("IDENTIFY")) {
         this.player = new Player(fullCommand.next(), bag, connection);
         gamelogic.putPlayer(player);
 
-        result = "SERVER_IDENTIFYOK";
-      } else if (command.equals("CLIENT_LOBBY")) {
-        result = "LOBBYOK";
-        String names = "";
-        System.out.println("Players: " + gamelogic.hasPlayers());
-        for (int i = 0; i < gamelogic.hasPlayers().size(); i++) {
-          result = result + " " + gamelogic.hasPlayers().get(i).hasName();
-          names = names + " " + gamelogic.hasPlayers().get(i).hasName();
-          System.out.println("Players: " + gamelogic.hasPlayers().get(i));
-          System.out.println("PlayersOut: " + gamelogic.hasPlayers().get(i).getConnection());
+        result = "IDENTIFYOK ";
+        while (fullCommand.hasNext()) {
+          String next = fullCommand.next();
+          if (server.functions.contains(next)) {
+            result = result + next;
+          }
         }
-
-        server.sendAll("SERVER_LOBBYOK" + names);
+        if (gamelogic.hasPlayers().size() >= 2) {
+          if (gamelogic.gameStart(2)) {
+            server.sendAll("GAMESTART");
+            for (int j = 0; j < gamelogic.hasPlayers().size(); j++) {
+              Player player = gamelogic.hasPlayers().get(j);
+              for (int i = 0; i < 6; i++) {
+                player.changeTiles(gamelogic.drawTile(player), i);
+              }
+            }
+            server.sendAll("TURN " + gamelogic.turn().hasName());
+          }
+        }
         if (gamelogic.hasPlayers().size() >= 2) {
           if (gamelogic.gameStart(2)) {
             result = result + " GAMEHASSTARTED";
-            server.sendAll("SERVER_GAMESTART");
+            server.sendAll("GAMESTART");
             for (int j = 0; j < gamelogic.hasPlayers().size() - 1; j++) {
               Player player = gamelogic.hasPlayers().get(j);
               for (int i = 0; i < 6; i++) {
                 player.changeTiles(gamelogic.drawTile(player), i);
               }
-              server.sendAll("SERVER_TURN " + gamelogic.turn().hasName());
+              server.sendAll("TURN " + gamelogic.turn().hasName());
             }
           }
         }
-      } else if (command.equals("CLIENT_DRAWTILE")) {
+      } else if (command.equals("DRAWTILE")) {
         gamelogic.turn();
         for (int i = 0; i < 6; i++) {
           if (player.hasTiles()[i] == null) {
             player.changeTiles(gamelogic.drawTile(gamelogic.getPlayer(connection)), i);
           }
         }
-        result = "SERVER_DRAWTILE";
-      } else if (command.equals("CLIENT_QUIT")) {
-        result = "SERVER_GAMEEND";
-      } else if (command.equals("CLIENT_QUEUE")) {
+        result = "DRAWTILE";
+      } else if (command.equals("QUIT")) {
+        result = "GAMEEND";
+      } else if (command.equals("QUEUE")) {
         int numberplayers = new Integer(fullCommand.next());
 
         if (gamelogic.gameStart(numberplayers)) {
-          result = "SERVER_GAMESTART";
+          result = "GAMESTART";
 
           for (int i = 0; i < numberplayers; i++) {
             result = result + " " + gamelogic.hasPlayers().get(i).hasName();
           }
         }
-      } else if (command.equals("CLIENT_MOVE_PUT")) {
-        result = "SERVER_MOVEOK_PUT";
+      } else if (command.equals("MOVE_PUT")) {
+        result = "MOVEOK_PUT";
         Scanner fullCommandTiles = new Scanner(cmd);
         fullCommandTiles.next();
         while (fullCommandTiles.hasNext()) {
@@ -88,24 +94,27 @@ public class Peer {
           int tileInt = new Integer(in.next());
           int x = new Integer(in.next());
           int y = new Integer(in.next());
-          if (gamelogic.moveOkPut(tileInt, x, y).equals("MOVEOK_PUT")) {
+          System.out.println(x + y + tileInt + " MoveOKPut "
+              + gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName()));
+          if (gamelogic.moveOkPut(tileInt, x, y).equals("MOVEOK_PUT")
+              && gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName())) {
             board.putTile(x, y, tileInt);
             result = result + " " + tileInt + "@" + x + "," + y;
           } else {
-            result = "SERVER_ERROR: INVALID MOVE";
+            result = "ERROR: INVALID MOVE";
           }
           in.close();
         }
         fullCommandTiles.close();
-      } else if (command.equals("CLIENT_MOVE_TRADE")) {
-        result = "SERVER_MOVEOK_TRADE";
+      } else if (command.equals("MOVE_TRADE")) {
+        result = "MOVEOK_TRADE";
 
         while (fullCommand.hasNext()) {
           int inttile = new Integer(fullCommand.next());
           if (gamelogic.moveOkTrade() == "MOVEOK_TRADE") {
             gamelogic.moveTrade(inttile);
           } else {
-            result = "SERVER_ERROR: INVALID TRADE";
+            result = "ERROR: INVALID TRADE";
           }
         }
       }
@@ -115,7 +124,11 @@ public class Peer {
       return result;
     }
 
-    catch (java.util.NoSuchElementException e) {
+    catch (
+
+    java.util.NoSuchElementException e)
+
+    {
       String result = "Invalid Server command";
       e.printStackTrace();
       return result;

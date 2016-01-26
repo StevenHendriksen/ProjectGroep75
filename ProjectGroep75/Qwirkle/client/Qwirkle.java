@@ -111,8 +111,8 @@ public class Qwirkle {
     if (sc.echoSocket != null) {
       scThread = new Thread(sc);
       scThread.start();
-      sc.write("CLIENT_IDENTIFY " + name + " " + functions);
-      sc.write("CLIENT_LOBBY");
+      sc.write("IDENTIFY " + name + " " + functions);
+      //sc.write("CLIENT_LOBBY");
     }
     while(true){
       String typedMessage = in.nextLine();
