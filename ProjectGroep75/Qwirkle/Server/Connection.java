@@ -35,7 +35,7 @@ public class Connection extends Thread {
     try {
       while (!clientMessage.equals("Close")) {
         if (!clientMessage.equals("")) {
-          String handledCommand = peer.handleCommand(clientMessage);
+          String handledCommand = peer.handleCommand(clientMessage, out);
           write(handledCommand, out);
           if (handledCommand == "SERVER_GAMEEND") {
             this.close(connection);

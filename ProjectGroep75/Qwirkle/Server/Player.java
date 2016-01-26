@@ -1,13 +1,18 @@
 package Server;
 
+import java.io.PrintWriter;
+import java.net.Socket;
+
 public class Player {
   String name;
   Servertile[] tiles;
   Bag bag;
   int score;
+  PrintWriter out;
 
-  public Player(String name, Bag bag) {
+  public Player(String name, Bag bag, PrintWriter out) {
     this.name = name;
+    this.out = out;
     tiles = new Servertile[6];
     score = 0;
     this.bag = bag;
@@ -37,5 +42,9 @@ public class Player {
 
   public void changeScore(int num) {
     score = score + num;
+  }
+  
+  public PrintWriter getOut(){
+    return out;
   }
 }
