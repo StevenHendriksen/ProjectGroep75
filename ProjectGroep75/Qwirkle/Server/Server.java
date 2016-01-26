@@ -31,7 +31,7 @@ public class Server extends Thread {
    */
   public Server() {
     try {
-      server = new ServerSocket(3223);
+      server = new ServerSocket(5555);
       bag = new Bag();
       board = new Serverboard(true);
       gamelogic = new Gamelogic(board, bag);
@@ -74,4 +74,9 @@ public class Server extends Thread {
       e.printStackTrace();
     }
   }
+  
+  public void sendAll(){
+    System.out.println(gamelogic.hasPlayers());
+  }
+  
 }
