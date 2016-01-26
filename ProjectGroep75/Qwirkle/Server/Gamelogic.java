@@ -4,24 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gamelogic {
+	  // ------------------ Instance variables ----------------
 	private Bag bag;
 	private Serverboard board;
 	private Servertile tile;
-	private List<Player> players = new ArrayList<Player>();
 	private int current = 0;
+	
+	/* @ invariant (\forall int i; 0 <= i & i < players.size(); getField(i) ==
+			 * Mark.EMPTY || getField(i) == Mark.XX || getField(i) == Mark.OO);
+			 */
+	private List<Player> players = new ArrayList<Player>();
 
-	// OK
+	  // ------------------ Constructor ------------------------
+	  /**
+	   * The constructor that concerns all the rules of the game.
+	   * 
+	   * @param board
+	   *          The board, which is used in the game
+	   * @param bag
+	   *          The bag, which is used in the game
+	   */
 	public Gamelogic(Serverboard board, Bag bag) {
 		this.board = board;
 		this.bag = bag;
 	}
 
-	// OK
+	  /**
+	   * The method that takes a tile from the bag.
+	   */
 	public Servertile drawTile() {
 		return bag.takeTile();
 	}
 
-	// OK
+	/**
+	   * The method that checks whether you can do a trade or not.
+	   */
 	public String moveOkTrade() {
 		String result = "0";
 
@@ -32,9 +49,17 @@ public class Gamelogic {
 		return result;
 	}
 
-	// Nog naar kijken
+	/**
+	   * The method that checks whether your move is OK or not.
+	   * @param result
+	   * 		  checks whether your move is OK (MOVEOK_PUT) or not (ERROR INVALID_MOVE)
+	   * @param result2
+	   *          checks whether the tiles around x and y are the same color/shape.
+	   * @param result3
+	   *          checks whether the places around x and y are empty.
+	   */
 	public String moveOkPut(int tile, int x, int y) {
-		String result = "ERROR Invalid move";
+		String result = "ERROR INVALID_MOVE";
 		int result2 = 0;
 		int result3 = 0;
 
@@ -71,14 +96,18 @@ public class Gamelogic {
 			}
 		}
 
-		if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
+		if ((result2 > 0 && result3 < 4) || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
 			result = "MOVEOK_PUT";
 		}
 
 		return result;
 	}
 
-	// Ok
+	/**
+	   * The method that checks whether tile and tile2 are equal.
+	   * @param result
+	   * 	Says whether tile and tile2 are equal (true) or not (false)
+	   */
 	public boolean equal(Servertile tile, Servertile tile2) {
 		boolean result = false;
 
@@ -89,7 +118,11 @@ public class Gamelogic {
 		return result;
 	}
 
-	// Ok
+	/**
+	   * The method that checks whether the game is over or not.
+	   * @param result
+	   * 	Says whether the game is over (GAMEEND) or not ();
+	   */
 	public String gameEnd() {
 		String result = "";
 
@@ -100,20 +133,19 @@ public class Gamelogic {
 		return result;
 	}
 
-	// Nog naar kijken
+	/**
+	   * The method that makes the player pass.
+	   */
 	public String movePass(Player player) {
-		String result = "";
-
-		for (int i = 0; i < 6; i++) {
-			if (player.hasTiles()[i] == this.tile) {
-				result = "PASS";
-			}
-		}
-
-		return result;
+		this.nextTurn();
+		return "PASS";
 	}
 
-	// Ok
+	/**
+	   * The method that puts the player to a list.
+	   * @param result
+	   * 			checks whether the name of the new player is already used or not.
+	   */
 	public void putPlayer(Player player) {
 		boolean result = true;
 
@@ -133,12 +165,18 @@ public class Gamelogic {
 		}
 	}
 
-	// Ok
+	/**
+	   * The method that returns a list of all players.
+	   */
 	public List<Player> hasPlayers() {
 		return players;
 	}
 
-	// Ok
+	/**
+	   * The method that starts the game.
+	   * @param result
+	   * 			checks whether there are enough players (more than size) or not and whether size is greater than 1 and smaller than 5.
+	   */
 	public boolean gameStart(int size) {
 		boolean result = false;
 
@@ -149,7 +187,7 @@ public class Gamelogic {
 		if (result) {
 			players.remove(0);
 			System.out.println("Playersize is : " + players.size());
-			for (int i = 0; i < players.size(); i++) {
+			for (int i = 0; i < size; i++) {
 				System.out.println(players.get(i).hasName());
 				players.get(i).getTiles();
 			}
@@ -158,12 +196,18 @@ public class Gamelogic {
 		return result;
 	}
 
-	// Ok
+	/**
+	   * The method that returns the turn of the current player.
+	   */
 	public Player turn() {
 		return players.get(current % players.size());
 	}
 
-	// Ok
+	/**
+	   * The method that returns the turn of the next player.
+	   * @param current
+	   * 			the current turn.
+	   */
 	public Player nextTurn() {
 		int result = 0;
 		current = current + 1;
@@ -177,11 +221,26 @@ public class Gamelogic {
 		return players.get(result);
 	}
 
-	// Ok
+	/**
+	   * The method that puts the tile on the board.
+	   */
 	public void movePut(int x, int y, int tile) {
 		board.putTile(x, y, tile);
 	}
 
+	/**
+	   * The method that calculates the score.
+	   * @param score
+	   * 			checks the score of the current move.
+	   * @param qwirkle1
+	   * 			checks whether there is qwirkle horizontale in color.
+	   * @param qwirkle2
+	   * 			checks whether there is qwirkle horizontale in shape.	  
+`	   * @param qwirkle3
+	   * 			checks whether there is qwirkle verticale in color.	   
+	   * @param qwirkle4
+	   * 			checks whether there is qwirkle verticale in shape.
+	   */
 	public void score(int x, int y, int tile) {
 		this.tile = new Servertile(tile);
 		int score = 1;
@@ -329,7 +388,9 @@ public class Gamelogic {
 		turn().changeScore(score);
 	}
 
-	// Ok
+	/**
+	   *  The method that does the trade.
+	   */
 	public void moveTrade(int number) {
 		bag.putTile(number);
 
@@ -342,7 +403,9 @@ public class Gamelogic {
 		}
 	}
 
-	// Ok
+	/**
+	   *  The method that returns the current turn.
+	   */
 	public int numberTurn() {
 		return current;
 	}

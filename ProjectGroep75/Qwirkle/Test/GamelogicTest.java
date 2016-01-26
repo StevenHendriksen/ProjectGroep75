@@ -30,7 +30,7 @@ public class GamelogicTest {
 
   @Before
   public void setUp() {
-    board = new Serverboard();
+    board = new Serverboard(true);
     bag = new Bag();
     gamelogic = new Gamelogic(board, bag);
     tile = new Servertile(1);
@@ -91,6 +91,7 @@ public class GamelogicTest {
 
     gamelogic.putPlayer(player2);
 
+    System.out.println(gamelogic.hasPlayers().size());
     assertTrue(gamelogic.gameStart(2));
     assertFalse(gamelogic.gameStart(3));
   }
@@ -126,6 +127,8 @@ public class GamelogicTest {
 
     assertEquals(tile.hasColor(), board.getTile(0, 0).hasColor());
     assertEquals(tile.hasShape(), board.getTile(0, 0).hasShape());
+    
+    gamelogic.score(0, 0, 1);
     assertEquals(1, player.hasScore());
 
     gamelogic.nextTurn();
@@ -133,6 +136,7 @@ public class GamelogicTest {
     gamelogic.movePut(0, 1, 2);
     assertEquals(tile3.hasColor(), board.getTile(0, 1).hasColor());
     assertEquals(tile3.hasShape(), board.getTile(0, 1).hasShape());
+    gamelogic.score(0, 1, 2);
     assertEquals(2, player2.hasScore());
   }
 

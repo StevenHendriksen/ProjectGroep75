@@ -19,10 +19,10 @@ public class Board {
   private int dimYp;
   private int dimYm;
 
-  private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
+  private Map<String, Servertile> tileLocs = new HashMap<String, Servertile>();
   private List<String> chatEntry = new ArrayList<String>();
   private List<String> consoleEntry = new ArrayList<String>();
-  private Tile[] hand = {};
+  private Servertile[] hand = {};
 
   private boolean chat = false;
 
@@ -53,7 +53,7 @@ public class Board {
    *          the map to fill the board with
    */
 
-  public Board(Map<String, Tile> map, boolean chat) {
+  public Board(Map<String, Servertile> map, boolean chat) {
     this.chat = chat;
     tileLocs = map;
     setDim();
@@ -66,7 +66,7 @@ public class Board {
    *          a array of tiles that the player has
    */
 
-  public void setHand(Tile[] tiles) {
+  public void setHand(Servertile[] tiles) {
     hand = tiles;
   }
 
@@ -82,7 +82,7 @@ public class Board {
    */
 
   public void putTile(int xcoord, int ycoord, int tile) {
-    tileLocs.put(xcoord + " " + ycoord, new Tile(tile));
+    tileLocs.put(xcoord + " " + ycoord, new Servertile(tile));
   }
 
   /**
@@ -93,7 +93,7 @@ public class Board {
    * @return int the Integer
    */
 
-  public int tileToInt(Tile tile) {
+  public int tileToInt(Servertile tile) {
     int result = 0;
     result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
     return result;
@@ -159,7 +159,7 @@ public class Board {
    * 
    * @return tileLocs
    */
-  public Map<String, Tile> getTileLocs() {
+  public Map<String, Servertile> getTileLocs() {
     return tileLocs;
   }
 
@@ -173,9 +173,9 @@ public class Board {
    * @return tile if it exists or null
    */
 
-  public Tile getTile(int xcoord, int ycoord) {
-    Tile result = null;
-    Tile result2 = tileLocs.get(xcoord + " " + ycoord);
+  public Servertile getTile(int xcoord, int ycoord) {
+    Servertile result = null;
+    Servertile result2 = tileLocs.get(xcoord + " " + ycoord);
     if (result2 != null) {
       result = result2;
     }

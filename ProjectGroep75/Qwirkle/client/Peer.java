@@ -80,7 +80,7 @@ public class Peer {
       if (command.equals("SERVER_DRAWTILE")) {
         while (fullCommand.hasNext()) {
           // adds the previously mentioned
-          player.addTile(new Tile(new Integer(fullCommand.next())));
+          player.addTile(new Servertile(new Integer(fullCommand.next())));
         }
         board.update();
       }

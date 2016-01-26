@@ -1,7 +1,7 @@
 package client;
 
 public class Bag {
-  private Tile[] tiles = {};
+  private Servertile[] tiles = {};
 
   public Bag() {
     newBag();
@@ -14,17 +14,17 @@ public class Bag {
   }
 
   public void newBag() {
-    tiles = new Tile[108];
+    tiles = new Servertile[108];
     for (int j = 0; j < 36; j++) {
       for (int i = 0; i < 3; i++) {
-        tiles[i + j * 3] = new Tile(j + 1);
+        tiles[i + j * 3] = new Servertile(j + 1);
       }
     }
   }
 
-  public Tile takeTile() {
+  public Servertile takeTile() {
     int random = (int) Math.floor(Math.random() * 108);
-    Tile randomtile = tiles[random];
+    Servertile randomtile = tiles[random];
 
     while (randomtile == null) {
       random = (int) Math.floor(Math.random() * 108);
@@ -35,7 +35,7 @@ public class Bag {
     return randomtile;
   }
 
-  public void getTile(Tile tile) {
+  public void getTile(Servertile tile) {
     boolean inBag = false;
     for (int i = 0; i < 108; i++) {
       if (tiles[i] == tile) {
@@ -84,7 +84,7 @@ public class Bag {
     return empty;
   }
 
-  public Tile[] tilesInBag() {
+  public Servertile[] tilesInBag() {
     return tiles;
   }
 }
