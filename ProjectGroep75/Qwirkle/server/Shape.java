@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 public enum Shape {
 	CIRCLE, CRISSCROSS, DIAMOND, SQUARE, PLUS, STAR;

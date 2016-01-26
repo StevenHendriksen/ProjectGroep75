@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -30,28 +30,38 @@ public class Peer {
       if (command.equals("CLIENT_IDENTIFY")) {
         this.player = new Player(fullCommand.next(), bag, connection);
         gamelogic.putPlayer(player);
-        server.sendAll();
+
         result = "SERVER_IDENTIFYOK";
       } else if (command.equals("CLIENT_LOBBY")) {
         result = "LOBBYOK";
+        String names = "";
         System.out.println("Players: " + gamelogic.hasPlayers());
         for (int i = 0; i < gamelogic.hasPlayers().size(); i++) {
           result = result + " " + gamelogic.hasPlayers().get(i).hasName();
+          names = names + " " + gamelogic.hasPlayers().get(i).hasName();
           System.out.println("Players: " + gamelogic.hasPlayers().get(i));
           System.out.println("PlayersOut: " + gamelogic.hasPlayers().get(i).getConnection());
         }
 
-
-        if (gamelogic.hasPlayers().size() > 4) {
-          if (gamelogic.gameStart(4)) {
+        server.sendAll("SERVER_LOBBYOK" + names);
+        if (gamelogic.hasPlayers().size() >= 2) {
+          if (gamelogic.gameStart(2)) {
             result = result + " GAMEHASSTARTED";
+            server.sendAll("SERVER_GAMESTART");
+            for (int j = 0; j < gamelogic.hasPlayers().size() - 1; j++) {
+              Player player = gamelogic.hasPlayers().get(j);
+              for (int i = 0; i < 6; i++) {
+                player.changeTiles(gamelogic.drawTile(player), i);
+              }
+              server.sendAll("SERVER_TURN " + gamelogic.turn().hasName());
+            }
           }
         }
       } else if (command.equals("CLIENT_DRAWTILE")) {
         gamelogic.turn();
         for (int i = 0; i < 6; i++) {
-          if (player.tiles[i] == null) {
-            player.tiles[i] = gamelogic.drawTile();
+          if (player.hasTiles()[i] == null) {
+            player.changeTiles(gamelogic.drawTile(gamelogic.getPlayer(connection)), i);
           }
         }
         result = "SERVER_DRAWTILE";

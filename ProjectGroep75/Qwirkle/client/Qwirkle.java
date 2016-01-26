@@ -114,7 +114,10 @@ public class Qwirkle {
       sc.write("CLIENT_IDENTIFY " + name + " " + functions);
       sc.write("CLIENT_LOBBY");
     }
-    in.close();
+    while(true){
+      String typedMessage = in.nextLine();
+      sc.write(typedMessage);
+    }
   }
 
   /**
@@ -140,6 +143,11 @@ public class Qwirkle {
       scThread.start();
       sc.write("CLIENT_IDENTIFY " + name + " " + functions);
       sc.write("CLIENT_LOBBY");
+    }
+    while(true){
+      Scanner systemIn = new Scanner(System.in);
+      String typedMessage = systemIn.nextLine();
+      peer.handleCommand(typedMessage);
     }
   }
 

@@ -42,6 +42,7 @@ public class Peer {
   }
 
   public void handleCommand(String cmd) {
+    System.out.println("handlingCommand: " + cmd);
     Scanner scan = new Scanner(cmd);
     String str = scan.nextLine();
     try {
@@ -80,8 +81,10 @@ public class Peer {
       if (command.equals("SERVER_DRAWTILE")) {
         while (fullCommand.hasNext()) {
           // adds the previously mentioned
+          System.out.println("Adding tile");
           player.addTile(new Servertile(new Integer(fullCommand.next())));
         }
+        board.setHand(player.hasTiles());
         board.update();
       }
       if (command.equals("SERVER_MOVEOK_PUT")) {

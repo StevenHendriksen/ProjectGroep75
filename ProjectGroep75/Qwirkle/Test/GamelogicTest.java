@@ -3,13 +3,13 @@ package Test;
 import org.junit.Before;
 import org.junit.Test;
 
-import Server.Serverboard;
-import Server.Bag;
-import Server.Gamelogic;
-import Server.Servertile;
-import Server.Color;
-import Server.Shape;
-import Server.Player;
+import server.Bag;
+import server.Color;
+import server.Gamelogic;
+import server.Player;
+import server.Serverboard;
+import server.Servertile;
+import server.Shape;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

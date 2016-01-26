@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 /**
  *Board;
@@ -157,7 +157,7 @@ public class Serverboard {
   }
 
   /**
-   * Method that returns the highest X-coordinate;
+   * Method that returns the highest X-coordinate.
    */
   // @ pure;
   public int getdimXp() {
@@ -165,7 +165,7 @@ public class Serverboard {
   }
 
   /**
-   * Method that returns the highest Y-coordinate;
+   * Method that returns the highest Y-coordinate.
    */
   // @pure;
   public int getdimYp() {
@@ -173,7 +173,7 @@ public class Serverboard {
   }
 
   /**
-   * Method that returns the lowest X-coordinate;
+   * Method that returns the lowest X-coordinate.
    */
   // @pure;
   public int getdimXm() {
@@ -181,7 +181,7 @@ public class Serverboard {
   }
 
   /**
-   * Method that returns the lowest Y-coordinate;
+   * Method that returns the lowest Y-coordinate.
    */
   // @pure;
   public int getdimYm() {

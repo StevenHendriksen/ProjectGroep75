@@ -1,8 +1,7 @@
 package Test;
 
-import Server.Server;
-
 import client.Qwirkle;
+import server.Server;
 
 public class ServerclientTest {
 	public static void main(String[] args){

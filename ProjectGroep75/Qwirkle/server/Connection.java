@@ -1,9 +1,8 @@
-package Server;
+package server;
 
 import java.net.*;
-import java.io.*;
 
-import Server.Peer;
+import java.io.*;
 
 public class Connection extends Thread {
   Server server;
@@ -63,6 +62,7 @@ public class Connection extends Thread {
     out.println(str);
   }
 
+  @Override
   public void run() {
     try {
       while (true) {

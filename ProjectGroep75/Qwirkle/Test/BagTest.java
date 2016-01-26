@@ -1,12 +1,12 @@
 package Test;
 
-import Server.Bag;
-import Server.Color;
-import Server.Servertile;
-import Server.Shape;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import server.Bag;
+import server.Color;
+import server.Servertile;
+import server.Shape;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

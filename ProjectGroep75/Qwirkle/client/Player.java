@@ -23,7 +23,7 @@ public class Player {
   }
 
   public void addTile(Servertile tile) {
-    tiles[tiles.length] = tile;
+    tiles[tiles.length - 1] = tile;
   }
 
   public void removeTile(Servertile tile) {

@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import java.net.*;
 import java.io.*;
@@ -31,7 +31,7 @@ public class Server extends Thread {
    */
   public Server() {
     try {
-      server = new ServerSocket(5555);
+      server = new ServerSocket(4444);
       bag = new Bag();
       board = new Serverboard(true);
       gamelogic = new Gamelogic(board, bag);
@@ -79,10 +79,10 @@ public class Server extends Thread {
   }
 
   // @pure;
-  public void sendAll() {
+  public void sendAll(String msg) {
     System.out.println("sendAll " + gamelogic.hasPlayers());
     for (int p = 0; p < gamelogic.hasPlayers().size(); p++) {
-      gamelogic.hasPlayers().get(p).getConnection().write("test",
+      gamelogic.hasPlayers().get(p).getConnection().write(msg,
           gamelogic.hasPlayers().get(p).getConnection().getOut());
     }
 

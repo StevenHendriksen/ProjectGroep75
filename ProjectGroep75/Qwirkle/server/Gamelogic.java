@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,9 @@ public class Gamelogic {
   /**
    * The method that takes a tile from the bag.
    */
-  public Servertile drawTile() {
+  public Servertile drawTile(Player player) {
+    Servertile tile = bag.takeTile();
+    player.getConnection().write("SERVER_DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
     return bag.takeTile();
   }
 
@@ -77,7 +79,6 @@ public class Gamelogic {
     this.tile = new Servertile(tile);
 
     if (board.getTile(x, y) == null) {
-      System.out.println(x + " " + y);
       if (x == 0 && y == 0) {
         result = "MOVEOK_PUT";
       }
@@ -108,15 +109,11 @@ public class Gamelogic {
         result2 = result2 + 1;
       }
     }
-    
-
 
     if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
       result = "MOVEOK_PUT";
     }
 
-
-    
     return result;
   }
 
@@ -183,9 +180,9 @@ public class Gamelogic {
           result = false;
           break;
         }
-        if (result && players.size() > 0) {
-          players.add(player);
-        }
+      }
+      if (result && players.size() > 0) {
+        players.add(player);
       }
     } else {
       players.add(player);
@@ -205,8 +202,9 @@ public class Gamelogic {
    * The method that starts the game.
    * 
    * @param result
-   *          checks whether there are enough players (more than size) or not
-   *          and whether size is greater than 1 and smaller than 5.
+   *          returns true if succesful checks whether there are enough players
+   *          (more than size) or not and whether size is greater than 1 and
+   *          smaller than 5.
    */
   // @requires size > 1 && size < 5;
   // @ensures \result == (players.size() >= size);
@@ -220,9 +218,7 @@ public class Gamelogic {
       }
 
       if (result) {
-        System.out.println("Playersize is : " + players.size());
         for (int i = 0; i < size; i++) {
-          System.out.println(players.get(i).hasName());
           players.get(i).getTiles();
         }
       }
@@ -273,7 +269,7 @@ public class Gamelogic {
     assert tile <= 36 && tile >= 0;
     assert x <= board.getdimXp() + 1 && x >= board.getdimXm() - 1;
     assert y <= board.getdimYp() + 1 && y >= board.getdimYm() - 1;
-    if (moveOkPut(tile, x , y).equals("MOVEOK_PUT")) {
+    if (moveOkPut(tile, x, y).equals("MOVEOK_PUT")) {
       board.putTile(x, y, tile);
     }
   }
@@ -303,16 +299,13 @@ public class Gamelogic {
     assert tile <= 36 && tile >= 0;
     assert x <= board.getdimXp() && x >= board.getdimXm();
     assert y <= board.getdimYp() && y >= board.getdimYm();
-
-    System.out.println("Score");
     this.tile = new Servertile(tile);
     int score = 1;
     int qwirkle1 = 1;
     int qwirkle2 = 1;
     int qwirkle3 = 1;
     int qwirkle4 = 1;
-
-    System.out.println(board.getTile(x + 1, y));
+    
     if (board.getTile(x + 1, y) != null) {
       if (board.getTile(x + 1, y).hasColor().equals(this.tile.hasColor())) {
         score = score + 1;
@@ -437,11 +430,6 @@ public class Gamelogic {
         score = score + 6;
       }
     }
-    System.out.println("qwirkle 1: " + qwirkle1);
-    System.out.println("qwirkle 2: " + qwirkle2);
-    System.out.println("qwirkle 3: " + qwirkle3);
-    System.out.println("qwirkle 4: " + qwirkle4);
-    System.out.println("Score added: " + score);
     turn().changeScore(score);
   }
 
@@ -472,5 +460,15 @@ public class Gamelogic {
   // @ pure;
   public int numberTurn() {
     return current;
+  }
+
+  public Player getPlayer(Connection connection) {
+    for (int p = 0; p < players.size(); p++) {
+      if (players.get(p).getConnection().equals(connection)) {
+        return players.get(p);
+      }
+    }
+    return null;
+
   }
 }
