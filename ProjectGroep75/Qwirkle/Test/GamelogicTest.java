@@ -31,7 +31,7 @@ public class GamelogicTest {
 
   @Before
   public void setUp() {
-    board = new Serverboard();
+    board = new Serverboard(false);
     bag = new Bag();
     gamelogic = new Gamelogic(board, bag);
     tile = new Servertile(1);
