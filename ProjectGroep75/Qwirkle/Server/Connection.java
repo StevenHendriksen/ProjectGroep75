@@ -35,7 +35,7 @@ public class Connection extends Thread {
     try {
       while (!clientMessage.equals("Close")) {
         if (!clientMessage.equals("")) {
-          String handledCommand = peer.handleCommand(clientMessage, out);
+          String handledCommand = peer.handleCommand(clientMessage, this);
           write(handledCommand, out);
           if (handledCommand == "SERVER_GAMEEND") {
             this.close(connection);
@@ -76,5 +76,9 @@ public class Connection extends Thread {
       e1.printStackTrace();
     }
 
+  }
+  
+  public PrintWriter getOut(){
+    return out;
   }
 }

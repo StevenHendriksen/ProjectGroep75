@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
+import java.net.Socket;
 
 //af
 public class PlayerTest {
@@ -22,7 +23,7 @@ public class PlayerTest {
   @Before
   public void setUp() {
     bag = new Bag();
-    player = new Player("Stan", bag, new PrintWriter(System.out));
+    player = new Player("Stan", bag);
   }
 
   @Test

@@ -26,7 +26,7 @@ public class ConnectionThread extends Thread {
   }
 
   public void run() {
-    Peer peer = new Peer(gamelogic, board, bag);
+    Peer peer = new Peer(gamelogic, board, bag, server);
     server.connection(peer, socket);
     System.out.println("test");
     connection.read(peer, socket, out, inputStream);

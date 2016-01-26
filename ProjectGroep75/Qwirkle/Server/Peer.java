@@ -1,6 +1,7 @@
 package Server;
 
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Scanner;
 
 public class Peer {
@@ -8,14 +9,16 @@ public class Peer {
   Player player;
   Serverboard board;
   Bag bag;
+  Server server;
 
-  public Peer(Gamelogic gamelogic, Serverboard board, Bag bag) {
+  public Peer(Gamelogic gamelogic, Serverboard board, Bag bag, Server server) {
     this.gamelogic = gamelogic;
     this.bag = bag;
     this.board = board;
+    this.server = server;
   }
 
-  public String handleCommand(String cmd, PrintWriter out) {
+  public String handleCommand(String cmd, Connection connection) {
     try {
       String result = "";
       Scanner scan = new Scanner(cmd);
@@ -25,8 +28,9 @@ public class Peer {
       String command = fullCommand.next();
 
       if (command.equals("CLIENT_IDENTIFY")) {
-        this.player = new Player(fullCommand.next(), bag, out);
+        this.player = new Player(fullCommand.next(), bag, connection);
         gamelogic.putPlayer(player);
+        server.sendAll();
         result = "SERVER_IDENTIFYOK";
       } else if (command.equals("CLIENT_LOBBY")) {
         result = "LOBBYOK";
@@ -34,7 +38,7 @@ public class Peer {
         for (int i = 0; i < gamelogic.hasPlayers().size(); i++) {
           result = result + " " + gamelogic.hasPlayers().get(i).hasName();
           System.out.println("Players: " + gamelogic.hasPlayers().get(i));
-          System.out.println("PlayersOut: " + gamelogic.hasPlayers().get(i).getOut());
+          System.out.println("PlayersOut: " + gamelogic.hasPlayers().get(i).getConnection());
         }
 
 

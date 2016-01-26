@@ -8,15 +8,25 @@ public class Player {
   Servertile[] tiles;
   Bag bag;
   int score;
-  PrintWriter out;
+  Connection connection;
 
-  public Player(String name, Bag bag, PrintWriter out) {
+  public Player(String name, Bag bag, Connection connection) {
     this.name = name;
-    this.out = out;
+    this.connection = connection;
     tiles = new Servertile[6];
     score = 0;
     this.bag = bag;
   }
+  
+  //for test purposes, not applicable in the actual server
+  public Player(String name, Bag bag) {
+    this.name = name;
+    tiles = new Servertile[6];
+    score = 0;
+    this.bag = bag;
+  }
+  
+  
 
   public String hasName() {
     return name;
@@ -44,7 +54,7 @@ public class Player {
     score = score + num;
   }
   
-  public PrintWriter getOut(){
-    return out;
+  public Connection getConnection(){
+    return connection;
   }
 }
