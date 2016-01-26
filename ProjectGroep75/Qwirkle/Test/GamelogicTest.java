@@ -149,7 +149,7 @@ public class GamelogicTest {
     gamelogic.movePut(0, 2, 3);
     gamelogic.movePut(0, 1, 2);
     gamelogic.score(0, 1, 2);
-    assertEquals(player.hasScore(), 3);
+    assertEquals("Goes wrong because the moves aren't valid",player.hasScore(), 3);
     gamelogic.nextTurn();
     gamelogic.movePut(1, 0, 4);
     gamelogic.score(1, 0, 4);
