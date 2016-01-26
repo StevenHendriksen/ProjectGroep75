@@ -119,6 +119,33 @@ public class Serverboard {
   }
 
   /**
+   * Method that returns the highest X-coordinate;
+   */
+  public int getdimXp(){
+	  return dimXp;
+  }
+  
+  /**
+   * Method that returns the highest Y-coordinate;
+   */
+  public int getdimYp(){
+	  return dimYp;
+  }
+  
+  /**
+   * Method that returns the lowest X-coordinate;
+   */
+  public int getdimXm(){
+	  return dimXm;
+  }
+  
+  /**
+   * Method that returns the lowest Y-coordinate;
+   */
+  public int getdimYm(){
+	  return dimYm;
+  }
+  /**
    * loops through the List and finds the highest value.
    * 
    * @param list

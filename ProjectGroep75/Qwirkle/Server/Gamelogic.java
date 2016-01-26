@@ -4,41 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gamelogic {
-	  // ------------------ Instance variables ----------------
+	// ------------------ Instance variables ----------------
 	private Bag bag;
 	private Serverboard board;
 	private Servertile tile;
 	private int current = 0;
-	
-	/* @ invariant (\forall int i; 0 <= i & i < players.size(); getField(i) ==
-			 * Mark.EMPTY || getField(i) == Mark.XX || getField(i) == Mark.OO);
-			 */
+
+	// @ private invariant players.length >= 0;
 	private List<Player> players = new ArrayList<Player>();
 
-	  // ------------------ Constructor ------------------------
-	  /**
-	   * The constructor that concerns all the rules of the game.
-	   * 
-	   * @param board
-	   *          The board, which is used in the game
-	   * @param bag
-	   *          The bag, which is used in the game
-	   */
+	// ------------------ Constructor ------------------------
+	/**
+	 * The constructor that concerns all the rules of the game.
+	 * 
+	 * @param board
+	 *            The board, which is used in the game
+	 * @param bag
+	 *            The bag, which is used in the game
+	 */
 	public Gamelogic(Serverboard board, Bag bag) {
 		this.board = board;
 		this.bag = bag;
 	}
 
-	  /**
-	   * The method that takes a tile from the bag.
-	   */
+	/**
+	 * The method that takes a tile from the bag.
+	 */
 	public Servertile drawTile() {
 		return bag.takeTile();
 	}
 
 	/**
-	   * The method that checks whether you can do a trade or not.
-	   */
+	 * The method that checks whether you can do a trade or not.
+	 */
+	// @ ensures \result == (!bag.emptyBag());
 	public String moveOkTrade() {
 		String result = "0";
 
@@ -50,16 +49,30 @@ public class Gamelogic {
 	}
 
 	/**
-	   * The method that checks whether your move is OK or not.
-	   * @param result
-	   * 		  checks whether your move is OK (MOVEOK_PUT) or not (ERROR INVALID_MOVE)
-	   * @param result2
-	   *          checks whether the tiles around x and y are the same color/shape.
-	   * @param result3
-	   *          checks whether the places around x and y are empty.
-	   */
+	 * The method that checks whether your move is OK or not.
+	 * 
+	 * @param result
+	 *            checks whether your move is OK (MOVEOK_PUT) or not (ERROR
+	 *            INVALID_MOVE)
+	 * @param result2
+	 *            checks whether the tiles around x and y are the same
+	 *            color/shape.
+	 * @param result3
+	 *            checks whether the places around x and y are empty.
+	 */
+	/*
+	 * requires tile >= 0 && tile <= 36; requires x <= board.getdimXp() && x >=
+	 * board.getdimXm(); requires y <= board.getdimYp() && y >=
+	 * board.getdimYm();
+	 * 
+	 * ensures \result == (board.getTile(x,y) == null && (
+	 */
 	public String moveOkPut(int tile, int x, int y) {
-		String result = "ERROR INVALID_MOVE";
+		assert tile <= 36 && tile >= 0;
+		assert x <= board.getdimXp() && x >= board.getdimXm();
+		assert y <= board.getdimYp() && y >= board.getdimYm();
+
+		String result = "ERROR Invalid move";
 		int result2 = 0;
 		int result3 = 0;
 
@@ -96,7 +109,7 @@ public class Gamelogic {
 			}
 		}
 
-		if ((result2 > 0 && result3 < 4) || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
+		if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
 			result = "MOVEOK_PUT";
 		}
 
@@ -104,10 +117,15 @@ public class Gamelogic {
 	}
 
 	/**
-	   * The method that checks whether tile and tile2 are equal.
-	   * @param result
-	   * 	Says whether tile and tile2 are equal (true) or not (false)
-	   */
+	 * The method that checks whether tile and tile2 are equal.
+	 * 
+	 * @param result
+	 *            Says whether tile and tile2 are equal (true) or not (false)
+	 */
+	// @ requires tile != null;
+	// @ requires tile2 != null;
+	// @ ensures \result == (this.hasColor() == tile2.hasColor() &&
+	// tile.hasShape() == tile2.hasShape());
 	public boolean equal(Servertile tile, Servertile tile2) {
 		boolean result = false;
 
@@ -119,10 +137,12 @@ public class Gamelogic {
 	}
 
 	/**
-	   * The method that checks whether the game is over or not.
-	   * @param result
-	   * 	Says whether the game is over (GAMEEND) or not ();
-	   */
+	 * The method that checks whether the game is over or not.
+	 * 
+	 * @param result
+	 *            Says whether the game is over (GAMEEND) or not ();
+	 */
+	// @ \result == (bag.emptyBag());
 	public String gameEnd() {
 		String result = "";
 
@@ -134,18 +154,23 @@ public class Gamelogic {
 	}
 
 	/**
-	   * The method that makes the player pass.
-	   */
+	 * The method that makes the player pass.
+	 */
+	// @ requires (\forall int i; i <= 0 & i < player.size();
+	// this.getField(i) != Mark.EMPTY)
 	public String movePass(Player player) {
 		this.nextTurn();
 		return "PASS";
 	}
 
 	/**
-	   * The method that puts the player to a list.
-	   * @param result
-	   * 			checks whether the name of the new player is already used or not.
-	   */
+	 * The method that puts the player to a list.
+	 * 
+	 * @param result
+	 *            checks whether the name of the new player is already used or
+	 *            not.
+	 */
+	// ensures \old(this.hasPlayers().size()) == this.hasPlayers().size() - 1;
 	public void putPlayer(Player player) {
 		boolean result = true;
 
@@ -159,28 +184,34 @@ public class Gamelogic {
 		} else {
 			players.add(player);
 		}
-		
-		if (result && players.size()> 1) {
+
+		if (result && players.size() > 1) {
 			players.add(player);
 		}
 	}
 
 	/**
-	   * The method that returns a list of all players.
-	   */
+	 * The method that returns a list of all players.
+	 */
 	public List<Player> hasPlayers() {
 		return players;
 	}
 
 	/**
-	   * The method that starts the game.
-	   * @param result
-	   * 			checks whether there are enough players (more than size) or not and whether size is greater than 1 and smaller than 5.
-	   */
+	 * The method that starts the game.
+	 * 
+	 * @param result
+	 *            checks whether there are enough players (more than size) or
+	 *            not and whether size is greater than 1 and smaller than 5.
+	 */
+	// @requires size > 1 && size < 5;
+	// @ensures \result == (players.size() >= size);
 	public boolean gameStart(int size) {
+		assert size > 1 && size < 5;
+
 		boolean result = false;
 
-		if (players.size() >= size && size > 1 && size < 5) {
+		if (players.size() >= size) {
 			result = true;
 		}
 
@@ -197,17 +228,18 @@ public class Gamelogic {
 	}
 
 	/**
-	   * The method that returns the turn of the current player.
-	   */
+	 * The method that returns the turn of the current player.
+	 */
 	public Player turn() {
 		return players.get(current % players.size());
 	}
 
 	/**
-	   * The method that returns the turn of the next player.
-	   * @param current
-	   * 			the current turn.
-	   */
+	 * The method that returns the turn of the next player.
+	 * 
+	 * @param current
+	 *            the current turn.
+	 */
 	public Player nextTurn() {
 		int result = 0;
 		current = current + 1;
@@ -222,33 +254,35 @@ public class Gamelogic {
 	}
 
 	/**
-	   * The method that puts the tile on the board.
-	   */
+	 * The method that puts the tile on the board.
+	 */
 	public void movePut(int x, int y, int tile) {
 		board.putTile(x, y, tile);
 	}
 
 	/**
-	   * The method that calculates the score.
-	   * @param score
-	   * 			checks the score of the current move.
-	   * @param qwirkle1
-	   * 			checks whether there is qwirkle horizontale in color.
-	   * @param qwirkle2
-	   * 			checks whether there is qwirkle horizontale in shape.	  
-`	   * @param qwirkle3
-	   * 			checks whether there is qwirkle verticale in color.	   
-	   * @param qwirkle4
-	   * 			checks whether there is qwirkle verticale in shape.
-	   */
+	 * The method that calculates the score.
+	 * 
+	 * @param score
+	 *            checks the score of the current move.
+	 * @param qwirkle1
+	 *            checks whether there is qwirkle horizontale in color.
+	 * @param qwirkle2
+	 *            checks whether there is qwirkle horizontale in shape. `
+	 *            * @param qwirkle3 checks whether there is qwirkle verticale in
+	 *            color.
+	 * @param qwirkle4
+	 *            checks whether there is qwirkle verticale in shape.
+	 */
 	public void score(int x, int y, int tile) {
+		System.out.println("Score");
 		this.tile = new Servertile(tile);
 		int score = 1;
 		int qwirkle1 = 1;
 		int qwirkle2 = 1;
 		int qwirkle3 = 1;
 		int qwirkle4 = 1;
-		
+
 		System.out.println(board.getTile(x + 1, y));
 		if (board.getTile(x + 1, y) != null) {
 			if (board.getTile(x + 1, y).hasColor().equals(this.tile.hasColor())) {
@@ -263,8 +297,7 @@ public class Gamelogic {
 						break;
 					}
 				}
-			}
-			else if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
+			} else if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				qwirkle2 = qwirkle2 + 1;
 				for (int i = 1; i < 5; i++) {
@@ -277,7 +310,7 @@ public class Gamelogic {
 					}
 				}
 			}
-			if(qwirkle1 == 6 || qwirkle2 == 6){
+			if (qwirkle1 == 6 || qwirkle2 == 6) {
 				score = score + 6;
 			}
 		}
@@ -295,8 +328,7 @@ public class Gamelogic {
 						break;
 					}
 				}
-			}
-			else if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
+			} else if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				qwirkle2 = qwirkle2 + 1;
 				for (int i = 1; i < 5; i++) {
@@ -309,15 +341,12 @@ public class Gamelogic {
 					}
 				}
 			}
-			if(qwirkle1 == 6 || qwirkle2 == 6){
+			if (qwirkle1 == 6 || qwirkle2 == 6) {
 				score = score + 6;
 			}
 		}
 
 		if (board.getTile(x, y + 1) != null) {
-			if (score > 1) {
-				score = score + 1;
-			}
 			if (board.getTile(x, y + 1).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
 				qwirkle3 = qwirkle3 + 1;
@@ -330,8 +359,7 @@ public class Gamelogic {
 						break;
 					}
 				}
-			}
-			else if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
+			} else if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				qwirkle4 = qwirkle4 + 1;
 				for (int i = 1; i < 5; i++) {
@@ -344,15 +372,12 @@ public class Gamelogic {
 					}
 				}
 			}
-			if(qwirkle3 == 6 || qwirkle4 == 6){
+			if (qwirkle3 == 6 || qwirkle4 == 6) {
 				score = score + 6;
 			}
 		}
 
 		if (board.getTile(x, y - 1) != null) {
-			if (score > 1 && (qwirkle3 > 1 || qwirkle4 > 1)) {
-				score = score + 1;
-			}
 			if (board.getTile(x, y - 1).hasColor() == this.tile.hasColor()) {
 				score = score + 1;
 				qwirkle3 = qwirkle3 + 1;
@@ -365,8 +390,7 @@ public class Gamelogic {
 						break;
 					}
 				}
-			}
-			else if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
+			} else if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
 				score = score + 1;
 				qwirkle4 = qwirkle4 + 1;
 				for (int i = 1; i < 5; i++) {
@@ -379,33 +403,37 @@ public class Gamelogic {
 					}
 				}
 			}
-			
-			if(qwirkle3 == 6 || qwirkle4 == 6){
+
+			if (qwirkle3 == 6 || qwirkle4 == 6) {
 				score = score + 6;
 			}
 		}
-
+		System.out.println("qwirkle 1: " + qwirkle1);
+		System.out.println("qwirkle 2: " + qwirkle2);
+		System.out.println("qwirkle 3: " + qwirkle3);
+		System.out.println("qwirkle 4: " + qwirkle4);
+		System.out.println("Score added: " + score);
 		turn().changeScore(score);
 	}
 
 	/**
-	   *  The method that does the trade.
-	   */
+	 * The method that does the trade.
+	 */
 	public void moveTrade(int number) {
 		bag.putTile(number);
 
 		Servertile instancetile = new Servertile(number);
 
 		for (int i = 0; i < 6; i++) {
-			if (turn().hasTiles()[i] == instancetile) {
+			if (equal(turn().hasTiles()[i], instancetile)) {
 				turn().changeTiles(bag.takeTile(), i);
 			}
 		}
 	}
 
 	/**
-	   *  The method that returns the current turn.
-	   */
+	 * The method that returns the current turn.
+	 */
 	public int numberTurn() {
 		return current;
 	}

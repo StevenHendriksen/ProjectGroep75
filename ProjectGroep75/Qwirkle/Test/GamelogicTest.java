@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,14 +31,14 @@ public class GamelogicTest {
 
   @Before
   public void setUp() {
-    board = new Serverboard(true);
+    board = new Serverboard();
     bag = new Bag();
     gamelogic = new Gamelogic(board, bag);
     tile = new Servertile(1);
     tile2 = new Servertile(Color.RED, Shape.CIRCLE);
     tile3 = new Servertile(2);
-    player = new Player("Stan", bag);
-    player2 = new Player("Steven", bag);
+    player = new Player("Stan", bag, new PrintWriter(System.out));
+    player2 = new Player("Steven", bag, new PrintWriter(System.out));
   }
 
   @Test
@@ -74,6 +75,7 @@ public class GamelogicTest {
 
   @Test
   public void putPlayerTest() {
+    Gamelogic gamelogic = new Gamelogic(board, bag);
     gamelogic.putPlayer(player);
 
     List<Player> players = new ArrayList<Player>();
@@ -91,7 +93,6 @@ public class GamelogicTest {
 
     gamelogic.putPlayer(player2);
 
-    System.out.println(gamelogic.hasPlayers().size());
     assertTrue(gamelogic.gameStart(2));
     assertFalse(gamelogic.gameStart(3));
   }
@@ -127,16 +128,15 @@ public class GamelogicTest {
 
     assertEquals(tile.hasColor(), board.getTile(0, 0).hasColor());
     assertEquals(tile.hasShape(), board.getTile(0, 0).hasShape());
-    
     gamelogic.score(0, 0, 1);
     assertEquals(1, player.hasScore());
 
     gamelogic.nextTurn();
 
+    gamelogic.score(0, 1, 2);
     gamelogic.movePut(0, 1, 2);
     assertEquals(tile3.hasColor(), board.getTile(0, 1).hasColor());
     assertEquals(tile3.hasShape(), board.getTile(0, 1).hasShape());
-    gamelogic.score(0, 1, 2);
     assertEquals(2, player2.hasScore());
   }
 
@@ -145,25 +145,36 @@ public class GamelogicTest {
     gamelogic.putPlayer(player);
     gamelogic.putPlayer(player2);
 
-    assertEquals(player.hasScore(), 0);
-
     gamelogic.movePut(0, 0, 1);
+    gamelogic.movePut(0, 2, 3);
+    gamelogic.movePut(0, 1, 2);
+    gamelogic.score(0, 1, 2);
+    assertEquals(player.hasScore(), 3);
+    gamelogic.nextTurn();
+    gamelogic.movePut(1, 0, 4);
+    gamelogic.score(1, 0, 4);
+    assertEquals(player2.hasScore(), 2);
 
-    assertEquals(player.hasScore(), 1);
   }
 
+  @Test
   public void moveTradeTest() {
+    gamelogic.putPlayer(player);
+    gamelogic.putPlayer(player2);
     player.changeTiles(new Servertile(1), 0);
     player.changeTiles(new Servertile(2), 1);
     player.changeTiles(new Servertile(3), 2);
     player.changeTiles(new Servertile(4), 3);
     player.changeTiles(new Servertile(5), 4);
     player.changeTiles(new Servertile(6), 5);
+    System.out.println(player.hasTiles()[2]);
+    gamelogic.moveTrade(5);
+    assertTrue(gamelogic.equal(player.hasTiles()[5], new Servertile(6)));
 
-    gamelogic.moveTrade(1);
+    for (int i = 1; i < 6; i++) {
+      System.out.println("player has tile: " + player.hasTiles()[i]);
+      assertFalse(gamelogic.equal(player.hasTiles()[i], new Servertile(1)));
 
-    for (int i = 0; i < 6; i++) {
-      assertFalse(player.hasTiles()[i] == new Servertile(1));
     }
   }
 }
