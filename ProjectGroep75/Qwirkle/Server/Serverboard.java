@@ -66,8 +66,21 @@ public class Serverboard {
    *          a array of tiles that the player has
    */
 
+  /*
+   * @requires tiles != null;
+   * 
+   * @ensures \old(this.hasHand()) != this.hasHand();
+   * 
+   * @ensures \forall(int i; i >= 0 i < hasHand().length; this.hasHand()[i] ==
+   * tiles[i]);
+   */
   public void setHand(Servertile[] tiles) {
     hand = tiles;
+  }
+
+  // @ pure;
+  public Servertile[] hasHand() {
+    return hand;
   }
 
   /**
@@ -80,8 +93,20 @@ public class Serverboard {
    * @param tile
    *          the tile you want to put there
    */
-
+  /*
+   * @requires tile >= 0 && tile <= 36; requires xcoord <= getdimXp() && xcoord
+   * >= getdimXm(); requires ycoord <= getdimYp() && ycoord >= getdimYm();
+   * 
+   * @ensures getTile(xcoord, ycoord).hasColor() == new
+   * Servertile(tile).hasColor();
+   * 
+   * @ensures getTile(xcoord, ycoord).hasShape() == new
+   * Servertile(tile).hasShape();
+   */
   public void putTile(int xcoord, int ycoord, int tile) {
+    assert tile <= 36 && tile >= 0;
+    assert xcoord <= getdimXp() && xcoord >= getdimXm();
+    assert ycoord <= getdimYp() && ycoord >= getdimYm();
     tileLocs.put(xcoord + " " + ycoord, new Servertile(tile));
   }
 
@@ -92,7 +117,19 @@ public class Serverboard {
    *          the tile
    * @return int the Integer
    */
-
+  /*
+   * @ requires tile.hasColor() == Color.RED || tile.hasColor() == Color.ORANGE
+   * || tile.hasColor() == Color.YELLOW || tile.hasColor() == Color.BLUE ||
+   * tile.hasColor() == Color.GREEN || tile.hasColor == Color.PURPLE;
+   * 
+   * @ requires tile.hasShape() == Shape.RED || tile.hasShape() == Shape.ORANGE
+   * || tile.hasShape() == Shape.YELLOW || tile.hasShape() == Shape.BLUE ||
+   * tile.hasShape() == Shape.GREEN || tile.hasColor == Shape.PURPLE;
+   * 
+   * @ ensures \result >= 1;
+   * 
+   * @ ensures \result <= 36;
+   */
   public int tileToInt(Servertile tile) {
     int result = 0;
     result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
@@ -105,6 +142,7 @@ public class Serverboard {
    * playing field.
    */
 
+  // @ pure;
   public void setDim() {
     List<String> xcoords = new ArrayList<String>();
     List<String> ycoords = new ArrayList<String>();
@@ -121,30 +159,35 @@ public class Serverboard {
   /**
    * Method that returns the highest X-coordinate;
    */
-  public int getdimXp(){
-	  return dimXp;
+  // @ pure;
+  public int getdimXp() {
+    return dimXp;
   }
-  
+
   /**
    * Method that returns the highest Y-coordinate;
    */
-  public int getdimYp(){
-	  return dimYp;
+  // @pure;
+  public int getdimYp() {
+    return dimYp;
   }
-  
+
   /**
    * Method that returns the lowest X-coordinate;
    */
-  public int getdimXm(){
-	  return dimXm;
+  // @pure;
+  public int getdimXm() {
+    return dimXm;
   }
-  
+
   /**
    * Method that returns the lowest Y-coordinate;
    */
-  public int getdimYm(){
-	  return dimYm;
+  // @pure;
+  public int getdimYm() {
+    return dimYm;
   }
+
   /**
    * loops through the List and finds the highest value.
    * 
@@ -153,6 +196,7 @@ public class Serverboard {
    * @return highest value in the List of Strings
    */
 
+  // @ requires list != null;
   public int getHighest(List<String> list) {
     int highest = 0;
     for (int i = 0; i < list.size(); i++) {
@@ -171,6 +215,7 @@ public class Serverboard {
    * @return lowest value in the List of Strings
    */
 
+  // @ ensures list != null;
   public int getLowest(List<String> list) {
     int lowest = 0;
     for (int i = 0; i < list.size(); i++) {
@@ -186,6 +231,7 @@ public class Serverboard {
    * 
    * @return tileLocs
    */
+  // @pure;
   public Map<String, Servertile> getTileLocs() {
     return tileLocs;
   }
@@ -200,6 +246,10 @@ public class Serverboard {
    * @return tile if it exists or null
    */
 
+  /*
+   * @requires xcoord <= getdimXp() && xcoord >= getdimXm(); requires ycoord <=
+   * getdimYp() && ycoord >= getdimYm();
+   */
   public Servertile getTile(int xcoord, int ycoord) {
     Servertile result = null;
     Servertile result2 = tileLocs.get(xcoord + " " + ycoord);
@@ -214,7 +264,7 @@ public class Serverboard {
    * 
    * @return divider
    */
-
+  // @pure;
   public String createDivider() {
     String divider = "-";
     for (int i = dimXp; i >= dimXm; i--) {
@@ -231,6 +281,7 @@ public class Serverboard {
    * @return otherDivider
    */
 
+  // @pure;
   public String createOtherDivider() {
     String divider = "+";
     for (int i = dimXp; i >= dimXm; i--) {
@@ -247,6 +298,7 @@ public class Serverboard {
    * @return xCoords
    */
 
+  // @pure;
   public String createxCoords() {
     String xcoords = " y/x|";
     for (int h = dimXm; h <= dimXp; h++) {
@@ -273,7 +325,7 @@ public class Serverboard {
    * 
    * @return List
    */
-
+  // @pure;
   public List<String> createBoardPrint() {
     List<String> board = new ArrayList<String>();
     board.add(createxCoords());
@@ -292,7 +344,7 @@ public class Serverboard {
    *          (y value)
    * @return String of the line
    */
-
+  // @pure;
   public String createTileLine(int num) {
     String tilesLine = "";
     if (num < 0) {
@@ -323,7 +375,7 @@ public class Serverboard {
    * 
    * @return chat
    */
-
+  // @pure;
   public List<String> createChatBox() {
     List<String> chat = new ArrayList<String>();
     chat.add(createOtherDivider());
@@ -352,6 +404,7 @@ public class Serverboard {
    * @return List
    */
 
+  // @pure;
   public List<String> createConsole() {
     List<String> console = new ArrayList<String>();
     console.add(createOtherDivider());
@@ -382,7 +435,8 @@ public class Serverboard {
    *          in the TUI
    * @return message
    */
-
+  // @requires msg != "";
+  // @pure;
   public String convertFormat(String msg) {
     String message = "| " + msg;
     setDim();
@@ -401,6 +455,8 @@ public class Serverboard {
    *          message to be added to the console
    */
 
+  // @requires msg != null;
+  // @ensures consoleEntry.size() == \old(consoleEntry.size()) + 1;
   public void consoleEntry(String msg) {
     consoleEntry.add("  " + msg);
   }
@@ -417,6 +473,7 @@ public class Serverboard {
    *          whether it was sent from or to the name
    */
 
+  // @pure;
   public void chatEntry(String name, String msg, boolean bool) {
     String message = "";
     if (bool) {
@@ -432,6 +489,7 @@ public class Serverboard {
    * Prints 50 empty lines to clear the print area.
    */
 
+  // @pure;
   public void clear() {
     for (int i = 0; i < 50; i++) {
       System.out.println();
@@ -444,6 +502,7 @@ public class Serverboard {
    * @return handPrints (String List of print of the hand
    */
 
+  // @pure;
   public List<String> createHandPrint() {
     List<String> handPrints = new ArrayList<String>();
 
@@ -461,6 +520,7 @@ public class Serverboard {
    * console and chatbox.
    */
 
+  // @pure;
   public void update() {
     setDim();
     clear();

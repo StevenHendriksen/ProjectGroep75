@@ -49,6 +49,7 @@ public class Server extends Thread {
   /**
    * The main method which makes a new Server
    */
+  // @pure;
   public static void main(String[] args) {
     new Server();
   }
@@ -63,6 +64,8 @@ public class Server extends Thread {
    * @param connection
    *          a new connection which is made.
    */
+  // @ ensures peer != null;
+  // @ ensures socket != null;
   public void connection(Peer peer, Socket socket) {
     try {
       System.out.println("Client connected: " + socket);
@@ -74,9 +77,15 @@ public class Server extends Thread {
       e.printStackTrace();
     }
   }
-  
-  public void sendAll(){
-    System.out.println(gamelogic.hasPlayers());
+
+  // @pure;
+  public void sendAll() {
+    System.out.println("sendAll " + gamelogic.hasPlayers());
+    for (int p = 0; p < gamelogic.hasPlayers().size(); p++) {
+      gamelogic.hasPlayers().get(p).getConnection().write("test",
+          gamelogic.hasPlayers().get(p).getConnection().getOut());
+    }
+
   }
-  
+
 }
