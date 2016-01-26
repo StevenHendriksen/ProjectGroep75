@@ -156,8 +156,8 @@ public class Gamelogic {
 	/**
 	 * The method that makes the player pass.
 	 */
-	// @ requires (\forall int i; i <= 0 & i < player.size();
-	// this.getField(i) != Mark.EMPTY)
+	// @ requires (\exists int i; i <= 0 & i < player.size();
+	// this.hasPlayers().get(i) == player)
 	public String movePass(Player player) {
 		this.nextTurn();
 		return "PASS";
@@ -193,6 +193,7 @@ public class Gamelogic {
 	/**
 	 * The method that returns a list of all players.
 	 */
+	/*@ pure */
 	public List<Player> hasPlayers() {
 		return players;
 	}
@@ -230,6 +231,7 @@ public class Gamelogic {
 	/**
 	 * The method that returns the turn of the current player.
 	 */
+	/*@  pure */
 	public Player turn() {
 		return players.get(current % players.size());
 	}
@@ -240,6 +242,7 @@ public class Gamelogic {
 	 * @param current
 	 *            the current turn.
 	 */
+	//@ ensures this.numberTurn() == \old(this.numberTurn()) + 1;
 	public Player nextTurn() {
 		int result = 0;
 		current = current + 1;
@@ -256,7 +259,16 @@ public class Gamelogic {
 	/**
 	 * The method that puts the tile on the board.
 	 */
+	/*@requires tile >= 0 && tile <= 36; requires x <= board.getdimXp() && x >=
+		 * board.getdimXm(); requires y <= board.getdimYp() && y >=
+		 * board.getdimYm();
+		 * ensures board.getTile(x , y).hasColor() == new Servertile(tile).hasColor();
+		 * ensures board.getTile(x , y).hasShape() == new Servertile(tile).hasShape();
+	 @*/ 
 	public void movePut(int x, int y, int tile) {
+		assert tile <= 36 && tile >= 0;
+		assert x <= board.getdimXp() && x >= board.getdimXm();
+		assert y <= board.getdimYp() && y >= board.getdimYm();
 		board.putTile(x, y, tile);
 	}
 
@@ -274,7 +286,17 @@ public class Gamelogic {
 	 * @param qwirkle4
 	 *            checks whether there is qwirkle verticale in shape.
 	 */
+	/*@requires tile >= 0 && tile <= 36; requires x <= board.getdimXp() && x >=
+	 * board.getdimXm(); requires y <= board.getdimYp() && y >=
+	 * board.getdimYm();
+	 * 
+	 * ensures \old(turn().hasScore()) != turn().hasScore();
+	 @*/
 	public void score(int x, int y, int tile) {
+		assert tile <= 36 && tile >= 0;
+		assert x <= board.getdimXp() && x >= board.getdimXm();
+		assert y <= board.getdimYp() && y >= board.getdimYm();
+		
 		System.out.println("Score");
 		this.tile = new Servertile(tile);
 		int score = 1;
@@ -419,6 +441,9 @@ public class Gamelogic {
 	/**
 	 * The method that does the trade.
 	 */
+	/*@ requires number <= 36 && number >= 0;
+	 *  ensures \old(turn().hasTiles()) != turn().hasTiles();
+	 @*/
 	public void moveTrade(int number) {
 		bag.putTile(number);
 
@@ -434,6 +459,7 @@ public class Gamelogic {
 	/**
 	 * The method that returns the current turn.
 	 */
+	//@ pure;
 	public int numberTurn() {
 		return current;
 	}
