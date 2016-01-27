@@ -447,4 +447,36 @@ public class Board {
       System.out.println(board.get(j - 1));
     }
   }
+  
+  /**
+   * Method that returns the highest X-coordinate.
+   */
+  // @ pure;
+  public int getdimXp() {
+    return dimXp;
+  }
+
+  /**
+   * Method that returns the highest Y-coordinate.
+   */
+  // @pure;
+  public int getdimYp() {
+    return dimYp;
+  }
+
+  /**
+   * Method that returns the lowest X-coordinate.
+   */
+  // @pure;
+  public int getdimXm() {
+    return dimXm;
+  }
+
+  /**
+   * Method that returns the lowest Y-coordinate.
+   */
+  // @pure;
+  public int getdimYm() {
+    return dimYm;
+  }
 }

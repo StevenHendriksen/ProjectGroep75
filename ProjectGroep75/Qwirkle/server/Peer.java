@@ -50,21 +50,7 @@ public class Peer {
             server.sendAll("TURN " + gamelogic.turn().hasName());
           }
         }
-        if (gamelogic.hasPlayers().size() >= 2) {
-          if (gamelogic.gameStart(2)) {
-            result = result + " GAMEHASSTARTED";
-            server.sendAll("GAMESTART");
-            for (int j = 0; j < gamelogic.hasPlayers().size() - 1; j++) {
-              Player player = gamelogic.hasPlayers().get(j);
-              for (int i = 0; i < 6; i++) {
-                player.changeTiles(gamelogic.drawTile(player), i);
-              }
-              server.sendAll("TURN " + gamelogic.turn().hasName());
-            }
-          }
-        }
       } else if (command.equals("DRAWTILE")) {
-        gamelogic.turn();
         for (int i = 0; i < 6; i++) {
           if (player.hasTiles()[i] == null) {
             player.changeTiles(gamelogic.drawTile(gamelogic.getPlayer(connection)), i);
@@ -87,6 +73,10 @@ public class Peer {
         result = "MOVEOK_PUT";
         Scanner fullCommandTiles = new Scanner(cmd);
         fullCommandTiles.next();
+        String sendall = "MOVEOK_PUT";
+        int xCoords[] = new int[6];
+        int yCoords[] = new int[6];
+
         while (fullCommandTiles.hasNext()) {
           String tile = fullCommandTiles.next();
           String tile2 = tile.replaceAll("[^\\dA-Za-z ]", " ");
@@ -94,17 +84,30 @@ public class Peer {
           int tileInt = new Integer(in.next());
           int x = new Integer(in.next());
           int y = new Integer(in.next());
-          System.out.println(x + y + tileInt + " MoveOKPut "
-              + gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName()));
-          if (gamelogic.moveOkPut(tileInt, x, y).equals("MOVEOK_PUT")
-              && gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName())) {
+          System.out.println(xCoords.length);
+          System.out.println(yCoords.length);
+          xCoords[xCoords.length - 1] = x;
+          yCoords[yCoords.length - 1] = y;
+          if (gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName()) && (straightline(xCoords, x)
+              || straightline(yCoords, y) || gamelogic.moveOkPut(tileInt, x, y).equals("MOVEOK_PUT"))) {
             board.putTile(x, y, tileInt);
             result = result + " " + tileInt + "@" + x + "," + y;
+            sendall = sendall + " " + tileInt + "@" + x + "," + y;
+            Servertile drawnTile = gamelogic.drawTile(gamelogic.getPlayer(connection));
+            connection.getOut().write(drawnTile.tileToInt(drawnTile));
+            System.out.print("Players: " + gamelogic.hasPlayers().size());
           } else {
             result = "ERROR: INVALID MOVE";
           }
           in.close();
         }
+        if (!sendall.equals("MOVEOK_PUT")) {
+          server.sendAll(sendall);
+        }
+
+        gamelogic.nextTurn();
+        server.sendAll("TURN " + gamelogic.turn().hasName());
+
         fullCommandTiles.close();
       } else if (command.equals("MOVE_TRADE")) {
         result = "MOVEOK_TRADE";
@@ -134,4 +137,16 @@ public class Peer {
       return result;
     }
   }
+
+  public boolean straightline(int[] coords, int value) {
+    boolean result = true;
+    for (int i = 0; i < coords.length; i++) {
+      if (coords[i] != value) {
+        result = false;
+      }
+    }
+    System.out.println("straightline " + result);
+    return result;
+  }
+
 }

@@ -1,6 +1,7 @@
 package server;
 
 import java.net.*;
+import java.util.Scanner;
 import java.io.*;
 
 public class Server extends Thread {
@@ -31,19 +32,28 @@ public class Server extends Thread {
    *          The connection, which is made with the clients.
    */
   public Server() {
-    try {
-      server = new ServerSocket(3333);
-      bag = new Bag();
-      board = new Serverboard(true);
-      gamelogic = new Gamelogic(board, bag);
-      System.out
-          .println("Waiting for client on port 3223 swith IP-adress: " + Inet4Address.getLocalHost().getHostAddress());
-      Connection connection = new Connection(this, gamelogic, board, bag, server);
-      Thread s = new Thread(connection);
-      s.start();
-    } catch (Exception e) {
-      System.out.println("Error while trying to make a server: " + e);
-      e.printStackTrace();
+    while (server == null) {
+      try {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Port:");
+        String port = "";
+        port = in.nextLine();
+        while (port.equals("")) {
+          System.out.println("Re-enter port: ");
+          port = in.nextLine();
+        }
+        server = new ServerSocket(3333);
+        bag = new Bag();
+        board = new Serverboard(true);
+        gamelogic = new Gamelogic(board, bag);
+        System.out.println(
+            "Waiting for client on port " + port + " swith IP-adress: " + Inet4Address.getLocalHost().getHostAddress());
+        Connection connection = new Connection(this, gamelogic, board, bag, server);
+        Thread s = new Thread(connection);
+        s.start();
+      } catch (Exception e) {
+        System.out.println("Error while trying to make a server, Try another port");
+      }
     }
   }
 
@@ -81,14 +91,13 @@ public class Server extends Thread {
 
   // @pure;
   public void sendAll(String msg) {
-    System.out.println("sendAll " + gamelogic.hasPlayers());
+    System.out.println("sendAll: " + msg);
     for (int p = 0; p < gamelogic.hasPlayers().size(); p++) {
-      gamelogic.hasPlayers().get(p).getConnection().write(msg,
-          gamelogic.hasPlayers().get(p).getConnection().getOut());
+      gamelogic.hasPlayers().get(p).getConnection().write(msg, gamelogic.hasPlayers().get(p).getConnection().getOut());
     }
 
   }
-  
+
   public String getfunctions() {
     return functions;
   }

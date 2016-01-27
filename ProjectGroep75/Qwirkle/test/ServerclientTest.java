@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import client.Qwirkle;
 import server.Server;

@@ -1,12 +1,11 @@
-package server;
+package client;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Gamelogic {
   // ------------------ Instance variables ----------------
-  private Bag bag;
-  private Serverboard board;
+  private Board board;
   private Servertile tile;
   private int current = 0;
 
@@ -22,32 +21,8 @@ public class Gamelogic {
    * @param bag
    *          The bag, which is used in the game
    */
-  public Gamelogic(Serverboard board, Bag bag) {
+  public Gamelogic(Board board) {
     this.board = board;
-    this.bag = bag;
-  }
-
-  /**
-   * The method that takes a tile from the bag.
-   */
-  public Servertile drawTile(Player player) {
-    Servertile tile = bag.takeTile();
-    player.getConnection().write("DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
-    return bag.takeTile();
-  }
-
-  /**
-   * The method that checks whether you can do a trade or not.
-   */
-  // @ ensures \result == (!bag.emptyBag());
-  public String moveOkTrade() {
-    String result = "0";
-
-    if (!bag.emptyBag()) {
-      result = "MOVEOK_TRADE";
-    }
-
-    return result;
   }
 
   /**
@@ -67,21 +42,18 @@ public class Gamelogic {
    * 
    * ensures \result == (board.getTile(x,y) == null && (
    */
-  public String moveOkPut(int tile, int x, int y) {
+  public boolean moveOkPut(int tile, int x, int y) {
     assert tile <= 36 && tile >= 0;
     assert x <= board.getdimXp() && x >= board.getdimXm();
     assert y <= board.getdimYp() && y >= board.getdimYm();
 
-    String result = "ERROR Invalid move";
+    boolean result = false;
     int result2 = 0;
     int result3 = 0;
 
     this.tile = new Servertile(tile);
 
     if (board.getTile(x, y) == null) {
-      if (x == 0 && y == 0) {
-        result = "MOVEOK_PUT";
-      }
       if (board.getTile(x + 1, y) == null) {
         result3 = result3 + 1;
       } else if (!equal(board.getTile(x + 1, y), this.tile)
@@ -110,8 +82,8 @@ public class Gamelogic {
       }
     }
 
-    if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
-      result = "MOVEOK_PUT";
+    if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0)) {
+      result = true;
     }
 
     return result;
@@ -138,29 +110,11 @@ public class Gamelogic {
   }
 
   /**
-   * The method that checks whether the game is over or not.
-   * 
-   * @param result
-   *          Says whether the game is over (GAMEEND) or not ();
-   */
-  // @ \result == (bag.emptyBag());
-  public String gameEnd() {
-    String result = "";
-
-    if (bag.emptyBag()) {
-      result = "GAMEEND";
-    }
-
-    return result;
-  }
-
-  /**
    * The method that makes the player pass.
    */
   // @ requires (\exists int i; i <= 0 & i < player.size();
   // this.hasPlayers().get(i) == player)
   public String movePass(Player player) {
-    this.nextTurn();
     return "PASS";
   }
 
@@ -199,78 +153,6 @@ public class Gamelogic {
   }
 
   /**
-   * The method that starts the game.
-   * 
-   * @param result
-   *          returns true if succesful checks whether there are enough players
-   *          (more than size) or not and whether size is greater than 1 and
-   *          smaller than 5.
-   */
-  // @requires size > 1 && size < 5;
-  // @ensures \result == (players.size() >= size);
-  public boolean gameStart(int size) {
-    assert size > 1 && size < 5;
-
-    boolean result = false;
-    if (size > 1 && size < 5) {
-      if (players.size() >= size) {
-        result = true;
-      }
-
-      if (result) {
-        for (int i = 0; i < size; i++) {
-          players.get(i).getTiles();
-        }
-      }
-    }
-    return result;
-  }
-
-  /**
-   * The method that returns the turn of the current player.
-   */
-  /* @ pure */
-  public Player turn() {
-    return players.get(current % players.size());
-  }
-
-  /**
-   * The method that returns the turn of the next player.
-   * 
-   * @param current
-   *          the current turn.
-   */
-  // @ ensures this.numberTurn() == \old(this.numberTurn()) + 1;
-  public Player nextTurn() {
-    int result = 0;
-    current = current + 1;
-
-    result = current % players.size();
-
-    return players.get(result);
-  }
-
-  /**
-   * The method that puts the tile on the board.
-   */
-  /*
-   * @requires tile >= 0 && tile <= 36; requires x <= board.getdimXp() && x >=
-   * board.getdimXm(); requires y <= board.getdimYp() && y >= board.getdimYm();
-   * ensures board.getTile(x , y).hasColor() == new Servertile(tile).hasColor();
-   * ensures board.getTile(x , y).hasShape() == new Servertile(tile).hasShape();
-   * 
-   * @
-   */
-  public void movePut(int x, int y, int tile) {
-    assert tile <= 36 && tile >= 0;
-    assert x <= board.getdimXp() + 1 && x >= board.getdimXm() - 1;
-    assert y <= board.getdimYp() + 1 && y >= board.getdimYm() - 1;
-    if (moveOkPut(tile, x, y).equals("MOVEOK_PUT")) {
-      board.putTile(x, y, tile);
-    }
-  }
-
-  /**
    * The method that calculates the score.
    * 
    * @param score
@@ -291,7 +173,7 @@ public class Gamelogic {
    * 
    * @
    */
-  public void score(int x, int y, int tile) {
+  public int score(int x, int y, int tile) {
     assert tile <= 36 && tile >= 0;
     assert x <= board.getdimXp() && x >= board.getdimXm();
     assert y <= board.getdimYp() && y >= board.getdimYm();
@@ -426,45 +308,6 @@ public class Gamelogic {
         score = score + 6;
       }
     }
-    turn().changeScore(score);
-  }
-
-  /**
-   * The method that does the trade.
-   */
-  /*
-   * @ requires number <= 36 && number >= 0; ensures \old(turn().hasTiles()) !=
-   * turn().hasTiles();
-   * 
-   * @
-   */
-  public void moveTrade(int number) {
-    bag.putTile(number);
-
-    Servertile instancetile = new Servertile(number);
-
-    for (int i = 0; i < 6; i++) {
-      if (equal(turn().hasTiles()[i], instancetile)) {
-        turn().changeTiles(bag.takeTile(), i);
-      }
-    }
-  }
-
-  /**
-   * The method that returns the current turn.
-   */
-  // @ pure;
-  public int numberTurn() {
-    return current;
-  }
-
-  public Player getPlayer(Connection connection) {
-    for (int p = 0; p < players.size(); p++) {
-      if (players.get(p).getConnection().equals(connection)) {
-        return players.get(p);
-      }
-    }
-    return null;
-
+    return score;
   }
 }

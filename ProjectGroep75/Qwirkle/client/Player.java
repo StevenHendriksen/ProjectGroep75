@@ -21,9 +21,17 @@ public class Player {
   public Servertile[] hasTiles() {
     return tiles;
   }
+  
+  public void setTiles(Servertile[] tiles) {
+    this.tiles = tiles;
+  }
 
   public void addTile(Servertile tile) {
     tiles[tiles.length - 1] = tile;
+  }
+  
+  public void changeTiles(Servertile tile, int num) {
+    tiles[num] = tile;
   }
 
   public void removeTile(Servertile tile) {

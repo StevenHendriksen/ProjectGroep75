@@ -95,12 +95,12 @@ public class ServerCommunication extends Thread {
         BufferedReader inputStream = new BufferedReader(inputReader);
 
         String serverMessage = "";
-        while (!serverMessage.equals("Close")) {
-          serverMessage = inputStream.readLine();
+        while (!serverMessage.equals("Close")) { 
           if (!serverMessage.equals("") && !serverMessage.equals("Close")) {
             peer.handleCommand(serverMessage);
             System.out.println(serverMessage);
           }
+          serverMessage = inputStream.readLine();
         }
       }
 

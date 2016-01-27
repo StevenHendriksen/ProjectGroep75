@@ -70,22 +70,31 @@ public class Peer {
         String name = fullCommand.next();
         System.out.println("Turn: " + name);
         game.turn(name);
-        board.update();
       }
       if (command.equals("PASS")) {
         String name = fullCommand.next();
         System.out.println("Player Passed: " + name);
         game.pass(name);
-        board.update();
       }
       if (command.equals("DRAWTILE")) {
         while (fullCommand.hasNext()) {
           // adds the previously mentioned
           System.out.println("Adding tile");
-          player.addTile(new Servertile(new Integer(fullCommand.next())));
+          if (player.hasTiles().length == 6) {
+            int position = 0;
+            for (int i = 0; i < player.hasTiles().length - 1; i++) {
+              if (player.hasTiles()[i] == null) {
+                position = i;
+                break;
+              }
+            }
+            player.changeTiles(new Servertile(new Integer(fullCommand.next())), position);
+          } else {
+            player.changeTiles(new Servertile(new Integer(fullCommand.next())), player.hasTiles().length - 1);
+          }
+
         }
         board.setHand(player.hasTiles());
-        board.update();
       }
       if (command.equals("MOVEOK_PUT")) {
         Scanner fullCommandTiles = new Scanner(cmd);
@@ -98,13 +107,24 @@ public class Peer {
           int xvalue = new Integer(in.next());
           int yvalue = new Integer(in.next());
           System.out.println("putTile: " + xvalue + yvalue + tileInt);
-          board.putTile(xvalue, yvalue, tileInt);
+          if (board.getTile(xvalue, yvalue) == null) {
+            for (int i = 0; i < 6; i++) {
+              if (equal(player.hasTiles()[i], tileInt)) {
+                Servertile[] tiles = player.hasTiles();
+                tiles[i] = null;
+                player.setTiles(tiles);
+              }
+            }
+              board.putTile(xvalue, yvalue, tileInt);
+              board.consoleEntry("added: " + tile);
+          } else {
+            board.putTile(xvalue, yvalue, tileInt);
+            board.consoleEntry("added: " + tile);
+          }
           in.close();
-          board.consoleEntry("added: " + tile);
         }
         System.out.println("tiles places");
         fullCommandTiles.close();
-        board.update();
       }
       if (command.equals("MOVEOK_TRADE")) {
         System.out.println("Tiles traded: " + fullCommand.next());
@@ -129,7 +149,7 @@ public class Peer {
       }
       scan.close();
       fullCommand.close();
-
+      board.update();
     } catch (java.util.NoSuchElementException e) {
       System.out.println("Invalid Server command: " + str);
       e.printStackTrace();
@@ -137,5 +157,17 @@ public class Peer {
       board.update();
 
     }
+  }
+
+  public boolean equal(Servertile tile, int tileInt) {
+    boolean result = false;
+
+    Servertile tile2 = new Servertile(tileInt);
+
+    if (tile.hasColor() == tile2.hasColor() && tile.hasShape() == tile2.hasShape()) {
+      result = true;
+    }
+
+    return result;
   }
 }

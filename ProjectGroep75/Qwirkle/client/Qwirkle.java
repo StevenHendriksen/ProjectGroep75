@@ -20,6 +20,7 @@ public class Qwirkle {
   private static final String functions = "CHAT,LOBBY";
   private Lobby lobby;
   private Player player;
+  private Ai ai;
 
   /**
    * Main used for testing purposes mainly.
@@ -105,6 +106,7 @@ public class Qwirkle {
       board = new Board(false);
     }
     player = new Player(name);
+    ai = new Ai(board);
     peer = new Peer(board, this, player);
     System.out.println(ip + port);
     sc = new ServerCommunication(ip, port, board, peer);
@@ -112,20 +114,28 @@ public class Qwirkle {
       scThread = new Thread(sc);
       scThread.start();
       sc.write("IDENTIFY " + name + " " + functions);
-      //sc.write("CLIENT_LOBBY");
+      // sc.write("CLIENT_LOBBY");
     }
-    while(true){
+    while (true) {
       String typedMessage = in.nextLine();
+      if (typedMessage.equals("HINT")) {
+        System.out.println(ai.smartMove(board));
+      } else {
       sc.write(typedMessage);
+      }
     }
   }
 
   /**
-   * Used to quickly use predefined ip, port and name for repeated testing ot if they stay the same.
+   * Used to quickly use predefined ip, port and name for repeated testing ot if
+   * they stay the same.
    * 
-   * @param ip (ip to connect to)
-   * @param port (port to connect to)
-   * @param name (name to use)
+   * @param ip
+   *          (ip to connect to)
+   * @param port
+   *          (port to connect to)
+   * @param name
+   *          (name to use)
    */
 
   public Qwirkle(String ip, int port, String name) {
@@ -144,10 +154,14 @@ public class Qwirkle {
       sc.write("CLIENT_IDENTIFY " + name + " " + functions);
       sc.write("CLIENT_LOBBY");
     }
-    while(true){
+    while (true) {
       Scanner systemIn = new Scanner(System.in);
       String typedMessage = systemIn.nextLine();
-      peer.handleCommand(typedMessage);
+      if (typedMessage.equals("HINT")) {
+        System.out.println(ai.smartMove(board));
+      } else {
+        peer.handleCommand(typedMessage);
+      }
     }
   }
 
@@ -173,7 +187,8 @@ public class Qwirkle {
   /**
    * sets the turn of the player to the name provided.
    * 
-   * @param name (name of the next person)
+   * @param name
+   *          (name of the next person)
    */
 
   public void turn(String name) {
@@ -183,7 +198,8 @@ public class Qwirkle {
   /**
    * Used to indicate that the player passed.
    * 
-   * @param name (the name of the player that passed)
+   * @param name
+   *          (the name of the player that passed)
    */
 
   public void pass(String name) {
