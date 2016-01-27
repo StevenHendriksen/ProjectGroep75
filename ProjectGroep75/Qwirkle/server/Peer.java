@@ -8,6 +8,7 @@ public class Peer {
   Serverboard board;
   Bag bag;
   Server server;
+  int queueSize = 4;
 
   /**
    * The constructor for peer making sure it has all objects it need.
@@ -56,8 +57,8 @@ public class Peer {
           sendall = sendall + " " + gamelogic.hasPlayers().get(player).hasName();
         }
         server.sendAll(sendall);
-        if (gamelogic.hasPlayers().size() >= 2) {
-          if (gamelogic.gameStart(2)) {
+        if (gamelogic.hasPlayers().size() >= queueSize) {
+          if (gamelogic.gameStart(queueSize)) {
             server.sendAll("GAMESTART");
             for (int j = 0; j < gamelogic.hasPlayers().size(); j++) {
               Player player = gamelogic.hasPlayers().get(j);
@@ -139,6 +140,8 @@ public class Peer {
             result = "ERROR: INVALID TRADE";
           }
         }
+      } else if (command.equals("QUEUE")) {
+        queueSize = new Integer(fullCommand.next());
       }
 
       scan.close();

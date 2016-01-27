@@ -268,6 +268,7 @@ public class Qwirkle {
     System.out.println("QUEUE [int, int, ....]");
     System.out.println("MOVE_PUT 1@0,0 2@0,1 etc");
     System.out.println("MOVE_TRADE int int ...");
+    System.out.println("QUEUE [size]");
 
   }
 }
