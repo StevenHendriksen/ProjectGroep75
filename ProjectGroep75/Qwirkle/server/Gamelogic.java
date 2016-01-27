@@ -33,7 +33,8 @@ public class Gamelogic {
   public Servertile drawTile(Player player) {
     Servertile tile = bag.takeTile();
     try {
-      player.getConnection().write("DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
+      player.getConnection().write("DRAWTILE " + tile.tileToInt(tile),
+          player.getConnection().getOut());
     } catch (NullPointerException e) {
       String sendall = "GAMEEND";
       for (int p = 0; p < players.size(); p++) {
@@ -59,15 +60,15 @@ public class Gamelogic {
   }
 
   /**
-   * The method that checks whether your move is OK or not.
+   * This method checks if your move is correct or not.
    * 
-   * @param result
-   *          checks whether your move is OK (MOVEOK_PUT) or not (ERROR
-   *          INVALID_MOVE)
-   * @param result2
-   *          checks whether the tiles around x and y are the same color/shape.
-   * @param result3
-   *          checks whether the places around x and y are empty.
+   * @param tile
+   *          (the tile to put)
+   * @param xcoord
+   *          (the x coordinate to put it)
+   * @param ycoord
+   *          (the y coordinate to put it)
+   * @return (boolean of whether it's allowed)
    */
   /*
    * requires tile >= 0 && tile <= 36; requires x <= board.getdimXp() && x >=
@@ -75,10 +76,10 @@ public class Gamelogic {
    * 
    * ensures \result == (board.getTile(x,y) == null && (
    */
-  public String moveOkPut(int tile, int x, int y) {
+  public String moveOkPut(int tile, int xcoord, int ycoord) {
     assert tile <= 36 && tile >= 0;
-    assert x <= board.getdimXp() && x >= board.getdimXm();
-    assert y <= board.getdimYp() && y >= board.getdimYm();
+    assert xcoord <= board.getdimXp() && xcoord >= board.getdimXm();
+    assert ycoord <= board.getdimYp() && ycoord >= board.getdimYm();
 
     String result = "ERROR Invalid move";
     int result2 = 0;
@@ -86,39 +87,42 @@ public class Gamelogic {
 
     this.tile = new Servertile(tile);
 
-    if (board.getTile(x, y) == null) {
-      if (x == 0 && y == 0) {
+    if (board.getTile(xcoord, ycoord) == null) {
+      if (xcoord == 0 && ycoord == 0) {
         result = "MOVEOK_PUT";
       }
-      if (board.getTile(x + 1, y) == null) {
+      if (board.getTile(xcoord + 1, ycoord) == null) {
         result3 = result3 + 1;
-      } else if (!equal(board.getTile(x + 1, y), this.tile)
-          && (board.getTile(x + 1, y).hasColor() == this.tile.hasColor()
-              || board.getTile(x + 1, y).hasShape() == this.tile.hasShape())) {
+      } else if (!equal(board.getTile(xcoord + 1, ycoord), this.tile)
+          && (board.getTile(xcoord + 1, ycoord).hasColor() == this.tile.hasColor()
+              || board.getTile(xcoord + 1, ycoord).hasShape() == this.tile.hasShape())) {
         result2 = result2 + 1;
       }
-      if (board.getTile(x - 1, y) == null) {
+      if (board.getTile(xcoord - 1, ycoord) == null) {
         result3 = result3 + 1;
-      } else if (!equal(board.getTile(x - 1, y), this.tile)
-          && (board.getTile(x - 1, y).hasColor() == this.tile.hasColor()
-              || board.getTile(x - 1, y).hasShape() == this.tile.hasShape())) {
+      } else if (!equal(board.getTile(xcoord - 1, ycoord), this.tile)
+          && (board.getTile(xcoord - 1, ycoord).hasColor() == this.tile.hasColor()
+              || board.getTile(xcoord - 1, ycoord).hasShape() == this.tile.hasShape())) {
         result2 = result2 + 1;
       }
-      if (board.getTile(x, y + 1) == null) {
+      if (board.getTile(xcoord, ycoord + 1) == null) {
         result3 = result3 + 1;
-      } else if (board.getTile(x, y + 1) != this.tile && (board.getTile(x, y + 1).hasColor() == this.tile.hasColor()
-          || board.getTile(x, y + 1).hasShape() == this.tile.hasShape())) {
+      } else if (board.getTile(xcoord, ycoord + 1) 
+          != this.tile && (board.getTile(xcoord, ycoord + 1).hasColor() == this.tile.hasColor()
+          || board.getTile(xcoord, ycoord + 1).hasShape() == this.tile.hasShape())) {
         result2 = result2 + 1;
       }
-      if (board.getTile(x, y - 1) == null) {
+      if (board.getTile(xcoord, ycoord - 1) == null) {
         result3 = result3 + 1;
-      } else if (board.getTile(x, y - 1) != this.tile && (board.getTile(x, y - 1).hasColor() == this.tile.hasColor()
-          || board.getTile(x, y - 1).hasShape() == this.tile.hasShape())) {
+      } else if (board.getTile(xcoord, ycoord - 1) 
+          != this.tile && (board.getTile(xcoord, ycoord - 1).hasColor() == this.tile.hasColor()
+          || board.getTile(xcoord, ycoord - 1).hasShape() == this.tile.hasShape())) {
         result2 = result2 + 1;
       }
     }
 
-    if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
+    if (result2 > 0 && result3 > 0 || (result3 == 4 && xcoord == 0 
+        && ycoord == 0 && this.numberTurn() == 0)) {
       result = "MOVEOK_PUT";
     }
     return result;
@@ -127,8 +131,7 @@ public class Gamelogic {
   /**
    * The method that checks whether tile and tile2 are equal.
    * 
-   * @param result
-   *          Says whether tile and tile2 are equal (true) or not (false)
+   * @return (boolean whether or not they are equal)
    */
   // @ requires tile != null;
   // @ requires tile2 != null;
@@ -147,8 +150,7 @@ public class Gamelogic {
   /**
    * The method that checks whether the game is over or not.
    * 
-   * @param result
-   *          Says whether the game is over (GAMEEND) or not ();
+   * @return (returns GAMEEND if bag is empty)
    */
   // @ \result == (bag.emptyBag());
   public String gameEnd() {
@@ -174,8 +176,7 @@ public class Gamelogic {
   /**
    * The method that puts the player to a list.
    * 
-   * @param result
-   *          checks whether the name of the new player is already used or not.
+   * @param player (the player to be added)
    */
   // ensures \old(this.hasPlayers().size()) == this.hasPlayers().size() - 1;
   public void putPlayer(Player player) {
@@ -208,10 +209,9 @@ public class Gamelogic {
   /**
    * The method that starts the game.
    * 
-   * @param result
-   *          returns true if succesful checks whether there are enough players
+   * @return  (returns true if succesful checks whether there are enough players
    *          (more than size) or not and whether size is greater than 1 and
-   *          smaller than 5.
+   *          smaller than 5.)
    */
   // @requires size > 1 && size < 5;
   // @ensures \result == (players.size() >= size);
@@ -242,10 +242,9 @@ public class Gamelogic {
   }
 
   /**
-   * The method that returns the turn of the next player.
+   * The method that returns the turn of the next player and makes it move a turn further.
    * 
-   * @param current
-   *          the current turn.
+   * @returns (the player that has the bext turn)
    */
   // @ ensures this.numberTurn() == \old(this.numberTurn()) + 1;
   public Player nextTurn() {
@@ -259,6 +258,9 @@ public class Gamelogic {
 
   /**
    * The method that puts the tile on the board.
+   * @param xcoord (the xcoord where the tile will be put)
+   * @param ycoord (the ycoord where the tile will be put)
+   * @param tile (the tile that will be put there)
    */
   /*
    * @requires tile >= 0 && tile <= 36; requires x <= board.getdimXp() && x >=
@@ -268,12 +270,12 @@ public class Gamelogic {
    * 
    * @
    */
-  public void movePut(int x, int y, int tile) {
+  public void movePut(int xcoord, int ycoord, int tile) {
     assert tile <= 36 && tile >= 0;
-    assert x <= board.getdimXp() + 1 && x >= board.getdimXm() - 1;
-    assert y <= board.getdimYp() + 1 && y >= board.getdimYm() - 1;
-    if (moveOkPut(tile, x, y).equals("MOVEOK_PUT")) {
-      board.putTile(x, y, tile);
+    assert xcoord <= board.getdimXp() + 1 && xcoord >= board.getdimXm() - 1;
+    assert ycoord <= board.getdimYp() + 1 && ycoord >= board.getdimYm() - 1;
+    if (moveOkPut(tile, xcoord, ycoord).equals("MOVEOK_PUT")) {
+      board.putTile(xcoord, ycoord, tile);
     }
   }
 
@@ -298,10 +300,10 @@ public class Gamelogic {
    * 
    * @
    */
-  public void score(int x, int y, int tile, Player player) {
+  public void score(int xcoord, int ycoord, int tile, Player player) {
     assert tile <= 36 && tile >= 0;
-    assert x <= board.getdimXp() && x >= board.getdimXm();
-    assert y <= board.getdimYp() && y >= board.getdimYm();
+    assert xcoord <= board.getdimXp() && xcoord >= board.getdimXm();
+    assert ycoord <= board.getdimYp() && ycoord >= board.getdimYm();
     this.tile = new Servertile(tile);
     int score = 1;
     int qwirkle1 = 1;
@@ -309,25 +311,27 @@ public class Gamelogic {
     int qwirkle3 = 1;
     int qwirkle4 = 1;
 
-    if (board.getTile(x + 1, y) != null) {
-      if (board.getTile(x + 1, y).hasColor().equals(this.tile.hasColor())) {
+    if (board.getTile(xcoord + 1, ycoord) != null) {
+      if (board.getTile(xcoord + 1, ycoord).hasColor().equals(this.tile.hasColor())) {
         score = score + 1;
         qwirkle1 = qwirkle1 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x + i + 1, y) != null
-              && board.getTile(x + i + 1, y).hasColor() == board.getTile(x + i, y).hasColor()) {
+          if (board.getTile(xcoord + i + 1, ycoord) != null
+              && board.getTile(xcoord + i + 1, ycoord).hasColor() 
+              == board.getTile(xcoord + i, ycoord).hasColor()) {
             score = score + 1;
             qwirkle1 = qwirkle1 + 1;
           } else {
             break;
           }
         }
-      } else if (board.getTile(x + 1, y).hasShape() == this.tile.hasShape()) {
+      } else if (board.getTile(xcoord + 1, ycoord).hasShape() == this.tile.hasShape()) {
         score = score + 1;
         qwirkle2 = qwirkle2 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x + i + 1, y) != null
-              && board.getTile(x + i + 1, y).hasShape() == board.getTile(x + i, y).hasShape()) {
+          if (board.getTile(xcoord + i + 1, ycoord) != null
+              && board.getTile(xcoord + i + 1, ycoord).hasShape() 
+              == board.getTile(xcoord + i, ycoord).hasShape()) {
             score = score + 1;
             qwirkle2 = qwirkle2 + 1;
           } else {
@@ -340,25 +344,27 @@ public class Gamelogic {
       }
     }
 
-    if (board.getTile(x - 1, y) != null) {
-      if (board.getTile(x - 1, y).hasColor() == this.tile.hasColor()) {
+    if (board.getTile(xcoord - 1, ycoord) != null) {
+      if (board.getTile(xcoord - 1, ycoord).hasColor() == this.tile.hasColor()) {
         score = score + 1;
         qwirkle1 = qwirkle1 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x - i - 1, y) != null
-              && board.getTile(x - i - 1, y).hasColor() == board.getTile(x - i, y).hasColor()) {
+          if (board.getTile(xcoord - i - 1, ycoord) != null
+              && board.getTile(xcoord - i - 1, ycoord).hasColor() 
+              == board.getTile(xcoord - i, ycoord).hasColor()) {
             score = score + 1;
             qwirkle1 = qwirkle1 + 1;
           } else {
             break;
           }
         }
-      } else if (board.getTile(x - 1, y).hasShape() == this.tile.hasShape()) {
+      } else if (board.getTile(xcoord - 1, ycoord).hasShape() == this.tile.hasShape()) {
         score = score + 1;
         qwirkle2 = qwirkle2 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x - i - 1, y) != null
-              && board.getTile(x - i - 1, y).hasShape() == board.getTile(x - i, y).hasShape()) {
+          if (board.getTile(xcoord - i - 1, ycoord) != null
+              && board.getTile(xcoord - i - 1, ycoord).hasShape() 
+              == board.getTile(xcoord - i, ycoord).hasShape()) {
             score = score + 1;
             qwirkle2 = qwirkle2 + 1;
           } else {
@@ -371,25 +377,27 @@ public class Gamelogic {
       }
     }
 
-    if (board.getTile(x, y + 1) != null) {
-      if (board.getTile(x, y + 1).hasColor() == this.tile.hasColor()) {
+    if (board.getTile(xcoord, ycoord + 1) != null) {
+      if (board.getTile(xcoord, ycoord + 1).hasColor() == this.tile.hasColor()) {
         score = score + 1;
         qwirkle3 = qwirkle3 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x, y + i + 1) != null
-              && board.getTile(x, y + i + 1).hasColor() == board.getTile(x, y + i).hasColor()) {
+          if (board.getTile(xcoord, ycoord + i + 1) != null
+              && board.getTile(xcoord, ycoord + i + 1).hasColor() 
+              == board.getTile(xcoord, ycoord + i).hasColor()) {
             score = score + 1;
             qwirkle3 = qwirkle3 + 1;
           } else {
             break;
           }
         }
-      } else if (board.getTile(x, y + 1).hasShape() == this.tile.hasShape()) {
+      } else if (board.getTile(xcoord, ycoord + 1).hasShape() == this.tile.hasShape()) {
         score = score + 1;
         qwirkle4 = qwirkle4 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x, y + i + 1) != null
-              && board.getTile(x, y + i + 1).hasShape() == board.getTile(x, y + i).hasShape()) {
+          if (board.getTile(xcoord, ycoord + i + 1) != null
+              && board.getTile(xcoord, ycoord + i + 1).hasShape() 
+              == board.getTile(xcoord, ycoord + i).hasShape()) {
             score = score + 1;
             qwirkle4 = qwirkle4 + 1;
           } else {
@@ -402,25 +410,27 @@ public class Gamelogic {
       }
     }
 
-    if (board.getTile(x, y - 1) != null) {
-      if (board.getTile(x, y - 1).hasColor() == this.tile.hasColor()) {
+    if (board.getTile(xcoord, ycoord - 1) != null) {
+      if (board.getTile(xcoord, ycoord - 1).hasColor() == this.tile.hasColor()) {
         score = score + 1;
         qwirkle3 = qwirkle3 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x, y - i - 1) != null
-              && board.getTile(x, y - i - 1).hasColor() == board.getTile(x, y - i).hasColor()) {
+          if (board.getTile(xcoord, ycoord - i - 1) != null
+              && board.getTile(xcoord, ycoord - i - 1).hasColor() 
+              == board.getTile(xcoord, ycoord - i).hasColor()) {
             score = score + 1;
             qwirkle3 = qwirkle3 + 1;
           } else {
             break;
           }
         }
-      } else if (board.getTile(x, y - 1).hasShape() == this.tile.hasShape()) {
+      } else if (board.getTile(xcoord, ycoord - 1).hasShape() == this.tile.hasShape()) {
         score = score + 1;
         qwirkle4 = qwirkle4 + 1;
         for (int i = 1; i < 5; i++) {
-          if (board.getTile(x, y - i - 1) != null
-              && board.getTile(x, y - i - 1).hasShape() == board.getTile(x, y - i).hasShape()) {
+          if (board.getTile(xcoord, ycoord - i - 1) != null
+              && board.getTile(xcoord, ycoord - i - 1).hasShape() 
+              == board.getTile(xcoord, ycoord - i).hasShape()) {
             score = score + 1;
             qwirkle4 = qwirkle4 + 1;
           } else {
@@ -438,6 +448,7 @@ public class Gamelogic {
 
   /**
    * The method that does the trade.
+   * @param number (the number of the tile that gets traded)
    */
   /*
    * @ requires number <= 36 && number >= 0; ensures \old(turn().hasTiles()) !=
@@ -464,6 +475,12 @@ public class Gamelogic {
   public int numberTurn() {
     return current;
   }
+  
+  /**
+   * returns the player that has the connection.
+   * @param connection (the connection)
+   * @return (player that has connection)
+   */
 
   public Player getPlayer(Connection connection) {
     for (int p = 0; p < players.size(); p++) {

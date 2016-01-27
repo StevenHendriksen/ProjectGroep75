@@ -1,7 +1,7 @@
 package client;
 
 /**
- *Board;
+ *Board
  * 
  * @author Stan Peters en Steven Hendriksen
  * @version $Revision: 1.0 $

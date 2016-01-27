@@ -15,6 +15,14 @@ public class Peer {
   private Qwirkle game = null;
   private Player player = null;
 
+  /**
+   * main, used to test peer with a few commands before we started doing it by
+   * letting the server send the messages.
+   * 
+   * @param args
+   *          (args provided in run config, not used in the actual method)
+   */
+
   public static void main(String[] args) {
     Qwirkle game = new Qwirkle(true);
     game.peer.handleCommand("IDENTIFYOK");
@@ -30,16 +38,28 @@ public class Peer {
     game.peer.handleCommand("GAMEEND");
   }
 
+  /**
+   * Constructor of Peer, making sure it has a direct link to the other objects
+   * it needs.
+   * 
+   * @param board
+   *          (the board)
+   * @param game
+   *          (the client instance)
+   * @param player
+   *          (the player that is playing)
+   */
+
   public Peer(Board board, Qwirkle game, Player player) {
     this.board = board;
     this.game = game;
     this.player = player;
   }
 
-  public Peer() {
-    board = new Board(false);
-    player = new Player("GenericName");
-  }
+  /**
+   * Used to handle the commands sent by the server.
+   * @param cmd (String of the command sent by the server)
+   */
 
   public void handleCommand(String cmd) {
     System.out.println("handlingCommand: " + cmd);
@@ -68,7 +88,7 @@ public class Peer {
       }
       if (command.equals("TURN")) {
         String name = fullCommand.next();
-        if(name.equals(player.hasName())&& !game.getManual()){
+        if (name.equals(player.hasName()) && !game.getManual()) {
           System.out.println("move :" + game.getai().smartMove(board));
           game.getConnection().write(game.getai().smartMove(board));
         }
@@ -94,7 +114,8 @@ public class Peer {
             }
             player.changeTiles(new Servertile(new Integer(fullCommand.next())), position);
           } else {
-            player.changeTiles(new Servertile(new Integer(fullCommand.next())), player.hasTiles().length - 1);
+            player.changeTiles(new Servertile(new Integer(fullCommand.next())), 
+                player.hasTiles().length - 1);
           }
 
         }
@@ -119,8 +140,8 @@ public class Peer {
                 player.setTiles(tiles);
               }
             }
-              board.putTile(xvalue, yvalue, tileInt);
-              board.consoleEntry("added: " + tile);
+            board.putTile(xvalue, yvalue, tileInt);
+            board.consoleEntry("added: " + tile);
           } else {
             board.putTile(xvalue, yvalue, tileInt);
             board.consoleEntry("added: " + tile);
@@ -161,13 +182,20 @@ public class Peer {
 
     }
   }
+  /**
+   * Used to check if the tile provided is equal to the int.
+   * @param tile (the tile provided)
+   * @param tileInt (the int provided)
+   * @return (boolean of whether they are equal)
+   */
 
   public boolean equal(Servertile tile, int tileInt) {
     boolean result = false;
 
     Servertile tile2 = new Servertile(tileInt);
 
-    if (tile == null || tile2 == null ||tile.hasColor() == tile2.hasColor() && tile.hasShape() == tile2.hasShape()) {
+    if (tile == null || tile2 == null || tile.hasColor() == tile2.hasColor() && tile.hasShape() 
+        == tile2.hasShape()) {
       result = true;
     }
 

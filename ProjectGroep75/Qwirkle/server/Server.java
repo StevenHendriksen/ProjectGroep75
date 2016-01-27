@@ -1,8 +1,13 @@
 package server;
 
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Inet4Address;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
-import java.io.*;
 
 public class Server extends Thread {
   // ------------------ Instance variables ----------------
@@ -17,20 +22,11 @@ public class Server extends Thread {
   public String functions = "CHAT,LOBBY";
 
   // ------------------ Constructor ------------------------
+
   /**
-   * The constructor that makes a the connection;
-   * 
-   * @param server
-   *          the ServerSocket which is made.
-   * @param bag
-   *          The bag, which is used in the game
-   * @param board
-   *          The board, which is used in the game.
-   * @param gamelogic
-   *          The gamelogic, which is used in the game.
-   * @param connection
-   *          The connection, which is made with the clients.
+   * Constructor that creates all the objects needed for maintaining the server.
    */
+  
   public Server() {
     while (server == null) {
       try {
@@ -47,10 +43,11 @@ public class Server extends Thread {
         board = new Serverboard(true);
         gamelogic = new Gamelogic(board, bag);
         System.out.println(
-            "Waiting for client on port " + port + " swith IP-adress: " + Inet4Address.getLocalHost().getHostAddress());
+              "Waiting for client on port " + port + " swith IP-adress: " 
+                    + Inet4Address.getLocalHost().getHostAddress());
         Connection connection = new Connection(this, gamelogic, board, bag, server);
-        Thread s = new Thread(connection);
-        s.start();
+        Thread connectionThread = new Thread(connection);
+        connectionThread.start();
       } catch (Exception e) {
         System.out.println("Error while trying to make a server, Try another port");
       }
@@ -58,7 +55,7 @@ public class Server extends Thread {
   }
 
   /**
-   * The main method which makes a new Server
+   * The main method which makes a new Server, only used to call the constructor.
    */
   // @pure;
   public static void main(String[] args) {
@@ -66,14 +63,9 @@ public class Server extends Thread {
   }
 
   /**
-   * The method that makes a connection with the client.
-   * 
-   * @param out
-   *          the Outputstream which will be writen on.
-   * @param inputStream
-   *          the inputstream which will be read from.
-   * @param connection
-   *          a new connection which is made.
+   * The method that creates a new connection for each client.
+   * @param peer (the peer used to handle the client)
+   * @param socket (the socket of the client)
    */
   // @ ensures peer != null;
   // @ ensures socket != null;
@@ -81,7 +73,8 @@ public class Server extends Thread {
     try {
       System.out.println("Client connected: " + socket);
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-      BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      BufferedReader inputStream = new BufferedReader(
+          new InputStreamReader(socket.getInputStream()));
       Connection connection = new Connection(this, gamelogic, board, bag, server);
       connection.read(peer, socket, out, inputStream);
     } catch (IOException e) {
@@ -89,11 +82,17 @@ public class Server extends Thread {
     }
   }
 
+  /**
+   * used to send a message to all the clients connected.
+   * @param msg (message to send to the clients)
+   */
+  
   // @pure;
   public void sendAll(String msg) {
     System.out.println("sendAll: " + msg);
     for (int p = 0; p < gamelogic.hasPlayers().size(); p++) {
-      gamelogic.hasPlayers().get(p).getConnection().write(msg, gamelogic.hasPlayers().get(p).getConnection().getOut());
+      gamelogic.hasPlayers().get(p).getConnection().write(
+          msg, gamelogic.hasPlayers().get(p).getConnection().getOut());
     }
 
   }

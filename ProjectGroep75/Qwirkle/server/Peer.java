@@ -1,7 +1,5 @@
 package server;
 
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Scanner;
 
 public class Peer {
@@ -11,12 +9,27 @@ public class Peer {
   Bag bag;
   Server server;
 
+  /**
+   * The constructor for peer making sure it has all objects it need.
+   * @param gamelogic (gamelogic)
+   * @param board (board)
+   * @param bag (bag)
+   * @param server (server)
+   */
+  
   public Peer(Gamelogic gamelogic, Serverboard board, Bag bag, Server server) {
     this.gamelogic = gamelogic;
     this.bag = bag;
     this.board = board;
     this.server = server;
   }
+  
+  /**
+   * handles the command provided and the return gets send to the right person.
+   * @param cmd (String to handle)
+   * @param connection (connection it came from)
+   * @return (the String to reply to the command)
+   */
 
   public String handleCommand(String cmd, Connection connection) {
     try {
@@ -38,6 +51,11 @@ public class Peer {
             result = result + next;
           }
         }
+        String sendall = "LOBBY";
+        for (int player = 0; player < gamelogic.hasPlayers().size(); player++) {
+          sendall = sendall + " " + gamelogic.hasPlayers().get(player).hasName();
+        }
+        server.sendAll(sendall);
         if (gamelogic.hasPlayers().size() >= 2) {
           if (gamelogic.gameStart(2)) {
             server.sendAll("GAMESTART");
@@ -74,26 +92,27 @@ public class Peer {
         Scanner fullCommandTiles = new Scanner(cmd);
         fullCommandTiles.next();
         String sendall = "MOVEOK_PUT";
-        int xCoords[] = new int[6];
-        int yCoords[] = new int[6];
+        int[] xcoords = new int[6];
+        int[] ycoords = new int[6];
 
         while (fullCommandTiles.hasNext()) {
           String tile = fullCommandTiles.next();
           String tile2 = tile.replaceAll("[^\\dA-Za-z ]", " ");
           Scanner in = new Scanner(tile2);
           int tileInt = new Integer(in.next());
-          int x = new Integer(in.next());
-          int y = new Integer(in.next());
-          xCoords[xCoords.length - 1] = x;
-          yCoords[yCoords.length - 1] = y;
-          if (gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName()) && (straightline(xCoords, x)
-              || straightline(yCoords, y) || gamelogic.moveOkPut(tileInt, x, y).equals("MOVEOK_PUT"))) {
-            board.putTile(x, y, tileInt);
-            result = result + " " + tileInt + "@" + x + "," + y;
-            sendall = sendall + " " + tileInt + "@" + x + "," + y;
+          int xcoord = new Integer(in.next());
+          int ycoord = new Integer(in.next());
+          xcoords[xcoords.length - 1] = xcoord;
+          ycoords[ycoords.length - 1] = ycoord;
+          if (gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName()) 
+              && (straightline(xcoords, xcoord) || straightline(ycoords, ycoord) 
+                  || gamelogic.moveOkPut(tileInt, xcoord, ycoord).equals("MOVEOK_PUT"))) {
+            board.putTile(xcoord, ycoord, tileInt);
+            result = result + " " + tileInt + "@" + xcoord + "," + ycoord;
+            sendall = sendall + " " + tileInt + "@" + xcoord + "," + ycoord;
             Servertile drawnTile = gamelogic.drawTile(gamelogic.getPlayer(connection));
             connection.getOut().write(drawnTile.tileToInt(drawnTile));
-            gamelogic.score(x, y, tileInt, gamelogic.getPlayer(connection));
+            gamelogic.score(xcoord, ycoord, tileInt, gamelogic.getPlayer(connection));
           } else {
             result = "ERROR: INVALID MOVE";
           }
@@ -125,19 +144,20 @@ public class Peer {
       scan.close();
       fullCommand.close();
       return result;
-    }
-
-    catch (
-
-    java.util.NoSuchElementException e)
-
-    {
+    } catch (java.util.NoSuchElementException e) {
       String result = "Invalid Server command";
       e.printStackTrace();
       return result;
     }
   }
 
+  /**
+   * returns a boolean based on whether or not the moves done are in a straight line.
+   * @param coords (int[] coords to check)
+   * @param value (new value to add)
+   * @return (boolean of whether or not straight line)
+   */
+  
   public boolean straightline(int[] coords, int value) {
     boolean result = true;
     for (int i = 0; i < coords.length; i++) {

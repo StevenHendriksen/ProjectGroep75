@@ -1,17 +1,35 @@
 package server;
 
-import java.util.List;
-import java.util.ArrayList;
+/**
+ * Client Bag
+ * 
+ * @author Stan Peters en Steven Hendriksen
+ * @version $Revision: 1.0 $
+ */
 
 public class Bag {
-  private Servertile[] tiles;
-  private Servertile tile;
+  private Servertile[] tiles = {};
 
   public Bag() {
     newBag();
   }
 
-  // OK
+  /**
+   * Main, used for testing purposes.
+   * 
+   * @param args
+   *          (args provided in run config, not used in this case)
+   */
+
+  public static void main(String[] args) {
+    Bag bag = new Bag();
+    bag.tilesInBag();
+  }
+
+  /**
+   * newBag, fills the bag with all the tiles.
+   */
+
   public void newBag() {
     tiles = new Servertile[108];
     for (int j = 0; j < 36; j++) {
@@ -21,34 +39,29 @@ public class Bag {
     }
   }
 
-  // OK
+  /**
+   * Gives a random tile from the bag.
+   * 
+   * @return (random tile from bag)
+   */
+
   public Servertile takeTile() {
-    Servertile result = null;
+    int random = (int) Math.floor(Math.random() * 108);
+    Servertile randomtile = tiles[random];
 
-    List<Servertile> baglist = new ArrayList<Servertile>();
-
-    for (int i = 0; i < 108; i++) {
-      if (tiles[i] != null) {
-        baglist.add(tiles[i]);
-      }
+    while (randomtile == null) {
+      random = (int) Math.floor(Math.random() * 108);
     }
 
-    if (baglist.size() > 0) {
-      int random = (int) Math.floor(Math.random() * baglist.size());
-      result = baglist.get(random);
+    tiles[random] = null;
 
-      for (int j = 0; j < 108; j++) {
-        if (baglist.get(random) == tiles[j]) {
-          tiles[j] = null;
-          return result;
-        }
-      }
-    }
-
-    return result;
+    return randomtile;
   }
-
-  // Ok
+  /**
+   * Puts a tile with int into the bag.
+   * @param tile (the int of the tile to be added)
+   */
+  
   public void putTile(int tile) {
     for (int i = 0; i < 108; i++) {
       if (tiles[i] == null) {
@@ -58,7 +71,49 @@ public class Bag {
     }
   }
 
-  // Ok
+  /**
+   * Checks if the tile is in the bag.
+   * 
+   * @param tile
+   *          (tile to check if in bag)
+   * @return (boolean)
+   */
+
+  public boolean getTile(Servertile tile) {
+    boolean inBag = false;
+    for (int i = 0; i < 108; i++) {
+      if (tiles[i] == tile) {
+        if (i % 3 == 0 && tiles[i + 1] == null) {
+          tiles[i + 1] = tile;
+        } else if (i % 3 == 0 && tiles[i + 2] == null) {
+          tiles[i + 2] = tile;
+        } else if (i % 3 == 1 && tiles[i - 1] == null) {
+          tiles[i - 1] = tile;
+        } else if (i % 3 == 1 && tiles[i + 1] == null) {
+          tiles[i + 1] = tile;
+        } else if (i % 3 == 2 && tiles[i - 2] == null) {
+          tiles[i - 2] = tile;
+        } else if (i % 3 == 2 && tiles[i - 1] == null) {
+          tiles[i - 1] = tile;
+        }
+        inBag = true;
+      }
+    }
+    if (!inBag) {
+      for (int i = 0; i < 108; i++) {
+        if (tiles[i] == null) {
+          tiles[i] = tile;
+        }
+      }
+    }
+    return inBag;
+  }
+  
+  /**
+   * Used to check if the bag is empty.
+   * @return (boolean of whether the bag is empty)
+   */
+
   public boolean emptyBag() {
     boolean empty = true;
 
@@ -71,7 +126,6 @@ public class Bag {
     return empty;
   }
 
-  // Ok
   public Servertile[] tilesInBag() {
     return tiles;
   }

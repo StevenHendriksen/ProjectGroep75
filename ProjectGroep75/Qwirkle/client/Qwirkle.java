@@ -232,7 +232,7 @@ public class Qwirkle {
   }
   
   /**
-   * returns the communication
+   * returns the communication.
    * 
    * @return (ServerCommunication)
    */
@@ -242,7 +242,7 @@ public class Qwirkle {
   }
   
   /**
-   * returns the ai
+   * returns the ai.
    * 
    * @return (ai)
    */

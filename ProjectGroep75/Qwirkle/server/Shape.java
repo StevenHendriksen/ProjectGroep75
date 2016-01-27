@@ -3,6 +3,11 @@ package server;
 public enum Shape {
   CIRCLE, CRISSCROSS, DIAMOND, SQUARE, PLUS, STAR;
 
+  /**
+   * Used to cycle through the shapes.
+   * @return (next shape)
+   */
+  
   public Shape other() {
     if (this == CIRCLE) {
       return CRISSCROSS;
@@ -20,6 +25,11 @@ public enum Shape {
       return null;
     }
   }
+  
+  /**
+   * Used to convert the shape to their corresponding int.
+   * @return int of the shape)
+   */
 
   public int shapeToInt() {
     if (this == CIRCLE) {
@@ -38,4 +48,5 @@ public enum Shape {
       return 0;
     }
   }
+
 }

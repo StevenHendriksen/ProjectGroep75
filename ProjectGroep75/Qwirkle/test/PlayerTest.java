@@ -23,7 +23,7 @@ public class PlayerTest {
   @Before
   public void setUp() {
     bag = new Bag();
-    player = new Player("Stan", bag);
+    player = new Player("Stan", bag, null);
   }
 
   @Test

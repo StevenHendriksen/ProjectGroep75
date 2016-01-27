@@ -5,6 +5,11 @@ public class Player {
   Servertile[] tiles;
   Bag bag;
 
+  /**
+   * Constructor of Player, creating the player with a name and filling their hand.
+   * @param name (name of player)
+   */
+  
   public Player(String name) {
     this.name = name;
     bag = new Bag();
@@ -34,6 +39,11 @@ public class Player {
     tiles[num] = tile;
   }
 
+  /**
+   * Removes a tile from the player's hand.
+   * @param tile (tile to be removed)
+   */
+  
   public void removeTile(Servertile tile) {
     for (int j = 0; j < tiles.length; j++) {
       if (bag.tilesInBag()[j] == tile) {

@@ -37,8 +37,8 @@ public class GamelogicTest {
     tile = new Servertile(1);
     tile2 = new Servertile(Color.RED, Shape.CIRCLE);
     tile3 = new Servertile(2);
-    player = new Player("Stan", bag);
-    player2 = new Player("Steven", bag);
+    player = new Player("Stan", bag, null);
+    player2 = new Player("Steven", bag, null);
   }
 
   @Test

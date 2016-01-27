@@ -8,12 +8,17 @@ public class Servertile {
     this.color = color;
     this.shape = shape;
   }
+  
+  /**
+   * Constructor that creates a tile with a certain number.
+   * @param tileNumber (number to create the tile with)
+   */
 
-  public Servertile(int i) {
+  public Servertile(int tileNumber) {
     shape = shape.CIRCLE;
     color = color.RED;
-    int shapeNumber = i % 6;
-    int colorNumber = (i / 6) + 1;
+    int shapeNumber = tileNumber % 6;
+    int colorNumber = (tileNumber / 6) + 1;
     if (shapeNumber == 0) {
       shapeNumber = 6;
     }
@@ -28,18 +33,34 @@ public class Servertile {
   public Shape hasShape() {
     return shape;
   }
+  
+  /**
+   * changes the tile to the color with the value.
+   * @param tileNumber (the value to change the tile's color to)
+   */
 
-  public void intToColor(int i) {
-    for (int j = 1; j < i; j++) {
+  public void intToColor(int tileNumber) {
+    for (int j = 1; j < tileNumber; j++) {
       this.color = color.other();
     }
   }
+  
+  /**
+   * changes the tile to the shape with the value.
+   * @param tileNumber (the value to change the tile's shape to)
+   */
 
-  public void intToShape(int i) {
-    for (int j = 1; j < i; j++) {
+  public void intToShape(int tileNumber) {
+    for (int j = 1; j < tileNumber; j++) {
       this.shape = shape.other();
     }
   }
+  
+  /**
+   * converts the tile to an int representation.
+   * @param tile (tile to be converted)
+   * @return (
+   */
 
   public int tileToInt(Servertile tile) {
     int result = 0;

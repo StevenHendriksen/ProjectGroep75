@@ -3,6 +3,11 @@ package server;
 public enum Color {
   RED, ORANGE, YELLOW, BLUE, GREEN, PURPLE;
 
+  /**
+   * Used to cycle through the colors.
+   * @return (next color)
+   */
+  
   public Color other() {
     if (this == RED) {
       return ORANGE;
@@ -20,6 +25,10 @@ public enum Color {
       return null;
     }
   }
+  /**
+   * Used to convert the color to their corresponding int.
+   * @return (int of the color)
+   */
 
   public int colorToInt() {
     if (this == RED) {
@@ -38,4 +47,5 @@ public enum Color {
       return -1;
     }
   }
+
 }

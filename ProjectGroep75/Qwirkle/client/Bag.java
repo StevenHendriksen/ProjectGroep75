@@ -1,4 +1,10 @@
 package client;
+/**
+ * Client Bag
+ * 
+ * @author Stan Peters en Steven Hendriksen
+ * @version $Revision: 1.0 $
+ */
 
 public class Bag {
   private Servertile[] tiles = {};
@@ -7,9 +13,21 @@ public class Bag {
     newBag();
   }
 
+  /**
+   * Main, used for testing purposes.
+   * 
+   * @param args
+   *          (args provided in run config, not used in this case)
+   */
+
   public static void main(String[] args) {
     Bag bag = new Bag();
+    bag.tilesInBag();
   }
+
+  /**
+   * newBag, fills the bag with all the tiles.
+   */
 
   public void newBag() {
     tiles = new Servertile[108];
@@ -19,6 +37,12 @@ public class Bag {
       }
     }
   }
+
+  /**
+   * Gives a random tile from the bag.
+   * 
+   * @return (random tile from bag)
+   */
 
   public Servertile takeTile() {
     int random = (int) Math.floor(Math.random() * 108);
@@ -33,7 +57,15 @@ public class Bag {
     return randomtile;
   }
 
-  public void getTile(Servertile tile) {
+  /**
+   * Checks if the tile is in the bag.
+   * 
+   * @param tile
+   *          (tile to check if in bag)
+   * @return (boolean)
+   */
+
+  public boolean getTile(Servertile tile) {
     boolean inBag = false;
     for (int i = 0; i < 108; i++) {
       if (tiles[i] == tile) {
@@ -60,8 +92,13 @@ public class Bag {
         }
       }
     }
+    return inBag;
   }
-
+  
+  /**
+   * Used to check if the bag is empty.
+   * @return (boolean of whether the bag is empty)
+   */
 
   public boolean emptyBag() {
     boolean empty = true;
