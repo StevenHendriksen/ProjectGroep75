@@ -16,7 +16,7 @@ public class Peer {
   private Player player = null;
 
   public static void main(String[] args) {
-    Qwirkle game = new Qwirkle();
+    Qwirkle game = new Qwirkle(true);
     game.peer.handleCommand("IDENTIFYOK");
     game.peer.handleCommand("GAMESTART");
     game.peer.handleCommand("TURN Steven");
@@ -68,6 +68,9 @@ public class Peer {
       }
       if (command.equals("TURN")) {
         String name = fullCommand.next();
+        if(name.equals(player.hasName())&& !game.getManual()){
+          game.getConnection().write(game.getai().smartMove(board));
+        }
         System.out.println("Turn: " + name);
         game.turn(name);
       }

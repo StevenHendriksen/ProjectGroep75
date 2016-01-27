@@ -32,7 +32,15 @@ public class Gamelogic {
    */
   public Servertile drawTile(Player player) {
     Servertile tile = bag.takeTile();
+    try{
     player.getConnection().write("DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
+    } catch (NullPointerException e) {
+      String sendall = "GAMEEND";
+      for(int p = 0; p < players.size() ;p++){
+        sendall = sendall + " " + 
+      }
+      player.getConnection().getServer().sendAll("GAMEEND" );
+    }
     return bag.takeTile();
   }
 

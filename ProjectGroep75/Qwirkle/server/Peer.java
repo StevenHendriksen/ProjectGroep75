@@ -84,8 +84,6 @@ public class Peer {
           int tileInt = new Integer(in.next());
           int x = new Integer(in.next());
           int y = new Integer(in.next());
-          System.out.println(xCoords.length);
-          System.out.println(yCoords.length);
           xCoords[xCoords.length - 1] = x;
           yCoords[yCoords.length - 1] = y;
           if (gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName()) && (straightline(xCoords, x)
@@ -95,7 +93,6 @@ public class Peer {
             sendall = sendall + " " + tileInt + "@" + x + "," + y;
             Servertile drawnTile = gamelogic.drawTile(gamelogic.getPlayer(connection));
             connection.getOut().write(drawnTile.tileToInt(drawnTile));
-            System.out.print("Players: " + gamelogic.hasPlayers().size());
           } else {
             result = "ERROR: INVALID MOVE";
           }
@@ -103,6 +100,8 @@ public class Peer {
         }
         if (!sendall.equals("MOVEOK_PUT")) {
           server.sendAll(sendall);
+        } else {
+          connection.getOut().write("Error");
         }
 
         gamelogic.nextTurn();

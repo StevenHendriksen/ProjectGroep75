@@ -83,4 +83,8 @@ public class Connection extends Thread {
   public PrintWriter getOut(){
     return out;
   }
+  
+  public Server getServer() {
+    return server;
+  }
 }

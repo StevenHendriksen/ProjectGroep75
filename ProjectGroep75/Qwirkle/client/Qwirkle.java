@@ -21,6 +21,7 @@ public class Qwirkle {
   private Lobby lobby;
   private Player player;
   private Ai ai;
+  private boolean manual;
 
   /**
    * Main used for testing purposes mainly.
@@ -30,7 +31,7 @@ public class Qwirkle {
    */
 
   public static void main(String[] args) {
-    new Qwirkle();
+    new Qwirkle(false);
   }
 
   /**
@@ -73,7 +74,7 @@ public class Qwirkle {
    * basic information like ip of server, port, alias.
    */
 
-  public Qwirkle() {
+  public Qwirkle(boolean manual) {
     System.out.println("Welcome to Qwirkle, to connect to a server, enter the following");
 
     Scanner in = new Scanner(System.in);
@@ -106,7 +107,7 @@ public class Qwirkle {
       board = new Board(false);
     }
     player = new Player(name);
-    ai = new Ai(board);
+    ai = new Ai(board, player);
     peer = new Peer(board, this, player);
     System.out.println(ip + port);
     sc = new ServerCommunication(ip, port, board, peer);
@@ -116,12 +117,17 @@ public class Qwirkle {
       sc.write("IDENTIFY " + name + " " + functions);
       // sc.write("CLIENT_LOBBY");
     }
-    while (true) {
-      String typedMessage = in.nextLine();
-      if (typedMessage.equals("HINT")) {
-        System.out.println(ai.smartMove(board));
-      } else {
-      sc.write(typedMessage);
+    if (manual) {
+      while (true) {
+        String typedMessage = in.nextLine();
+        if (typedMessage.equals("HINT")) {
+          System.out.println(ai.smartMove(board));
+        } else {
+          sc.write(typedMessage);
+        }
+      }
+    } else {
+      while (true) {
       }
     }
   }
@@ -215,6 +221,37 @@ public class Qwirkle {
   public Lobby getLobby() {
     return lobby;
   }
+  /**
+   * returns if the client is manual.
+   * 
+   * @return (boolean)
+   */
+  
+  public boolean getManual() {
+    return manual;
+  }
+  
+  /**
+   * returns the communication
+   * 
+   * @return (ServerCommunication)
+   */
+  
+  public ServerCommunication getConnection() {
+    return sc;
+  }
+  
+  /**
+   * returns the ai
+   * 
+   * @return (ai)
+   */
+  
+  public Ai getai() {
+    return ai;
+  }
+  
+  
 
   /**
    * prints all the commands you can use.
