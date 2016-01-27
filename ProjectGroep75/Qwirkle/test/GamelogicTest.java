@@ -128,12 +128,12 @@ public class GamelogicTest {
 
     assertEquals(tile.hasColor(), board.getTile(0, 0).hasColor());
     assertEquals(tile.hasShape(), board.getTile(0, 0).hasShape());
-    gamelogic.score(0, 0, 1);
+    gamelogic.score(0, 0, 1, player);
     assertEquals(1, player.hasScore());
 
     gamelogic.nextTurn();
 
-    gamelogic.score(0, 1, 2);
+    gamelogic.score(0, 1, 2, player2);
     gamelogic.movePut(0, 1, 2);
     assertEquals(tile3.hasColor(), board.getTile(0, 1).hasColor());
     assertEquals(tile3.hasShape(), board.getTile(0, 1).hasShape());
@@ -148,11 +148,11 @@ public class GamelogicTest {
     gamelogic.movePut(0, 0, 1);
     gamelogic.movePut(0, 2, 3);
     gamelogic.movePut(0, 1, 2);
-    gamelogic.score(0, 1, 2);
+    gamelogic.score(0, 1, 2, player);
     assertEquals("Goes wrong because the moves aren't valid",player.hasScore(), 3);
     gamelogic.nextTurn();
     gamelogic.movePut(1, 0, 4);
-    gamelogic.score(1, 0, 4);
+    gamelogic.score(1, 0, 4, player2);
     assertEquals(player2.hasScore(), 2);
 
   }
