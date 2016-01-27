@@ -69,6 +69,7 @@ public class Peer {
       if (command.equals("TURN")) {
         String name = fullCommand.next();
         if(name.equals(player.hasName())&& !game.getManual()){
+          System.out.println("move :" + game.getai().smartMove(board));
           game.getConnection().write(game.getai().smartMove(board));
         }
         System.out.println("Turn: " + name);
@@ -155,7 +156,6 @@ public class Peer {
       board.update();
     } catch (java.util.NoSuchElementException e) {
       System.out.println("Invalid Server command: " + str);
-      e.printStackTrace();
       scan.close();
       board.update();
 
@@ -167,7 +167,7 @@ public class Peer {
 
     Servertile tile2 = new Servertile(tileInt);
 
-    if (tile.hasColor() == tile2.hasColor() && tile.hasShape() == tile2.hasShape()) {
+    if (tile == null || tile2 == null ||tile.hasColor() == tile2.hasColor() && tile.hasShape() == tile2.hasShape()) {
       result = true;
     }
 

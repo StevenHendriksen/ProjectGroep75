@@ -32,14 +32,14 @@ public class Gamelogic {
    */
   public Servertile drawTile(Player player) {
     Servertile tile = bag.takeTile();
-    try{
-    player.getConnection().write("DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
+    try {
+      player.getConnection().write("DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
     } catch (NullPointerException e) {
       String sendall = "GAMEEND";
-      for(int p = 0; p < players.size() ;p++){
-        sendall = sendall + " " + 
+      for (int p = 0; p < players.size(); p++) {
+        sendall = sendall + " " + players.get(p).hasScore() + "," + players.get(p).hasName();
       }
-      player.getConnection().getServer().sendAll("GAMEEND" );
+      player.getConnection().getServer().sendAll(sendall);
     }
     return bag.takeTile();
   }
@@ -121,7 +121,6 @@ public class Gamelogic {
     if (result2 > 0 && result3 > 0 || (result3 == 4 && x == 0 && y == 0 && this.numberTurn() == 0)) {
       result = "MOVEOK_PUT";
     }
-
     return result;
   }
 
@@ -299,7 +298,7 @@ public class Gamelogic {
    * 
    * @
    */
-  public void score(int x, int y, int tile) {
+  public void score(int x, int y, int tile, Player player) {
     assert tile <= 36 && tile >= 0;
     assert x <= board.getdimXp() && x >= board.getdimXm();
     assert y <= board.getdimYp() && y >= board.getdimYm();
@@ -434,7 +433,7 @@ public class Gamelogic {
         score = score + 6;
       }
     }
-    turn().changeScore(score);
+    player.changeScore(score);
   }
 
   /**

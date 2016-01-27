@@ -107,7 +107,7 @@ public class Qwirkle {
       board = new Board(false);
     }
     player = new Player(name);
-    ai = new Ai(board, player);
+    ai = new Ai(player);
     peer = new Peer(board, this, player);
     System.out.println(ip + port);
     sc = new ServerCommunication(ip, port, board, peer);

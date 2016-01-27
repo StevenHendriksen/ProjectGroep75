@@ -42,7 +42,7 @@ public class Server extends Thread {
           System.out.println("Re-enter port: ");
           port = in.nextLine();
         }
-        server = new ServerSocket(3333);
+        server = new ServerSocket(new Integer(port));
         bag = new Bag();
         board = new Serverboard(true);
         gamelogic = new Gamelogic(board, bag);
