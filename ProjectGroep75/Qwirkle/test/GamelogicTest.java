@@ -8,7 +8,7 @@ import server.Color;
 import server.Gamelogic;
 import server.Player;
 import server.Serverboard;
-import server.Servertile;
+import server.Tile;
 import server.Shape;
 
 import static org.junit.Assert.assertEquals;
@@ -23,9 +23,9 @@ public class GamelogicTest {
   Serverboard board;
   Bag bag;
   Gamelogic gamelogic;
-  Servertile tile;
-  Servertile tile2;
-  Servertile tile3;
+  Tile tile;
+  Tile tile2;
+  Tile tile3;
   Player player;
   Player player2;
 
@@ -34,9 +34,9 @@ public class GamelogicTest {
     board = new Serverboard(false);
     bag = new Bag();
     gamelogic = new Gamelogic(board, bag);
-    tile = new Servertile(1);
-    tile2 = new Servertile(Color.RED, Shape.CIRCLE);
-    tile3 = new Servertile(2);
+    tile = new Tile(1);
+    tile2 = new Tile(Color.RED, Shape.CIRCLE);
+    tile3 = new Tile(2);
     player = new Player("Stan", bag, null);
     player2 = new Player("Steven", bag, null);
   }
@@ -161,19 +161,19 @@ public class GamelogicTest {
   public void moveTradeTest() {
     gamelogic.putPlayer(player);
     gamelogic.putPlayer(player2);
-    player.changeTiles(new Servertile(1), 0);
-    player.changeTiles(new Servertile(2), 1);
-    player.changeTiles(new Servertile(3), 2);
-    player.changeTiles(new Servertile(4), 3);
-    player.changeTiles(new Servertile(5), 4);
-    player.changeTiles(new Servertile(6), 5);
+    player.changeTiles(new Tile(1), 0);
+    player.changeTiles(new Tile(2), 1);
+    player.changeTiles(new Tile(3), 2);
+    player.changeTiles(new Tile(4), 3);
+    player.changeTiles(new Tile(5), 4);
+    player.changeTiles(new Tile(6), 5);
     System.out.println(player.hasTiles()[2]);
     gamelogic.moveTrade(5);
-    assertTrue(gamelogic.equal(player.hasTiles()[5], new Servertile(6)));
+    assertTrue(gamelogic.equal(player.hasTiles()[5], new Tile(6)));
 
     for (int i = 1; i < 6; i++) {
       System.out.println("player has tile: " + player.hasTiles()[i]);
-      assertFalse(gamelogic.equal(player.hasTiles()[i], new Servertile(1)));
+      assertFalse(gamelogic.equal(player.hasTiles()[i], new Tile(1)));
 
     }
   }

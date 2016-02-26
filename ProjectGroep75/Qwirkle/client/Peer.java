@@ -9,6 +9,8 @@ package client;
 
 import java.util.Scanner;
 
+import Shared.*;
+
 public class Peer {
 
   private Board board = null;
@@ -112,9 +114,9 @@ public class Peer {
                 break;
               }
             }
-            player.changeTiles(new Servertile(new Integer(fullCommand.next())), position);
+            player.changeTiles(new Tile(new Integer(fullCommand.next())), position);
           } else {
-            player.changeTiles(new Servertile(new Integer(fullCommand.next())), 
+            player.changeTiles(new Tile(new Integer(fullCommand.next())), 
                 player.hasTiles().length - 1);
           }
 
@@ -135,7 +137,7 @@ public class Peer {
           if (board.getTile(xvalue, yvalue) == null) {
             for (int i = 0; i < 6; i++) {
               if (equal(player.hasTiles()[i], tileInt)) {
-                Servertile[] tiles = player.hasTiles();
+                Tile[] tiles = player.hasTiles();
                 tiles[i] = null;
                 player.setTiles(tiles);
               }
@@ -189,10 +191,10 @@ public class Peer {
    * @return (boolean of whether they are equal)
    */
 
-  public boolean equal(Servertile tile, int tileInt) {
+  public boolean equal(Tile tile, int tileInt) {
     boolean result = false;
 
-    Servertile tile2 = new Servertile(tileInt);
+    Tile tile2 = new Tile(tileInt);
 
     if (tile == null || tile2 == null || tile.hasColor() == tile2.hasColor() && tile.hasShape() 
         == tile2.hasShape()) {

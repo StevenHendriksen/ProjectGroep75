@@ -1,4 +1,4 @@
-package client;
+package Shared;
 
 public enum Color {
   RED, ORANGE, YELLOW, BLUE, GREEN, PURPLE;

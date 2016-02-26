@@ -2,6 +2,8 @@ package client;
 
 import java.util.Scanner;
 
+import Shared.*;
+
 /**
  * Executable client class for Qwirkle
  * 

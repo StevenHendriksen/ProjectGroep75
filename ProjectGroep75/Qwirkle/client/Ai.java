@@ -10,6 +10,8 @@ package client;
 import java.util.HashMap;
 import java.util.Map;
 
+import Shared.*;
+
 public class Ai {
   // ------------------ Instance variables ----------------
   int finfinx = 0;
@@ -33,7 +35,7 @@ public class Ai {
    */
 
   public String smartMove(Board board) {
-    Map<String, Servertile> validMoves = new HashMap<String, Servertile>();
+    Map<String, Tile> validMoves = new HashMap<String, Tile>();
     Gamelogic localGamelogic = new Gamelogic(board);
     int dimXm = board.getdimXm();
     if (dimXm > -1) {

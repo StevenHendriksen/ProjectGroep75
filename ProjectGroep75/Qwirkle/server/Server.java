@@ -9,11 +9,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import Shared.*;
+
 public class Server extends Thread {
   // ------------------ Instance variables ----------------
   ServerSocket server = null;
   Gamelogic gamelogic;
-  Serverboard board;
+  Board board;
   Player player;
   Peer peer;
   Bag bag;
@@ -40,7 +42,7 @@ public class Server extends Thread {
         }
         server = new ServerSocket(new Integer(port));
         bag = new Bag();
-        board = new Serverboard(true);
+        board = new Board();
         gamelogic = new Gamelogic(board, bag);
         System.out.println(
               "Waiting for client on port " + port + " swith IP-adress: " 

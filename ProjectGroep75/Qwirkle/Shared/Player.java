@@ -1,8 +1,8 @@
-package client;
+package Shared;
 
 public class Player {
   String name;
-  Servertile[] tiles;
+  Tile[] tiles;
   Bag bag;
 
   /**
@@ -13,7 +13,7 @@ public class Player {
   public Player(String name) {
     this.name = name;
     bag = new Bag();
-    tiles = new Servertile[6];
+    tiles = new Tile[6];
     for (int i = 0; i < 6; i++) {
       tiles[i] = bag.takeTile();
     }
@@ -23,19 +23,19 @@ public class Player {
     return name;
   }
 
-  public Servertile[] hasTiles() {
+  public Tile[] hasTiles() {
     return tiles;
   }
   
-  public void setTiles(Servertile[] tiles) {
+  public void setTiles(Tile[] tiles) {
     this.tiles = tiles;
   }
 
-  public void addTile(Servertile tile) {
+  public void addTile(Tile tile) {
     tiles[tiles.length - 1] = tile;
   }
   
-  public void changeTiles(Servertile tile, int num) {
+  public void changeTiles(Tile tile, int num) {
     tiles[num] = tile;
   }
 
@@ -44,7 +44,7 @@ public class Player {
    * @param tile (tile to be removed)
    */
   
-  public void removeTile(Servertile tile) {
+  public void removeTile(Tile tile) {
     for (int j = 0; j < tiles.length; j++) {
       if (bag.tilesInBag()[j] == tile) {
         bag.tilesInBag()[j] = null;

@@ -1,10 +1,10 @@
-package client;
+package Shared;
 
-public class Servertile {
+public class Tile {
   private Color color;
   private Shape shape;
 
-  public Servertile(Color color, Shape shape) {
+  public Tile(Color color, Shape shape) {
     this.color = color;
     this.shape = shape;
   }
@@ -22,7 +22,7 @@ public class Servertile {
    * @param tileNumber (number to create the tile with)
    */
 
-  public Servertile(int tileNumber) {
+  public Tile(int tileNumber) {
     shape = shape.CIRCLE;
     color = color.RED;
     int shapeNumber = tileNumber % 6;

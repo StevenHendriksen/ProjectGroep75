@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import Shared.*;
+
 public class ConnectionThread extends Thread {
   Socket socket;
   Gamelogic gamelogic;
-  Serverboard board;
+  Board board;
   Bag bag;
   Server server;
   PrintWriter out;
@@ -27,7 +29,7 @@ public class ConnectionThread extends Thread {
    */
 
   public ConnectionThread(Socket socket, Gamelogic gamelogic,
-      Serverboard board, Bag bag, Server server,
+      Board board, Bag bag, Server server,
       PrintWriter out, BufferedReader inputStream, Connection connection) {
     this.socket = socket;
     this.gamelogic = gamelogic;

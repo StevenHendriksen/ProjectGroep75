@@ -6,11 +6,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Shared.*;
+
 public class Connection extends Thread {
   Server server;
   ServerSocket serversock;
   Gamelogic gamelogic;
-  Serverboard board;
+  Board board;
   Bag bag;
   String clientMessage = "";
   Socket connection;
@@ -34,7 +36,7 @@ public class Connection extends Thread {
    */
 
   public Connection(Server server, Gamelogic gamelogic,
-      Serverboard board, Bag bag, ServerSocket serversock) {
+      Board board, Bag bag, ServerSocket serversock) {
     this.server = server;
     this.gamelogic = gamelogic;
     this.board = board;

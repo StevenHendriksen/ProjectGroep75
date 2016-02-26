@@ -6,7 +6,7 @@ import org.junit.Test;
 import server.Bag;
 import server.Color;
 import server.Player;
-import server.Servertile;
+import server.Tile;
 import server.Shape;
 
 import static org.junit.Assert.assertEquals;
@@ -56,7 +56,7 @@ public class PlayerTest {
 
   @Test
   public void changeTilesTest() {
-    player.changeTiles(new Servertile(1), 0);
+    player.changeTiles(new Tile(1), 0);
 
     assertTrue(player.hasTiles()[0].hasColor() == Color.RED);
     assertTrue(player.hasTiles()[0].hasShape() == Shape.CIRCLE);

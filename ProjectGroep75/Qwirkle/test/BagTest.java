@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import server.Bag;
 import server.Color;
-import server.Servertile;
+import server.Tile;
 import server.Shape;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +26,7 @@ public class BagTest {
 
   @Test
   public void takeTileTest() {
-    Servertile tile = bag.takeTile();
+    Tile tile = bag.takeTile();
 
     assertFalse(tile == null);
   }

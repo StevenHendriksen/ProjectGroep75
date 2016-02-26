@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import Shared.Board;
+
 public class ServerCommunication extends Thread {
   // ------------------ Instance variables ----------------
   Socket echoSocket = null;

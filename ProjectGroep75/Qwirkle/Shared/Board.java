@@ -1,4 +1,4 @@
-package client;
+package Shared;
 
 /**
  *Board
@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import client.tui;
+
 public class Board {
   // ------------------ Instance variables ----------------
   private int dimXp;
@@ -19,30 +21,30 @@ public class Board {
   private int dimYp;
   private int dimYm;
 
-  private Map<String, Servertile> tileLocs = new HashMap<String, Servertile>();
-  private List<String> chatEntry = new ArrayList<String>();
-  private List<String> consoleEntry = new ArrayList<String>();
-  private Servertile[] hand = {};
-
-  private boolean chat = false;
+  private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
 
   /**
    * Main, mainly used for quick testing purposes.
    */
 
   public static void main(String[] args) {
-    Board board = new Board(true);
-    board.chatEntry("Stan", "hoi Stan", false);
-    board.chatEntry("you", "hoi Steven", true);
-    board.update();
+    Board board = new Board();
+    tui tui = new tui(board, true);
+    tui.chatEntry("Stan", "hoi Stan", false);
+    board.putTile(0, 0, 5);
+    board.putTile(5, 5, 5);
+    board.putTile(-5, -5, 5);
+    board.putTile(-5, 5, 5);
+    board.putTile(5, -5, 5);
+    tui.chatEntry("you", "hoi Steven", true);
+    tui.update();
   }
 
   /**
    * Constructor that creates an empty Board.
    */
 
-  public Board(boolean chat) {
-    this.chat = chat;
+  public Board() {
   }
 
   /**
@@ -53,8 +55,7 @@ public class Board {
    *          the map to fill the board with
    */
 
-  public Board(Map<String, Servertile> map, boolean chat) {
-    this.chat = chat;
+  public Board(Map<String, Tile> map, boolean chat) {
     tileLocs = map;
     setDim();
   }
@@ -65,10 +66,6 @@ public class Board {
    * @param tiles
    *          a array of tiles that the player has
    */
-
-  public void setHand(Servertile[] tiles) {
-    hand = tiles;
-  }
 
   /**
    * Puts a tile in the ArrayList that controls the position of the tiles.
@@ -82,7 +79,7 @@ public class Board {
    */
 
   public void putTile(int xcoord, int ycoord, int tile) {
-    tileLocs.put(xcoord + " " + ycoord, new Servertile(tile));
+    tileLocs.put(xcoord + " " + ycoord, new Tile(tile));
   }
 
   /**
@@ -93,7 +90,7 @@ public class Board {
    * @return int the Integer
    */
 
-  public int tileToInt(Servertile tile) {
+  public int tileToInt(Tile tile) {
     int result = 0;
     result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
     return result;
@@ -159,7 +156,7 @@ public class Board {
    * 
    * @return tileLocs
    */
-  public Map<String, Servertile> getTileLocs() {
+  public Map<String, Tile> getTileLocs() {
     return tileLocs;
   }
 
@@ -173,9 +170,9 @@ public class Board {
    * @return tile if it exists or null
    */
 
-  public Servertile getTile(int xcoord, int ycoord) {
-    Servertile result = null;
-    Servertile result2 = tileLocs.get(xcoord + " " + ycoord);
+  public Tile getTile(int xcoord, int ycoord) {
+    Tile result = null;
+    Tile result2 = tileLocs.get(xcoord + " " + ycoord);
     if (result2 != null) {
       result = result2;
     }
@@ -188,30 +185,12 @@ public class Board {
    * @return divider
    */
 
-  public String createDivider() {
-    String divider = "-";
-    for (int i = dimXp; i >= dimXm; i--) {
-      divider = divider + "---+";
-    }
-    divider = divider + "---+";
-    return divider;
-  }
-
   /**
    * creates an other divider, that more fits the style of the console/chatbox
    * etc.
    * 
    * @return otherDivider
    */
-
-  public String createOtherDivider() {
-    String divider = "+";
-    for (int i = dimXp; i >= dimXm; i--) {
-      divider = divider + "----";
-    }
-    divider = divider + "---+";
-    return divider;
-  }
 
   /**
    * Creates the String that is is the right length to fit with the board with x
@@ -220,43 +199,12 @@ public class Board {
    * @return xCoords
    */
 
-  public String createxCoords() {
-    String xcoords = " y/x|";
-    for (int h = dimXm; h <= dimXp; h++) {
-      if (h < 0) {
-        if (h < -9) {
-          xcoords = xcoords + h + "|";
-        } else {
-          xcoords = xcoords + h + " |";
-        }
-      } else {
-        if (h > 9) {
-          xcoords = xcoords + h + " |";
-        } else {
-          xcoords = xcoords + h + "  |";
-        }
-      }
-    }
-    return xcoords;
-  }
-
   /**
    * Uses the createxCoords, createDivider, createTileLine to create the main
    * part of the Board print.
    * 
    * @return List
    */
-
-  public List<String> createBoardPrint() {
-    List<String> board = new ArrayList<String>();
-    board.add(createxCoords());
-    for (int k = dimYp; k >= dimYm; k--) {
-      board.add(createDivider());
-      board.add(createTileLine(k));
-    }
-    board.add(createDivider());
-    return board;
-  }
 
   /**
    * Creates the Tile line based on what y value it has.
@@ -266,58 +214,11 @@ public class Board {
    * @return String of the line
    */
 
-  public String createTileLine(int num) {
-    String tilesLine = "";
-    if (num < 0) {
-      if (num < -9) {
-        tilesLine = num + ":|";
-      } else {
-        tilesLine = num + " :|";
-      }
-    } else {
-      if (num > 9) {
-        tilesLine = num + " :|";
-      } else {
-        tilesLine = num + "  :|";
-      }
-    }
-    for (int g = dimXm; g <= dimXp; g++) {
-      String tile = "   ";
-      if (getTile(g, num) != null) {
-        tile = getTile(g, num).toString();
-      }
-      tilesLine = tilesLine + tile + "|";
-    }
-    return tilesLine;
-  }
-
   /**
    * Creates the chat box with the past 5 messages from other users.
    * 
    * @return chat
    */
-
-  public List<String> createChatBox() {
-    List<String> chat = new ArrayList<String>();
-    chat.add(createOtherDivider());
-    int num = 0;
-    if (chat.size() != 0) {
-      if (chatEntry.size() > 5) {
-        num = 5;
-      } else {
-        num = chatEntry.size();
-      }
-    }
-    if (num != 0) {
-      for (int i = chatEntry.size() - 1; i >= chatEntry.size() - num; i--) {
-        chat.add(convertFormat(chatEntry.get(i)));
-      }
-    }
-    String message = "Chat box:";
-    chat.add(convertFormat(message));
-    chat.add(createOtherDivider());
-    return chat;
-  }
 
   /**
    * creates the console with the past 10 console messages.
@@ -325,27 +226,6 @@ public class Board {
    * @return List
    */
 
-  public List<String> createConsole() {
-    List<String> console = new ArrayList<String>();
-    console.add(createOtherDivider());
-    int num = 0;
-    if (console.size() != 0) {
-      if (consoleEntry.size() > 10) {
-        num = 10;
-      } else {
-        num = consoleEntry.size();
-      }
-    }
-    if (num != 0) {
-      for (int i = consoleEntry.size() - 1; i >= consoleEntry.size() - num; i--) {
-        console.add(convertFormat(consoleEntry.get(i)));
-      }
-    }
-    String message = "Console:";
-    console.add(convertFormat(message));
-    console.add(createOtherDivider());
-    return console;
-  }
 
   /**
    * Converts msg to a message that has the proper spacing and format.
@@ -356,27 +236,12 @@ public class Board {
    * @return message
    */
 
-  public String convertFormat(String msg) {
-    String message = "| " + msg;
-    setDim();
-    int num = createOtherDivider().length() - message.length() - 2;
-    for (int i = 0; i <= num; i++) {
-      message = message + " ";
-    }
-    message = message + "|";
-    return message;
-  }
-
   /**
    * Adds the msg to the consolebacklog.
    * 
    * @param msg
    *          message to be added to the console
    */
-
-  public void consoleEntry(String msg) {
-    consoleEntry.add("  " + msg);
-  }
 
   /**
    * Adds the msg to the chatEntry, also uses the name where it came from and
@@ -390,26 +255,9 @@ public class Board {
    *          whether it was sent from or to the name
    */
 
-  public void chatEntry(String name, String msg, boolean bool) {
-    String message = "";
-    if (bool) {
-      message = "  to " + name + ": " + msg;
-    } else {
-
-      message = "  from " + name + ": " + msg;
-    }
-    chatEntry.add(message);
-  }
-
   /**
    * Prints 50 empty lines to clear the print area.
    */
-
-  public void clear() {
-    for (int i = 0; i < 50; i++) {
-      System.out.println();
-    }
-  }
 
   /**
    * creates the print used to display what Tiles the player has.
@@ -417,36 +265,13 @@ public class Board {
    * @return handPrints (String List of print of the hand
    */
 
-  public List<String> createHandPrint() {
-    List<String> handPrints = new ArrayList<String>();
-
-    String handPrint = "Tiles:";
-    for (int k = 0; k < hand.length; k++) {
-      handPrint = handPrint + " " + hand[k];
-    }
-    handPrints.add(convertFormat(handPrint));
-    handPrints.add(createOtherDivider());
-    return handPrints;
-  }
 
   /**
    * Uses all the methods before to create and print the whole playing field,
    * console and chatbox.
    */
 
-  public void update() {
-    setDim();
-    clear();
-    List<String> board = createConsole();
-    board.addAll(board.size(), createHandPrint());
-    board.addAll(board.size(), createBoardPrint());
-    if (chat) {
-      board.addAll(board.size(), createChatBox());
-    }
-    for (int j = board.size(); j > 0; j--) {
-      System.out.println(board.get(j - 1));
-    }
-  }
+
   
   /**
    * Method that returns the highest X-coordinate.

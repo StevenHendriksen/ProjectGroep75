@@ -1,5 +1,4 @@
-package server;
-
+package Shared;
 /**
  * Client Bag
  * 
@@ -8,7 +7,7 @@ package server;
  */
 
 public class Bag {
-  private Servertile[] tiles = {};
+  private Tile[] tiles = {};
 
   public Bag() {
     newBag();
@@ -31,10 +30,10 @@ public class Bag {
    */
 
   public void newBag() {
-    tiles = new Servertile[108];
+    tiles = new Tile[108];
     for (int j = 0; j < 36; j++) {
       for (int i = 0; i < 3; i++) {
-        tiles[i + j * 3] = new Servertile(j + 1);
+        tiles[i + j * 3] = new Tile(j + 1);
       }
     }
   }
@@ -45,9 +44,9 @@ public class Bag {
    * @return (random tile from bag)
    */
 
-  public Servertile takeTile() {
+  public Tile takeTile() {
     int random = (int) Math.floor(Math.random() * 108);
-    Servertile randomtile = tiles[random];
+    Tile randomtile = tiles[random];
 
     while (randomtile == null) {
       random = (int) Math.floor(Math.random() * 108);
@@ -56,19 +55,6 @@ public class Bag {
     tiles[random] = null;
 
     return randomtile;
-  }
-  /**
-   * Puts a tile with int into the bag.
-   * @param tile (the int of the tile to be added)
-   */
-  
-  public void putTile(int tile) {
-    for (int i = 0; i < 108; i++) {
-      if (tiles[i] == null) {
-        tiles[i] = new Servertile(tile);
-        return;
-      }
-    }
   }
 
   /**
@@ -79,7 +65,7 @@ public class Bag {
    * @return (boolean)
    */
 
-  public boolean getTile(Servertile tile) {
+  public boolean getTile(Tile tile) {
     boolean inBag = false;
     for (int i = 0; i < 108; i++) {
       if (tiles[i] == tile) {
@@ -126,7 +112,7 @@ public class Bag {
     return empty;
   }
 
-  public Servertile[] tilesInBag() {
+  public Tile[] tilesInBag() {
     return tiles;
   }
 }

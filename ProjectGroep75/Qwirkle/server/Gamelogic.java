@@ -3,11 +3,13 @@ package server;
 import java.util.ArrayList;
 import java.util.List;
 
+import Shared.*;
+
 public class Gamelogic {
   // ------------------ Instance variables ----------------
   private Bag bag;
-  private Serverboard board;
-  private Servertile tile;
+  private Board board;
+  private Tile tile;
   private int current = 0;
 
   // @ private invariant players.length >= 0;
@@ -22,7 +24,7 @@ public class Gamelogic {
    * @param bag
    *          The bag, which is used in the game
    */
-  public Gamelogic(Serverboard board, Bag bag) {
+  public Gamelogic(Board board, Bag bag) {
     this.board = board;
     this.bag = bag;
   }
@@ -30,8 +32,8 @@ public class Gamelogic {
   /**
    * The method that takes a tile from the bag.
    */
-  public Servertile drawTile(Player player) {
-    Servertile tile = bag.takeTile();
+  public Tile drawTile(Player player) {
+    Tile tile = bag.takeTile();
     try {
       player.getConnection().write("DRAWTILE " + tile.tileToInt(tile),
           player.getConnection().getOut());
@@ -85,7 +87,7 @@ public class Gamelogic {
     int result2 = 0;
     int result3 = 0;
 
-    this.tile = new Servertile(tile);
+    this.tile = new Tile(tile);
 
     if (board.getTile(xcoord, ycoord) == null) {
       if (xcoord == 0 && ycoord == 0) {
@@ -137,7 +139,7 @@ public class Gamelogic {
   // @ requires tile2 != null;
   // @ ensures \result == (this.hasColor() == tile2.hasColor() &&
   // tile.hasShape() == tile2.hasShape());
-  public boolean equal(Servertile tile, Servertile tile2) {
+  public boolean equal(Tile tile, Tile tile2) {
     boolean result = false;
 
     if (tile.hasColor() == tile2.hasColor() && tile.hasShape() == tile2.hasShape()) {
@@ -304,7 +306,7 @@ public class Gamelogic {
     assert tile <= 36 && tile >= 0;
     assert xcoord <= board.getdimXp() && xcoord >= board.getdimXm();
     assert ycoord <= board.getdimYp() && ycoord >= board.getdimYm();
-    this.tile = new Servertile(tile);
+    this.tile = new Tile(tile);
     int score = 1;
     int qwirkle1 = 1;
     int qwirkle2 = 1;
@@ -459,7 +461,7 @@ public class Gamelogic {
   public void moveTrade(int number) {
     bag.putTile(number);
 
-    Servertile instancetile = new Servertile(number);
+    Tile instancetile = new Tile(number);
 
     for (int i = 0; i < 6; i++) {
       if (equal(turn().hasTiles()[i], instancetile)) {

@@ -2,10 +2,12 @@ package server;
 
 import java.util.Scanner;
 
+import Shared.*;
+
 public class Peer {
   Gamelogic gamelogic;
   Player player;
-  Serverboard board;
+  Board board;
   Bag bag;
   Server server;
   int queueSize = 4;
@@ -18,7 +20,7 @@ public class Peer {
    * @param server (server)
    */
   
-  public Peer(Gamelogic gamelogic, Serverboard board, Bag bag, Server server) {
+  public Peer(Gamelogic gamelogic, Board board, Bag bag, Server server) {
     this.gamelogic = gamelogic;
     this.bag = bag;
     this.board = board;
@@ -111,7 +113,7 @@ public class Peer {
             board.putTile(xcoord, ycoord, tileInt);
             result = result + " " + tileInt + "@" + xcoord + "," + ycoord;
             sendall = sendall + " " + tileInt + "@" + xcoord + "," + ycoord;
-            Servertile drawnTile = gamelogic.drawTile(gamelogic.getPlayer(connection));
+            Tile drawnTile = gamelogic.drawTile(gamelogic.getPlayer(connection));
             connection.getOut().write(drawnTile.tileToInt(drawnTile));
             gamelogic.score(xcoord, ycoord, tileInt, gamelogic.getPlayer(connection));
           } else {
