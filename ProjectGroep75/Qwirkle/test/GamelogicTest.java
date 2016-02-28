@@ -27,7 +27,7 @@ public class GamelogicTest {
   @Before
   public void setUp() {
     board = new Board();
-    bag = new Bag();
+    bag = new Bag(108);
     gamelogic = new Gamelogic(board, bag);
     tile = new Tile(1);
     tile2 = new Tile(Color.RED, Shape.CIRCLE);

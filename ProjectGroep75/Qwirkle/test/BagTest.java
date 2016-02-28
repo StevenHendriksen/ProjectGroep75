@@ -14,7 +14,8 @@ public class BagTest {
 
   @Before
   public void setUp() {
-    bag = new Bag();
+    bag = new Bag(108);
+    bag.fillBag(108);
   }
 
   @Test
@@ -51,7 +52,7 @@ public class BagTest {
 
   @Test
   public void emptyBagTest() {
-    for (int i = 0; i < 108; i++) {
+    for (int i = 0; i <= 108; i++) {
       bag.takeTile();
     }
 

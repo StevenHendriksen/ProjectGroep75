@@ -50,9 +50,9 @@ public enum Shape {
   }
   
   public Shape intToShape(int tileNumber) {
-    Shape shape = this;
+    Shape shape = CIRCLE;
     for (int j = 1; j < tileNumber; j++) {
-      shape = other();
+      shape = shape.other();
     }
     return shape;
   }

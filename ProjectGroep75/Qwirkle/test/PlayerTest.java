@@ -18,7 +18,7 @@ public class PlayerTest {
 
   @Before
   public void setUp() {
-    bag = new Bag();
+    bag = new Bag(108);
     player = new Player("Stan", null);
   }
 

@@ -33,7 +33,7 @@ public enum Color {
   public Color intToColor(int tileNumber) {
     Color color = this;
     for (int j = 1; j < tileNumber; j++) {
-      color = other();
+      color = color.other();
     }
     return color;
   }

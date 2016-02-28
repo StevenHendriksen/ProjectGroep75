@@ -42,7 +42,8 @@ public class Server extends Thread {
           port = in.nextLine();
         }
         server = new ServerSocket(new Integer(port));
-        bag = new Bag();
+        bag = new Bag(108);
+        bag.fillBag(108);
         board = new Board();
         gamelogic = new Gamelogic(board, bag);
         System.out.println(

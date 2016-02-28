@@ -10,8 +10,8 @@ package Shared;
 public class Bag {
   private Tile[] tiles = {};
 
-  public Bag() {
-    newBag();
+  public Bag(int numberOfTiles) {
+    fillBag(numberOfTiles);
   }
 
   /**
@@ -22,19 +22,34 @@ public class Bag {
    */
 
   public static void main(String[] args) {
-    Bag bag = new Bag();
+    Bag bag = new Bag(108);
+    bag.fillBag(108);
     bag.tilesInBag();
+    int count = 0;
+    int count2 = 0;
+    for(int i = 0; i < 108; i++){
+    System.out.println(bag.tilesInBag()[i]);
+    if(bag.tilesInBag()[i] == null){
+      count++;
+    } else{
+      count2++;
+    }
+    }
+    System.out.println("count: " + count);
+    System.out.println("count2: " + count2);
   }
 
   /**
    * newBag, fills the bag with all the tiles.
    */
 
-  public void newBag() {
-    tiles = new Tile[108];
-    for (int j = 0; j < 36; j++) {
-      for (int i = 0; i < 3; i++) {
-        tiles[i + j * 3] = new Tile(j + 1);
+  public void fillBag(int tileNumber) {
+    tiles = new Tile[tileNumber];
+    for (int j = 0; j < 3; j++) {
+      for (int i = 1; i < 36; i++) {
+        tiles[j*36 + i] = new Tile(i);
+        System.out.println(j + " " + i);
+        System.out.println("tiles:" + tiles[j*3 + i]);
       }
     }
   }

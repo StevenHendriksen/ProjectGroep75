@@ -30,8 +30,9 @@ public class Tile {
     if (shapeNumber == 0) {
       shapeNumber = 6;
     }
-    color.intToColor(colorNumber);
-    shape.intToShape(shapeNumber);
+    color = color.intToColor(colorNumber);
+    shape = shape.intToShape(shapeNumber);
+    System.out.println(this);
   }
   
   /**

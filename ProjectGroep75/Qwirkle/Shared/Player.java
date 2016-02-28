@@ -16,20 +16,12 @@ public class Player {
   
   public Player(String name, Connection connection) {
     this.name = name;
-    bag = new Bag();
-    tiles = new Tile[6];
-    for (int i = 0; i < 6; i++) {
-      tiles[i] = bag.takeTile();
-    }
+    bag = new Bag(6);
   }
   
   public Player(String name) {
     this.name = name;
-    bag = new Bag();
-    tiles = new Tile[6];
-    for (int i = 0; i < 6; i++) {
-      tiles[i] = bag.takeTile();
-    }
+    bag = new Bag(6);
   }
 
   public String hasName() {
