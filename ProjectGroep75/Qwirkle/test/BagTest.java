@@ -3,10 +3,7 @@ package test;
 import org.junit.Before;
 import org.junit.Test;
 
-import server.Bag;
-import server.Color;
-import server.Tile;
-import server.Shape;
+import Shared.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -3,13 +3,8 @@ package test;
 import org.junit.Before;
 import org.junit.Test;
 
-import server.Bag;
-import server.Color;
+import Shared.*;
 import server.Gamelogic;
-import server.Player;
-import server.Serverboard;
-import server.Tile;
-import server.Shape;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamelogicTest {
-  Serverboard board;
+  Board board;
   Bag bag;
   Gamelogic gamelogic;
   Tile tile;
@@ -31,14 +26,14 @@ public class GamelogicTest {
 
   @Before
   public void setUp() {
-    board = new Serverboard(false);
+    board = new Board();
     bag = new Bag();
     gamelogic = new Gamelogic(board, bag);
     tile = new Tile(1);
     tile2 = new Tile(Color.RED, Shape.CIRCLE);
     tile3 = new Tile(2);
-    player = new Player("Stan", bag, null);
-    player2 = new Player("Steven", bag, null);
+    player = new Player("Stan", null);
+    player2 = new Player("Steven", null);
   }
 
   @Test

@@ -3,16 +3,12 @@ package test;
 import org.junit.Before;
 import org.junit.Test;
 
-import server.Bag;
-import server.Color;
-import server.Player;
-import server.Tile;
-import server.Shape;
+import Shared.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ServertileTest {
+public class TileTest {
   Color color;
   Shape shape;
   Tile tile;
