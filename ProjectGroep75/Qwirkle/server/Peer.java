@@ -44,7 +44,7 @@ public class Peer {
       String command = fullCommand.next();
 
       if (command.equals("IDENTIFY")) {
-        this.player = new Player(fullCommand.next(), bag, connection);
+        this.player = new Player(fullCommand.next(), connection);
         gamelogic.putPlayer(player);
 
         result = "IDENTIFYOK ";

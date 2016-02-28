@@ -59,6 +59,12 @@ public class Tile {
   public void printTile() {
     System.out.println("color: " + color + " shape: " + shape);
   }
+  
+  public int tileToInt(Tile tile) {
+    int result = 0;
+    result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
+    return result;
+  }
 
   public String toString() {
     return color.name().substring(0, 1) + shape.name().substring(0, 2);

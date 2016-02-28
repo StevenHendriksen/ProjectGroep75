@@ -1,4 +1,5 @@
 package Shared;
+
 /**
  * Client Bag
  * 
@@ -114,5 +115,14 @@ public class Bag {
 
   public Tile[] tilesInBag() {
     return tiles;
+  }
+  
+  public void putTile(int tile) {
+    for (int i = 0; i < 108; i++) {
+      if (tiles[i] == null) {
+        tiles[i] = new Tile(tile);
+        return;
+      }
+    }
   }
 }

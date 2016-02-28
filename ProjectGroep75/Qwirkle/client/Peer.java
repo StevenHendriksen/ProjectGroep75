@@ -16,6 +16,7 @@ public class Peer {
   private Board board = null;
   private Qwirkle game = null;
   private Player player = null;
+  private tui tui = null;
 
   /**
    * main, used to test peer with a few commands before we started doing it by
@@ -52,10 +53,11 @@ public class Peer {
    *          (the player that is playing)
    */
 
-  public Peer(Board board, Qwirkle game, Player player) {
+  public Peer(Board board, Qwirkle game, Player player, tui tui) {
     this.board = board;
     this.game = game;
     this.player = player;
+    this.tui = tui;
   }
 
   /**
@@ -121,7 +123,7 @@ public class Peer {
           }
 
         }
-        board.setHand(player.hasTiles());
+        tui.setHand(player.hasTiles());
       }
       if (command.equals("MOVEOK_PUT")) {
         Scanner fullCommandTiles = new Scanner(cmd);
@@ -143,10 +145,10 @@ public class Peer {
               }
             }
             board.putTile(xvalue, yvalue, tileInt);
-            board.consoleEntry("added: " + tile);
+            tui.consoleEntry("added: " + tile);
           } else {
             board.putTile(xvalue, yvalue, tileInt);
-            board.consoleEntry("added: " + tile);
+            tui.consoleEntry("added: " + tile);
           }
           in.close();
         }
@@ -166,7 +168,7 @@ public class Peer {
           output = output + " " + fullCommand.next();
         }
         System.out.println(output);
-        board.chatEntry(name, output, true);
+        tui.chatEntry(name, output, true);
       }
       if (command.equals("LOBBY")) {
         while (fullCommand.hasNext()) {
@@ -176,11 +178,11 @@ public class Peer {
       }
       scan.close();
       fullCommand.close();
-      board.update();
+      tui.update();
     } catch (java.util.NoSuchElementException e) {
       System.out.println("Invalid Server command: " + str);
       scan.close();
-      board.update();
+      tui.update();
 
     }
   }

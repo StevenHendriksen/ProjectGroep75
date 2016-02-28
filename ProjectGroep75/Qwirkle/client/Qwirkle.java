@@ -24,6 +24,7 @@ public class Qwirkle {
   private Player player;
   private Ai ai;
   private boolean manual;
+  private tui tui;
 
   /**
    * Main used for testing purposes mainly.
@@ -49,24 +50,24 @@ public class Qwirkle {
     board.putTile(5, -5, 10);
     board.putTile(5, -5, 10);
     board.putTile(0, 0, 9);
-    board.consoleEntry("Test");
-    board.consoleEntry("Test");
-    board.consoleEntry("Test");
-    board.consoleEntry("Test");
-    board.consoleEntry("Test");
-    board.chatEntry("Steven", "Banter", true);
-    board.chatEntry("Steven", "Banter", false);
-    board.chatEntry("Steven", "Banter", true);
-    board.chatEntry("Steven", "Banter", false);
-    board.chatEntry("Steven", "Banter", true);
-    board.chatEntry("Steven", "Banter", false);
-    board.chatEntry("Steven", "Banter", true);
-    board.update();
+    tui.consoleEntry("Test");
+    tui.consoleEntry("Test");
+    tui.consoleEntry("Test");
+    tui.consoleEntry("Test");
+    tui.consoleEntry("Test");
+    tui.chatEntry("Steven", "Banter", true);
+    tui.chatEntry("Steven", "Banter", false);
+    tui.chatEntry("Steven", "Banter", true);
+    tui.chatEntry("Steven", "Banter", false);
+    tui.chatEntry("Steven", "Banter", true);
+    tui.chatEntry("Steven", "Banter", false);
+    tui.chatEntry("Steven", "Banter", true);
+    tui.update();
     board.putTile(-5, 5, 10);
-    board.chatEntry("Steven", "Banter", true);
-    board.chatEntry("Steven", "Banter", false);
-    board.chatEntry("Steven", "Banter", true);
-    board.update();
+    tui.chatEntry("Steven", "Banter", true);
+    tui.chatEntry("Steven", "Banter", false);
+    tui.chatEntry("Steven", "Banter", true);
+    tui.update();
   }
 
   // ------------------ Constructor ------------------------
@@ -104,13 +105,15 @@ public class Qwirkle {
     }
 
     if (functions.contains("CHAT")) {
-      board = new Board(true);
+      board = new Board();
+      tui = new tui(board, true);
     } else {
-      board = new Board(false);
+      board = new Board();
+      tui =  new tui(board, false);
     }
     player = new Player(name);
     ai = new Ai(player);
-    peer = new Peer(board, this, player);
+    peer = new Peer(board, this, player, tui);
     System.out.println(ip + port);
     sc = new ServerCommunication(ip, port, board, peer);
     if (sc.echoSocket != null) {
@@ -148,12 +151,14 @@ public class Qwirkle {
 
   public Qwirkle(String ip, int port, String name) {
     if (functions.contains("CHAT")) {
-      board = new Board(true);
+      board = new Board();
+      tui = new tui(board, true);
     } else {
-      board = new Board(false);
+      board = new Board();
+      tui = new tui(board, false);
     }
     player = new Player(name);
-    peer = new Peer(board, this, player);
+    peer = new Peer(board, this, player, tui);
     System.out.println(ip + port);
     sc = new ServerCommunication(ip, port, board, peer);
     if (sc.echoSocket != null) {
@@ -179,7 +184,7 @@ public class Qwirkle {
 
   public void start() {
     // creates the board and does the main thing
-    board.update();
+    tui.update();
   }
 
   /**
@@ -188,7 +193,7 @@ public class Qwirkle {
 
   public void end(String str) {
     // End screen
-    board.clear();
+    tui.clear();
     System.out.println(str);
   }
 
