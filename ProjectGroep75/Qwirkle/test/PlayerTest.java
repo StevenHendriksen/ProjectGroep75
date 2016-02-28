@@ -54,8 +54,8 @@ public class PlayerTest {
   public void changeTilesTest() {
     player.changeTiles(new Tile(1), 0);
 
-    assertTrue(player.hasTiles()[0].hasColor() == Color.RED);
-    assertTrue(player.hasTiles()[0].hasShape() == Shape.CIRCLE);
+    assertTrue(player.hasTiles()[0].getColor() == Color.RED);
+    assertTrue(player.hasTiles()[0].getShape() == Shape.CIRCLE);
   }
 
   @Test

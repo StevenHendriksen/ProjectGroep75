@@ -48,5 +48,13 @@ public enum Shape {
       return 0;
     }
   }
+  
+  public Shape intToShape(int tileNumber) {
+    Shape shape = this;
+    for (int j = 1; j < tileNumber; j++) {
+      shape = other();
+    }
+    return shape;
+  }
 
 }

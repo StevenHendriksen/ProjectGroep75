@@ -24,34 +24,34 @@ public class TileTest {
   public void ServertileintTest() {
     Tile tile2 = new Tile(1);
 
-    assertTrue(tile.hasColor() == tile2.hasColor());
-    assertTrue(tile.hasShape() == tile2.hasShape());
+    assertTrue(tile.getColor() == tile2.getColor());
+    assertTrue(tile.getShape() == tile2.getShape());
   }
 
   @Test
   public void hasColorTest() {
-    assertTrue(tile.hasColor() == Color.RED);
+    assertTrue(tile.getColor() == Color.RED);
   }
 
   @Test
   public void hasShapeTest() {
-    assertTrue(tile.hasShape() == Shape.CIRCLE);
+    assertTrue(tile.getShape() == Shape.CIRCLE);
   }
 
   @Test
   public void intToColorTest() {
-    tile.intToColor(2);
+    tile.getColor().intToColor(2);
     this.color = Color.ORANGE;
 
-    assertTrue(this.color == tile.hasColor());
+    assertTrue(this.color == tile.getColor());
   }
 
   @Test
   public void intToShapeTest() {
-    tile.intToShape(2);
+    tile.getShape().intToShape(2);
     this.shape = Shape.CRISSCROSS;
 
-    assertTrue(this.shape == tile.hasShape());
+    assertTrue(this.shape == tile.getShape());
   }
 
   @Test

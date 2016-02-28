@@ -198,8 +198,8 @@ public class Peer {
 
     Tile tile2 = new Tile(tileInt);
 
-    if (tile == null || tile2 == null || tile.hasColor() == tile2.hasColor() && tile.hasShape() 
-        == tile2.hasShape()) {
+    if (tile == null || tile2 == null || tile.getColor() == tile2.getColor() && tile.getShape() 
+        == tile2.getShape()) {
       result = true;
     }
 

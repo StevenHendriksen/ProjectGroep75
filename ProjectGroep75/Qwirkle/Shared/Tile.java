@@ -9,11 +9,11 @@ public class Tile {
     this.shape = shape;
   }
 
-  public Color hasColor() {
+  public Color getColor() {
     return color;
   }
 
-  public Shape hasShape() {
+  public Shape getShape() {
     return shape;
   }
   
@@ -30,31 +30,19 @@ public class Tile {
     if (shapeNumber == 0) {
       shapeNumber = 6;
     }
-    intToColor(colorNumber);
-    intToShape(shapeNumber);
+    color.intToColor(colorNumber);
+    shape.intToShape(shapeNumber);
   }
   
   /**
    * changes the tile to the color with the value.
    * @param tileNumber (the value to change the tile's color to)
    */
-
-  public void intToColor(int tileNumber) {
-    for (int j = 1; j < tileNumber; j++) {
-      this.color = color.other();
-    }
-  }
   
   /**
    * changes the tile to the shape with the value.
    * @param tileNumber (the value to change the tile's shape to)
    */
-
-  public void intToShape(int tileNumber) {
-    for (int j = 1; j < tileNumber; j++) {
-      this.shape = shape.other();
-    }
-  }
 
   public void printTile() {
     System.out.println("color: " + color + " shape: " + shape);
@@ -62,10 +50,11 @@ public class Tile {
   
   public int tileToInt(Tile tile) {
     int result = 0;
-    result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
+    result = tile.getColor().colorToInt() * 6 + tile.getShape().shapeToInt();
     return result;
   }
 
+  @Override
   public String toString() {
     return color.name().substring(0, 1) + shape.name().substring(0, 2);
   }

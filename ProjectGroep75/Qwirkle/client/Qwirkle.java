@@ -34,7 +34,8 @@ public class Qwirkle {
    */
 
   public static void main(String[] args) {
-    new Qwirkle(false);
+    Qwirkle qwirkle = new Qwirkle(false);
+    qwirkle.test();
   }
 
   /**
@@ -78,8 +79,28 @@ public class Qwirkle {
    */
 
   public Qwirkle(boolean manual) {
-    System.out.println("Welcome to Qwirkle, to connect to a server, enter the following");
+    this.manual = manual;
+  }
 
+  /**
+   * Used to quickly use predefined ip, port and name for repeated testing ot if
+   * they stay the same.
+   * 
+   * @param ip
+   *          (ip to connect to)
+   * @param port
+   *          (port to connect to)
+   * @param name
+   *          (name to use)
+   */
+
+
+  /**
+   * Starts the actual game instead of the start up screen.
+   */
+
+  public void start() {
+    System.out.println("Welcome to Qwirkle, to connect to a server, enter the following");
     Scanner in = new Scanner(System.in);
     System.out.println("Ip:");
     String ip = "";
@@ -120,8 +141,9 @@ public class Qwirkle {
       scThread = new Thread(sc);
       scThread.start();
       sc.write("IDENTIFY " + name + " " + functions);
-      // sc.write("CLIENT_LOBBY");
     }
+    tui.update();
+    in.close();
     if (manual) {
       while (true) {
         String typedMessage = in.nextLine();
@@ -135,56 +157,7 @@ public class Qwirkle {
       while (true) {
       }
     }
-  }
 
-  /**
-   * Used to quickly use predefined ip, port and name for repeated testing ot if
-   * they stay the same.
-   * 
-   * @param ip
-   *          (ip to connect to)
-   * @param port
-   *          (port to connect to)
-   * @param name
-   *          (name to use)
-   */
-
-  public Qwirkle(String ip, int port, String name) {
-    if (functions.contains("CHAT")) {
-      board = new Board();
-      tui = new tui(board, true);
-    } else {
-      board = new Board();
-      tui = new tui(board, false);
-    }
-    player = new Player(name);
-    peer = new Peer(board, this, player, tui);
-    System.out.println(ip + port);
-    sc = new ServerCommunication(ip, port, board, peer);
-    if (sc.echoSocket != null) {
-      scThread = new Thread(sc);
-      scThread.start();
-      sc.write("CLIENT_IDENTIFY " + name + " " + functions);
-      sc.write("CLIENT_LOBBY");
-    }
-    while (true) {
-      Scanner systemIn = new Scanner(System.in);
-      String typedMessage = systemIn.nextLine();
-      if (typedMessage.equals("HINT")) {
-        System.out.println(ai.smartMove(board));
-      } else {
-        peer.handleCommand(typedMessage);
-      }
-    }
-  }
-
-  /**
-   * Starts the actual game instead of the start up screen.
-   */
-
-  public void start() {
-    // creates the board and does the main thing
-    tui.update();
   }
 
   /**
@@ -266,16 +239,10 @@ public class Qwirkle {
 
   public void help() {
     System.out.println("Available Commands:");
-    System.out.println("CHALLENGE [player]");
-    System.out.println("CHALLENGE_ACCEPT [player]");
-    System.out.println("CHALLENGE_DECLINE [player]");
     System.out.println("LEADERBOARDS");
-    System.out.println("LOBBY");
     System.out.println("QUIT");
-    System.out.println("QUEUE [int, int, ....]");
     System.out.println("MOVE_PUT 1@0,0 2@0,1 etc");
     System.out.println("MOVE_TRADE int int ...");
-    System.out.println("QUEUE [size]");
 
   }
 }

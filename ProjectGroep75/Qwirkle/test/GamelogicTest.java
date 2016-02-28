@@ -121,8 +121,8 @@ public class GamelogicTest {
 
     gamelogic.movePut(0, 0, 1);
 
-    assertEquals(tile.hasColor(), board.getTile(0, 0).hasColor());
-    assertEquals(tile.hasShape(), board.getTile(0, 0).hasShape());
+    assertEquals(tile.getColor(), board.getTile(0, 0).getColor());
+    assertEquals(tile.getShape(), board.getTile(0, 0).getShape());
     gamelogic.score(0, 0, 1, player);
     assertEquals(1, player.hasScore());
 
@@ -130,8 +130,8 @@ public class GamelogicTest {
 
     gamelogic.score(0, 1, 2, player2);
     gamelogic.movePut(0, 1, 2);
-    assertEquals(tile3.hasColor(), board.getTile(0, 1).hasColor());
-    assertEquals(tile3.hasShape(), board.getTile(0, 1).hasShape());
+    assertEquals(tile3.getColor(), board.getTile(0, 1).getColor());
+    assertEquals(tile3.getShape(), board.getTile(0, 1).getShape());
     assertEquals(2, player2.hasScore());
   }
 

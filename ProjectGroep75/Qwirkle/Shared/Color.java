@@ -30,6 +30,14 @@ public enum Color {
    * @return (int of the color)
    */
 
+  public Color intToColor(int tileNumber) {
+    Color color = this;
+    for (int j = 1; j < tileNumber; j++) {
+      color = other();
+    }
+    return color;
+  }
+  
   public int colorToInt() {
     if (this == RED) {
       return 0;

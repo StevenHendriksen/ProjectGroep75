@@ -92,7 +92,7 @@ public class Board {
 
   public int tileToInt(Tile tile) {
     int result = 0;
-    result = tile.hasColor().colorToInt() * 6 + tile.hasShape().shapeToInt();
+    result = tile.getColor().colorToInt() * 6 + tile.getShape().shapeToInt();
     return result;
   }
 

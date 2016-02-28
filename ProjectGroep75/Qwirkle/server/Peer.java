@@ -50,7 +50,7 @@ public class Peer {
         result = "IDENTIFYOK ";
         while (fullCommand.hasNext()) {
           String next = fullCommand.next();
-          if (server.functions.contains(next)) {
+          if (server.getFunctions().contains(next)) {
             result = result + next;
           }
         }

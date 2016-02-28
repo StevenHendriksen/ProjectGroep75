@@ -39,8 +39,8 @@ public class BagTest {
     bag.putTile(1);
 
     for (int i = 0; i < 108; i++) {
-      if (bag.tilesInBag()[i].hasColor() == Color.RED 
-          && bag.tilesInBag()[i].hasShape() == Shape.CIRCLE) {
+      if (bag.tilesInBag()[i].getColor() == Color.RED 
+          && bag.tilesInBag()[i].getShape() == Shape.CIRCLE) {
         result = true;
         break;
       }

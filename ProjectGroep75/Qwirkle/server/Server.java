@@ -14,14 +14,11 @@ import Shared.*;
 public class Server extends Thread {
   // ------------------ Instance variables ----------------
   ServerSocket server = null;
-  Gamelogic gamelogic;
-  Board board;
-  Player player;
-  Peer peer;
-  Bag bag;
-  String clientMessage = "";
-  Connection connection;
-  public String functions = "CHAT,LOBBY";
+  private Gamelogic gamelogic;
+  private Board board;
+  private Peer peer;
+  private Bag bag;
+  private String functions = "CHAT,LOBBY";
 
   // ------------------ Constructor ------------------------
 
@@ -30,9 +27,13 @@ public class Server extends Thread {
    */
   
   public Server() {
+    Start();
+  }
+  
+  private void Start() {
+    Scanner in = new Scanner(System.in);
     while (server == null) {
       try {
-        Scanner in = new Scanner(System.in);
         System.out.println("Port:");
         String port = "";
         port = in.nextLine();
@@ -50,10 +51,12 @@ public class Server extends Thread {
         Connection connection = new Connection(this, gamelogic, board, bag, server);
         Thread connectionThread = new Thread(connection);
         connectionThread.start();
+        in.close();
       } catch (Exception e) {
         System.out.println("Error while trying to make a server, Try another port");
       }
     }
+    in.close();
   }
 
   /**
@@ -99,8 +102,26 @@ public class Server extends Thread {
 
   }
 
-  public String getfunctions() {
+  public String getFunctions() {
     return functions;
   }
+  
+  public Board getBoard(){
+    return board;
+  }
+  
+  public Gamelogic getGamelogic() {
+    return gamelogic;
+  }
+  
+  public Peer getPeer() {
+    return peer;
+  }
+  
+  public Bag getBag() {
+    return bag;
+  }
+  
+  
 
 }
