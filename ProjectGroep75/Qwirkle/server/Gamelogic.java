@@ -11,6 +11,7 @@ public class Gamelogic {
   private Board board;
   private Tile tile;
   private int current = 0;
+  private int pass = 0;
 
   // @ private invariant players.length >= 0;
   private List<Player> players = new ArrayList<Player>();
@@ -154,14 +155,24 @@ public class Gamelogic {
   /**
    * The method that checks whether the game is over or not.
    * 
-   * @return (returns GAMEEND if bag is empty)
+   * @return (returns GAMEEND if bag is empty and all players have passed)
+   * @return (returns GAMEEND if bag is empty and a players doesn't have tiles anymore)
    */
   // @ \result == (bag.emptyBag());
   public String gameEnd() {
     String result = "";
 
     if (bag.emptyBag()) {
-      result = "GAMEEND";
+    	if(pass == players.size()){
+    	      result = "GAMEEND";
+    	}
+    
+    	for(int i = 0; i < players.size(); i++){
+    		if(player[i].hasTiles().size() == 0){
+    			player[i].changeScore(6);
+    			result = "GAMEEND";
+    		}
+    	}
     }
 
     return result;
@@ -174,6 +185,7 @@ public class Gamelogic {
   // this.hasPlayers().get(i) == player)
   public String movePass(Player player) {
     this.nextTurn();
+    pass = pass + 1;
     return "PASS";
   }
 
@@ -281,6 +293,8 @@ public class Gamelogic {
     if (moveOkPut(tile, xcoord, ycoord).equals("MOVEOK_PUT")) {
       board.putTile(xcoord, ycoord, tile);
     }
+    
+    pass = 0;
   }
 
   /**
@@ -470,6 +484,8 @@ public class Gamelogic {
         turn().changeTiles(bag.takeTile(), i);
       }
     }
+    
+    pass = 0;
   }
 
   /**
