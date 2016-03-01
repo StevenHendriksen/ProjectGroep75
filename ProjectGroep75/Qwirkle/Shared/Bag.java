@@ -1,5 +1,10 @@
 package Shared;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import server.Servertile;
+
 /**
  * Client Bag
  * 
@@ -60,18 +65,19 @@ public class Bag {
    * @return (random tile from bag)
    */
 
-  public Tile takeTile() {
-    int random = (int) Math.floor(Math.random() * 108);
-    Tile randomtile = tiles[random];
-
-    while (randomtile == null) {
-      random = (int) Math.floor(Math.random() * 108);
-    }
-
-    tiles[random] = null;
-
-    return randomtile;
-  }
+  public Servertile takeTile() {    
+	    List<Servertile> list = new ArrayList<Servertile>();
+	    
+	    for(int i = 0; i < 108; i++){
+	    	if (tiles[i] != null){
+	    		list.add(tiles[i]);
+	    	}
+	    }
+	    
+	    int random = (int) Math.floor(Math.random() * list.size());
+	    
+	    return list.get(random);
+	  }
 
   /**
    * Checks if the tile is in the bag.
