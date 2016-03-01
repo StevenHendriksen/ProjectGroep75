@@ -48,13 +48,15 @@ public class Gamelogic {
   }
 
   /**
-   * The method that checks whether you can do a trade or not.
+   * The method that checks whether you can do a trade or not. 
+   * For this the bag must not be empty.
+   * Current has to be higher than the number of players. This means all players have played a move.
    */
   // @ ensures \result == (!bag.emptyBag());
   public String moveOkTrade() {
     String result = "0";
 
-    if (!bag.emptyBag()) {
+    if (!bag.emptyBag() && current >= players.size()) {
       result = "MOVEOK_TRADE";
     }
 
