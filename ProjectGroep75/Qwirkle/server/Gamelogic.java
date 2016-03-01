@@ -119,28 +119,28 @@ public class Gamelogic {
 
 			if (empty > 0) {
 				for (int i = 0; i < 6; i++) {
-					if ((board.getTile(xcoord + i, ycoord) != this.tile.hasColor
+					if ((board.getTile(xcoord + i, ycoord).getColor() != this.tile.getColor()
 							|| equal(board.getTile(xcoord + i, ycoord), this.tile)) && max_x == 0) {
 						break;
 					} else if (board.getTile(xcoord + i, ycoord) == null) {
 						max_x = i;
 					}
 
-					if ((board.getTile(xcoord - i, ycoord) != this.tile.hasColor
+					if ((board.getTile(xcoord - i, ycoord).getColor() != this.tile.getColor()
 							|| equal(board.getTile(xcoord - i, ycoord), this.tile)) && min_x == 0) {
 						break;
 					} else if (board.getTile(xcoord - i, ycoord) == null) {
 						min_x = i;
 					}
 
-					if ((board.getTile(xcoord, ycoord + i) != this.tile.hasColor
+					if ((board.getTile(xcoord, ycoord + i).getColor() != this.tile.getColor()
 							|| equal(board.getTile(xcoord, ycoord + i), this.tile)) && max_y == 0) {
 						break;
 					} else if (board.getTile(xcoord, ycoord + i) == null) {
 						max_y = i;
 					}
 
-					if ((board.getTile(xcoord, ycoord - i) != this.tile.hasColor
+					if ((board.getTile(xcoord, ycoord - i).getColor() != this.tile.getColor()
 							|| equal(board.getTile(xcoord, ycoord - i), this.tile)) && min_y == 0) {
 						break;
 					} else if (board.getTile(xcoord, ycoord - 1) == null) {
@@ -184,15 +184,15 @@ public class Gamelogic {
 	// @ \result == (bag.emptyBag());
 	public String gameEnd() {
 		String result = "";
-
+		
 		if (bag.emptyBag()) {
 			if (pass == players.size()) {
 				result = "GAMEEND";
 			}
 
 			for (int i = 0; i < players.size(); i++) {
-				if (players[i].hasTiles().size() == 0) {
-					players[i].changeScore(6);
+				if (players.get(i).hasTiles().length == 0) {
+					players.get(i).changeScore(6);
 					result = "GAMEEND";
 				}
 			}
