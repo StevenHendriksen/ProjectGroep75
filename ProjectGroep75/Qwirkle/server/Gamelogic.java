@@ -191,8 +191,8 @@ public class Gamelogic {
 			}
 
 			for (int i = 0; i < players.size(); i++) {
-				if (player[i].hasTiles().size() == 0) {
-					player[i].changeScore(6);
+				if (players[i].hasTiles().size() == 0) {
+					players[i].changeScore(6);
 					result = "GAMEEND";
 				}
 			}
