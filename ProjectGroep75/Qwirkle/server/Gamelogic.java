@@ -211,7 +211,6 @@ public class Gamelogic {
     } else {
       players.add(player);
     }
-
   }
 
   /**
@@ -283,7 +282,6 @@ public class Gamelogic {
    * board.getdimXm(); requires y <= board.getdimYp() && y >= board.getdimYm();
    * ensures board.getTile(x , y).hasColor() == new Servertile(tile).hasColor();
    * ensures board.getTile(x , y).hasShape() == new Servertile(tile).hasShape();
-   * 
    * @
    */
   public void movePut(int xcoord, int ycoord, int tile) {
@@ -503,12 +501,13 @@ public class Gamelogic {
    */
 
   public Player getPlayer(Connection connection) {
-    for (int p = 0; p < players.size(); p++) {
+	  Player result = null;
+	  
+	  for (int p = 0; p < players.size(); p++) {
       if (players.get(p).getConnection().equals(connection)) {
-        return players.get(p);
+        result = players.get(p);
       }
     }
-    return null;
-
+    return result;
   }
 }
