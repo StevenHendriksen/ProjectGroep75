@@ -15,9 +15,9 @@ public enum Color {
       return YELLOW;
     } else if (this == YELLOW) {
       return BLUE;
-    } else if (this == BLUE) {
-      return GREEN;
     } else if (this == GREEN) {
+      return GREEN;
+    } else if (this == BLUE) {
       return PURPLE;
     } else if (this == PURPLE) {
       return RED;
@@ -30,30 +30,27 @@ public enum Color {
    * @return (int of the color)
    */
 
-  public Color intToColor(int tileNumber) {
-    Color color = this;
-    for (int j = 1; j < tileNumber; j++) {
-      color = color.other();
-    }
-    return color;
-  }
+
   
   public int colorToInt() {
-    if (this == RED) {
-      return 0;
-    } else if (this == ORANGE) {
-      return 1;
-    } else if (this == YELLOW) {
-      return 2;
-    } else if (this == GREEN) {
-      return 3;
-    } else if (this == BLUE) {
-      return 4;
-    } else if (this == PURPLE) {
-      return 5;
-    } else {
-      return -1;
+    int i;
+    switch (this) {
+        case RED : i = 0;
+                 break;
+        case ORANGE: i = 1;
+                 break;
+        case YELLOW:  i = 2;
+                 break;
+        case GREEN:  i = 3;
+                 break;
+        case BLUE:  i = 4;
+                 break;
+        case PURPLE:  i = 5;
+                 break;
+        default: i = 0;
+                 break;
     }
+    return i;
   }
 
 }

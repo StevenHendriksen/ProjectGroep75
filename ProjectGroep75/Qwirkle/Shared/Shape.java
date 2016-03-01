@@ -5,9 +5,10 @@ public enum Shape {
 
   /**
    * Used to cycle through the shapes.
+   * 
    * @return (next shape)
    */
-  
+
   public Shape other() {
     if (this == CIRCLE) {
       return CRISSCROSS;
@@ -25,36 +26,33 @@ public enum Shape {
       return null;
     }
   }
-  
+
   /**
    * Used to convert the shape to their corresponding int.
+   * 
    * @return int of the shape)
    */
 
   public int shapeToInt() {
-    if (this == CIRCLE) {
-      return 1;
-    } else if (this == CRISSCROSS) {
-      return 2;
-    } else if (this == DIAMOND) {
-      return 3;
-    } else if (this == SQUARE) {
-      return 4;
-    } else if (this == PLUS) {
-      return 5;
-    } else if (this == STAR) {
-      return 6;
-    } else {
-      return 0;
+    int i;
+    switch (this) {
+        case CIRCLE : i = 0;
+                 break;
+        case CRISSCROSS: i = 1;
+                 break;
+        case DIAMOND:  i = 2;
+                 break;
+        case SQUARE:  i = 3;
+                 break;
+        case PLUS:  i = 4;
+                 break;
+        case STAR:  i = 5;
+                 break;
+        default: i = 0;
+                 break;
     }
-  }
-  
-  public Shape intToShape(int tileNumber) {
-    Shape shape = CIRCLE;
-    for (int j = 1; j < tileNumber; j++) {
-      shape = shape.other();
-    }
-    return shape;
+    return i;
   }
 
+  
 }

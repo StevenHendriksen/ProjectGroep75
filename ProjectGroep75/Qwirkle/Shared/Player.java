@@ -57,8 +57,8 @@ public class Player {
   
   public void removeTile(Tile tile) {
     for (int j = 0; j < tiles.length; j++) {
-      if (bag.tilesInBag()[j] == tile) {
-        bag.tilesInBag()[j] = null;
+      if (bag.getBag()[j] == tile) {
+        bag.getBag()[j] = null;
       }
     }
 

@@ -17,16 +17,19 @@ public class BagTest {
     bag = new Bag(108);
     bag.fillBag(108);
   }
-
+  
+/*
   @Test
   public void newBagTest() {
   }
-
+*/
+  
   @Test
   public void takeTileTest() {
     Tile tile = bag.takeTile();
-
-    assertFalse(tile == null);
+    System.out.println("empty spots:" + bag.emptySpots());
+    assertTrue(bag.emptySpots() == 1);
+    assertTrue(tile != null);
   }
 
   @Test
@@ -40,8 +43,8 @@ public class BagTest {
     bag.putTile(1);
 
     for (int i = 0; i < 108; i++) {
-      if (bag.tilesInBag()[i].getColor() == Color.RED 
-          && bag.tilesInBag()[i].getShape() == Shape.CIRCLE) {
+      if (bag.getBag()[i].getColor() == Color.RED 
+          && bag.getBag()[i].getShape() == Shape.CIRCLE) {
         result = true;
         break;
       }
@@ -52,10 +55,9 @@ public class BagTest {
 
   @Test
   public void emptyBagTest() {
-    for (int i = 0; i <= 108; i++) {
+    for (int i = 0; i < 108; i++) {
       bag.takeTile();
     }
-
     assertTrue(bag.emptyBag());
   }
 }

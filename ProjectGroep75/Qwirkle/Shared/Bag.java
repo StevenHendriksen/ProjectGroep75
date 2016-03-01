@@ -3,8 +3,6 @@ package Shared;
 import java.util.ArrayList;
 import java.util.List;
 
-import server.Servertile;
-
 /**
  * Client Bag
  * 
@@ -14,6 +12,8 @@ import server.Servertile;
 
 public class Bag {
   private Tile[] tiles = {};
+  int bagSize;
+  List<Integer> list = new ArrayList<Integer>();
 
   public Bag(int numberOfTiles) {
     fillBag(numberOfTiles);
@@ -29,19 +29,24 @@ public class Bag {
   public static void main(String[] args) {
     Bag bag = new Bag(108);
     bag.fillBag(108);
-    bag.tilesInBag();
+    bag.getBag();
     int count = 0;
     int count2 = 0;
-    for(int i = 0; i < 108; i++){
-    System.out.println(bag.tilesInBag()[i]);
-    if(bag.tilesInBag()[i] == null){
-      count++;
-    } else{
-      count2++;
+    for (int i = 0; i < 108; i++) {
+      if (bag.getBag()[i] == null) {
+        count++;
+      } else {
+        count2++;
+      }
     }
+    System.out.println("Null count: " + count);
+    System.out.println("Non-Null count: " + count2);
+  }
+
+  public void printBag() {
+    for (int i = 0; i < 108; i++) {
+      System.out.println(getBag()[i]);
     }
-    System.out.println("count: " + count);
-    System.out.println("count2: " + count2);
   }
 
   /**
@@ -50,11 +55,12 @@ public class Bag {
 
   public void fillBag(int tileNumber) {
     tiles = new Tile[tileNumber];
+    bagSize = tileNumber;
     for (int j = 0; j < 3; j++) {
-      for (int i = 1; i < 36; i++) {
-        tiles[j*36 + i] = new Tile(i);
-        System.out.println(j + " " + i);
-        System.out.println("tiles:" + tiles[j*3 + i]);
+      for (int i = 0; i < 36; i++) {
+        tiles[j * 36 + i] = new Tile(i);
+        // System.out.println(j + " " + i + " " + (j*36 + i));
+        // System.out.println("tiles:" + tiles[j*36 + i]);
       }
     }
   }
@@ -65,19 +71,21 @@ public class Bag {
    * @return (random tile from bag)
    */
 
-  public Servertile takeTile() {    
-	    List<Servertile> list = new ArrayList<Servertile>();
-	    
-	    for(int i = 0; i < 108; i++){
-	    	if (tiles[i] != null){
-	    		list.add(tiles[i]);
-	    	}
-	    }
-	    
-	    int random = (int) Math.floor(Math.random() * list.size());
-	    
-	    return list.get(random);
-	  }
+  public Tile takeTile() {
+    
+    while (true) {
+      int random = (int) Math.floor(Math.random() * (getBag().length));
+
+      if(tiles[random] instanceof Tile){
+        Tile tile = tiles[random];
+        tiles[random] = null;
+        if(!list.contains(random)){
+          list.add(random);
+        }
+        return tile;
+      }
+    }
+  }
 
   /**
    * Checks if the tile is in the bag.
@@ -116,9 +124,10 @@ public class Bag {
     }
     return inBag;
   }
-  
+
   /**
    * Used to check if the bag is empty.
+   * 
    * @return (boolean of whether the bag is empty)
    */
 
@@ -134,10 +143,20 @@ public class Bag {
     return empty;
   }
 
-  public Tile[] tilesInBag() {
+  public Tile[] getBag() {
     return tiles;
   }
   
+  public int emptySpots() {
+    int count = 0;
+    for (int i = 0; i < 108; i++) {
+      if (getBag()[i] == null) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   public void putTile(int tile) {
     for (int i = 0; i < 108; i++) {
       if (tiles[i] == null) {
