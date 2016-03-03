@@ -125,23 +125,6 @@ public class Bag {
     return inBag;
   }
 
-  /**
-   * Used to check if the bag is empty.
-   * 
-   * @return (boolean of whether the bag is empty)
-   */
-
-  public boolean emptyBag() {
-    boolean empty = true;
-
-    for (int i = 0; i < 108; i++) {
-      if (tiles[i] != null) {
-        empty = false;
-      }
-    }
-
-    return empty;
-  }
 
   public Tile[] getBag() {
     return tiles;

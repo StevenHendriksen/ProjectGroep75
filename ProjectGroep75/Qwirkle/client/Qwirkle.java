@@ -56,19 +56,19 @@ public class Qwirkle {
     tui.consoleEntry("Test");
     tui.consoleEntry("Test");
     tui.consoleEntry("Test");
-    tui.chatEntry("Steven", "Banter", true);
-    tui.chatEntry("Steven", "Banter", false);
-    tui.chatEntry("Steven", "Banter", true);
-    tui.chatEntry("Steven", "Banter", false);
-    tui.chatEntry("Steven", "Banter", true);
-    tui.chatEntry("Steven", "Banter", false);
-    tui.chatEntry("Steven", "Banter", true);
-    tui.update();
+    // tui.chatEntry("Steven", "Banter", true);
+    // tui.chatEntry("Steven", "Banter", false);
+    // tui.chatEntry("Steven", "Banter", true);
+    // tui.chatEntry("Steven", "Banter", false);
+    // tui.chatEntry("Steven", "Banter", true);
+    // tui.chatEntry("Steven", "Banter", false);
+    // tui.chatEntry("Steven", "Banter", true);
+    // tui.update();
     board.putTile(-5, 5, 10);
-    tui.chatEntry("Steven", "Banter", true);
-    tui.chatEntry("Steven", "Banter", false);
-    tui.chatEntry("Steven", "Banter", true);
-    tui.update();
+    // tui.chatEntry("Steven", "Banter", true);
+    // tui.chatEntry("Steven", "Banter", false);
+    // tui.chatEntry("Steven", "Banter", true);
+    // tui.update();
   }
 
   // ------------------ Constructor ------------------------
@@ -93,7 +93,6 @@ public class Qwirkle {
    * @param name
    *          (name to use)
    */
-
 
   /**
    * Starts the actual game instead of the start up screen.
@@ -125,13 +124,12 @@ public class Qwirkle {
       name = in.nextLine();
     }
 
-    if (functions.contains("CHAT")) {
-      board = new Board();
-      tui = new tui(board, true);
-    } else {
-      board = new Board();
-      tui =  new tui(board, false);
-    }
+    // if (functions.contains("CHAT")) {
+    board = new Board();
+    tui = new tui(board/* , true */);
+    /*
+     * } else { board = new Board(); tui = new tui(board, false); }
+     */
     player = new Player(name);
     ai = new Ai(player);
     peer = new Peer(board, this, player, tui);
@@ -201,37 +199,36 @@ public class Qwirkle {
   public Lobby getLobby() {
     return lobby;
   }
+
   /**
    * returns if the client is manual.
    * 
    * @return (boolean)
    */
-  
+
   public boolean getManual() {
     return manual;
   }
-  
+
   /**
    * returns the communication.
    * 
    * @return (ServerCommunication)
    */
-  
+
   public ServerCommunication getConnection() {
     return sc;
   }
-  
+
   /**
    * returns the ai.
    * 
    * @return (ai)
    */
-  
+
   public Ai getai() {
     return ai;
   }
-  
-  
 
   /**
    * prints all the commands you can use.

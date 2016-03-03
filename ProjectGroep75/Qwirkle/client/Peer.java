@@ -161,7 +161,7 @@ public class Peer {
       if (command.equals("ERROR")) {
         System.out.println("Error: " + fullCommand.next());
       }
-      if (command.equals("CHATOK")) {
+      /*if (command.equals("CHATOK")) {
         String name = fullCommand.next();
         String output = name + " " + fullCommand.next();
         while (fullCommand.hasNext()) {
@@ -169,7 +169,7 @@ public class Peer {
         }
         System.out.println(output);
         tui.chatEntry(name, output, true);
-      }
+      }*/
       if (command.equals("LOBBY")) {
         while (fullCommand.hasNext()) {
           game.getLobby().addPlayer(fullCommand.next());

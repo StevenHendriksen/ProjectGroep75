@@ -29,15 +29,15 @@ public class Board {
 
   public static void main(String[] args) {
     Board board = new Board();
-    tui tui = new tui(board, true);
-    tui.chatEntry("Stan", "hoi Stan", false);
+    tui tui = new tui(board/*, true*/);
+    //tui.chatEntry("Stan", "hoi Stan", false);
     board.putTile(0, 0, 5);
     board.putTile(5, 5, 5);
     board.putTile(-5, -5, 5);
     board.putTile(-5, 5, 5);
     board.putTile(5, -5, 5);
-    tui.chatEntry("you", "hoi Steven", true);
-    tui.update();
+    //tui.chatEntry("you", "hoi Steven", true);
+    //tui.update();
   }
 
   /**

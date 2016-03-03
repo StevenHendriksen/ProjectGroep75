@@ -34,23 +34,16 @@ public class BagTest {
 
   @Test
   public void putTileTest() {
-    boolean result = false;
-
     for (int i = 0; i < 108; i++) {
       bag.takeTile();
     }
-
     bag.putTile(1);
-
-    for (int i = 0; i < 108; i++) {
-      if (bag.getBag()[i].getColor() == Color.RED 
-          && bag.getBag()[i].getShape() == Shape.CIRCLE) {
-        result = true;
-        break;
-      }
-    }
-
-    assertTrue(result);
+    bag.putTile(2);
+    bag.putTile(3);
+    bag.putTile(4);
+    bag.putTile(5);
+    bag.putTile(6);
+    assertTrue(bag.emptySpots() == 102);
   }
 
   @Test
@@ -58,6 +51,6 @@ public class BagTest {
     for (int i = 0; i < 108; i++) {
       bag.takeTile();
     }
-    assertTrue(bag.emptyBag());
+    assertTrue(bag.emptySpots() == 108);
   }
 }

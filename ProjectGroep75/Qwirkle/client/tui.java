@@ -6,15 +6,15 @@ import java.util.List;
 import Shared.*;
 
 public class tui {
-  private List<String> chatEntry = new ArrayList<String>();
+  //private List<String> chatEntry = new ArrayList<String>();
   private List<String> consoleEntry = new ArrayList<String>();
   private Board board;
-  private boolean chat;
+  //private boolean chat;
   private Tile[] hand; // todo: move
 
-  public tui(Board board, boolean chat) {
+  public tui(Board board/*, boolean chat*/) {
     this.board = board;
-    this.chat = chat;
+    //this.chat = chat;
   }
 
   public void update() {
@@ -23,9 +23,11 @@ public class tui {
     List<String> board = createConsole();
     board.addAll(board.size(), createHandPrint());
     board.addAll(board.size(), createBoardPrint());
+    /*
     if (chat) {
       board.addAll(board.size(), createChatBox());
     }
+    */
     for (int j = board.size(); j > 0; j--) {
       System.out.println(board.get(j - 1));
     }
@@ -72,7 +74,8 @@ public class tui {
     console.add(createOtherDivider());
     return console;
   }
-
+  
+  /*
   public List<String> createChatBox() {
     List<String> chat = new ArrayList<String>();
     chat.add(createOtherDivider());
@@ -94,6 +97,8 @@ public class tui {
     chat.add(createOtherDivider());
     return chat;
   }
+
+  */
 
   public String createTileLine(int num) {
     String tilesLine = "";
@@ -180,7 +185,8 @@ public class tui {
     divider = divider + "---+";
     return divider;
   }
-
+  
+  /*
   public void chatEntry(String name, String msg, boolean bool) {
     String message = "";
     if (bool) {
@@ -191,6 +197,7 @@ public class tui {
     }
     chatEntry.add(message);
   }
+  */
 
   // todo: move
   public void setHand(Tile[] tiles) {
