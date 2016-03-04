@@ -114,7 +114,7 @@ public class Peer {
             result = result + " " + tileInt + "@" + xcoord + "," + ycoord;
             sendall = sendall + " " + tileInt + "@" + xcoord + "," + ycoord;
             Tile drawnTile = gamelogic.drawTile(gamelogic.getPlayer(connection));
-            connection.getOut().write(drawnTile.tileToInt(drawnTile));
+            connection.getOut().write(drawnTile.tileToInt());
             gamelogic.score(xcoord, ycoord, tileInt, gamelogic.getPlayer(connection));
           } else {
             result = "ERROR: INVALID MOVE";

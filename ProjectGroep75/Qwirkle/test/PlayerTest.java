@@ -8,9 +8,6 @@ import Shared.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.PrintWriter;
-import java.net.Socket;
-
 //af
 public class PlayerTest {
   Player player;

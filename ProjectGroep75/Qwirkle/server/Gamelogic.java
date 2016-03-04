@@ -36,7 +36,7 @@ public class Gamelogic {
 	public Tile drawTile(Player player) {
 		Tile tile = bag.takeTile();
 		try {
-			player.getConnection().write("DRAWTILE " + tile.tileToInt(tile), player.getConnection().getOut());
+			player.getConnection().write("DRAWTILE " + tile.tileToInt(), player.getConnection().getOut());
 		} catch (NullPointerException e) {
 			String sendall = "GAMEEND";
 			for (int p = 0; p < players.size(); p++) {
@@ -56,7 +56,7 @@ public class Gamelogic {
 	public String moveOkTrade() {
 		String result = "0";
 
-		if (!bag.emptyBag() && current >= players.size()) {
+		if (bag.emptySpots() == 0 && current >= players.size()) {
 			result = "MOVEOK_TRADE";
 		}
 
@@ -185,7 +185,7 @@ public class Gamelogic {
 	public String gameEnd() {
 		String result = "";
 		
-		if (bag.emptyBag()) {
+		if (bag.emptySpots() == 0) {
 			if (pass == players.size()) {
 				result = "GAMEEND";
 			}
