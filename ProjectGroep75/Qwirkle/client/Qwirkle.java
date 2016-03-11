@@ -132,7 +132,7 @@ public class Qwirkle {
      */
     player = new Player(name);
     ai = new Ai(player);
-    peer = new Peer(board, this, player, tui);
+    peer = new Peer(this);
     System.out.println(ip + port);
     sc = new ServerCommunication(ip, port, board, peer);
     if (sc.echoSocket != null) {
@@ -233,6 +233,22 @@ public class Qwirkle {
   /**
    * prints all the commands you can use.
    */
+  
+  public Board getBoard() {
+    return board;
+  }
+  
+  public Player getPlayer() {
+    return player;
+  }
+  
+  public tui getTui() {
+    return tui;
+  }
+  
+  public Peer getPeer() {
+    return peer;
+  }
 
   public void help() {
     System.out.println("Available Commands:");

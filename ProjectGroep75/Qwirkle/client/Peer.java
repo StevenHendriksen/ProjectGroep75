@@ -36,8 +36,6 @@ public class Peer {
     game.peer.handleCommand("MOVEOK_PUT 12@0,0 4@0,33 3@1,32 0@3,12");
     game.peer.handleCommand("MOVEOK_TRADE 3");
     game.peer.handleCommand("ERROR Invalid move");
-    game.peer.handleCommand("CHAT global Alice Hello World!");
-    game.peer.handleCommand("CHATOK global Alice Hello World!");
     game.peer.handleCommand("GAMEEND");
   }
 
@@ -53,11 +51,11 @@ public class Peer {
    *          (the player that is playing)
    */
 
-  public Peer(Board board, Qwirkle game, Player player, tui tui) {
-    this.board = board;
+  public Peer(Qwirkle game) {
     this.game = game;
-    this.player = player;
-    this.tui = tui;
+    board = game.getBoard();
+    player = game.getPlayer();
+    tui = game.getTui();
   }
 
   /**

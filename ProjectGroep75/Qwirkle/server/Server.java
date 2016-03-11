@@ -43,11 +43,11 @@ public class Server extends Thread {
         }
         server = new ServerSocket(new Integer(port));
         bag = new Bag(108);
-        bag.fillBag(108);
+        bag.fillBag();
         board = new Board();
         gamelogic = new Gamelogic(board, bag);
         System.out.println(
-              "Waiting for client on port " + port + " swith IP-adress: " 
+              "Waiting for client on port " + port + " with IP-adress: " 
                     + Inet4Address.getLocalHost().getHostAddress());
         Connection connection = new Connection(this, gamelogic, board, bag, server);
         Thread connectionThread = new Thread(connection);

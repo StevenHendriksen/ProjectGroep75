@@ -58,10 +58,10 @@ public class Ai {
       for (int y = dimYm - 1; y < dimYp + 1; y++) {
         System.out.println("gettile: " + board.getTile(x, y));
         if (board.getTile(x, y) == null) {
-          for (int h = 0; h < player.hasTiles().length - 1; h++) {
-            if (player.hasTiles()[h] != null 
-                && localGamelogic.moveOkPut(board.tileToInt(player.hasTiles()[h]), x, y)) {
-              validMoves.put(x + " " + y, player.hasTiles()[h]);
+          for (int h = 0; h < player.getTiles().getBag().length - 1; h++) {
+            if (player.getTiles().getBag()[h] != null 
+                && localGamelogic.moveOkPut(board.tileToInt(player.getTiles().getBag()[h]), x, y)) {
+              validMoves.put(x + " " + y, player.getTiles().getBag()[h]);
             }
           }
         }

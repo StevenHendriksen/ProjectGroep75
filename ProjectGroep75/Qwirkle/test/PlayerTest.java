@@ -15,7 +15,6 @@ public class PlayerTest {
 
   @Before
   public void setUp() {
-    bag = new Bag(108);
     player = new Player("Stan", null);
   }
 
@@ -25,28 +24,21 @@ public class PlayerTest {
   }
 
   @Test
-  public void getTilesAndhasTilesTest() {
+  public void getTilesTest() {
     boolean test1 = true;
-
+    
+    
     for (int i = 0; i < 6; i++) {
-      if (player.hasTiles()[i] != null) {
-        test1 = false;
-      }
-    }
-
-    assertTrue(test1);
-
-    player.getTiles();
-
-    for (int j = 0; j < 6; j++) {
-      if (player.hasTiles()[j] == null) {
+      if (player.getTiles().getBag()[i] != null) {
+        
         test1 = false;
       }
     }
 
     assertTrue(test1);
   }
-
+  
+/*
   @Test
   public void changeTilesTest() {
     player.changeTiles(new Tile(1), 0);
@@ -54,7 +46,7 @@ public class PlayerTest {
     assertTrue(player.hasTiles()[0].getColor() == Color.RED);
     assertTrue(player.hasTiles()[0].getShape() == Shape.CIRCLE);
   }
-
+*/
   @Test
   public void hasScoreAndChangeScoreTest() {
     assertTrue(player.hasScore() == 0);

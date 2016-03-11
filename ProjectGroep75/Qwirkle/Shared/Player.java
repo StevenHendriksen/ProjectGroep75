@@ -4,7 +4,6 @@ import server.Connection;
 
 public class Player {
   String name;
-  Tile[] tiles;
   Bag bag;
   Connection connection;
   int score;
@@ -16,6 +15,7 @@ public class Player {
   
   public Player(String name, Connection connection) {
     this.name = name;
+    this.connection = connection;
     bag = new Bag(6);
   }
   
@@ -28,41 +28,27 @@ public class Player {
     return name;
   }
 
-  public Tile[] hasTiles() {
-    return tiles;
+  public Bag getTiles() {
+    return bag;
   }
   
-  public void setTiles(Tile[] tiles) {
-    this.tiles = tiles;
+  public void setTiles(Bag bag) {
+    this.bag = bag;
   }
 
   public void addTile(Tile tile) {
-    tiles[tiles.length - 1] = tile;
+    bag.putTile(tile.tileToInt());
   }
   
-  public void changeTiles(Tile tile, int num) {
-    tiles[num] = tile;
+  public void removeTile(Tile tile) {
+    bag.removeTile(tile);
   }
 
   /**
    * Removes a tile from the player's hand.
    * @param tile (tile to be removed)
    */
-  
-  public void getTiles() {
-    for (int i = 0; i < 6; i++) {
-      tiles[i] = bag.takeTile();
-    }
-  }
-  
-  public void removeTile(Tile tile) {
-    for (int j = 0; j < tiles.length; j++) {
-      if (bag.getBag()[j] == tile) {
-        bag.getBag()[j] = null;
-      }
-    }
 
-  }
   public Connection getConnection() {
     return connection;
   }

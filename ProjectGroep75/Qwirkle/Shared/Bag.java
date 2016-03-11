@@ -16,7 +16,8 @@ public class Bag {
   List<Integer> list = new ArrayList<Integer>();
 
   public Bag(int numberOfTiles) {
-    fillBag(numberOfTiles);
+    tiles = new Tile[numberOfTiles];
+    bagSize = numberOfTiles;
   }
 
   /**
@@ -28,7 +29,7 @@ public class Bag {
 
   public static void main(String[] args) {
     Bag bag = new Bag(108);
-    bag.fillBag(108);
+    bag.fillBag();
     bag.getBag();
     int count = 0;
     int count2 = 0;
@@ -44,7 +45,7 @@ public class Bag {
   }
 
   public void printBag() {
-    for (int i = 0; i < 108; i++) {
+    for (int i = 0; i < bagSize - 1; i++) {
       System.out.println(getBag()[i]);
     }
   }
@@ -53,15 +54,18 @@ public class Bag {
    * newBag, fills the bag with all the tiles.
    */
 
-  public void fillBag(int tileNumber) {
-    tiles = new Tile[tileNumber];
-    bagSize = tileNumber;
-    for (int j = 0; j < 3; j++) {
-      for (int i = 0; i < 36; i++) {
+  public void fillBag() {
+    int j;
+    int i;
+    for (j = 0; j < bagSize/36; j++) {
+      for (i = 0; i < 36; i++) {
         tiles[j * 36 + i] = new Tile(i);
         // System.out.println(j + " " + i + " " + (j*36 + i));
         // System.out.println("tiles:" + tiles[j*36 + i]);
       }
+    }
+    for(int k = 0; k < (bagSize % 36); k++){
+      tiles[j * 36 + k] = new Tile(k);
     }
   }
 
@@ -97,7 +101,7 @@ public class Bag {
 
   public boolean getTile(Tile tile) {
     boolean inBag = false;
-    for (int i = 0; i < 108; i++) {
+    for (int i = 0; i < bagSize; i++) {
       if (tiles[i] == tile) {
         if (i % 3 == 0 && tiles[i + 1] == null) {
           tiles[i + 1] = tile;
@@ -130,6 +134,15 @@ public class Bag {
     return tiles;
   }
   
+  public void removeTile(Tile tile) {
+    for(int i = 0; i < bagSize; i++){
+      if(tiles[i].tileToInt() == tile.tileToInt()){
+        tiles[i] = null;
+        break;
+      }
+    }
+  }
+  
   public int emptySpots() {
     int count = 0;
     for (int i = 0; i < 108; i++) {
@@ -141,7 +154,7 @@ public class Bag {
   }
 
   public void putTile(int tile) {
-    for (int i = 0; i < 108; i++) {
+    for (int i = 0; i < bagSize-1; i++) {
       if (tiles[i] == null) {
         tiles[i] = new Tile(tile);
         return;

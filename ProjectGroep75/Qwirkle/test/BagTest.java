@@ -13,7 +13,7 @@ public class BagTest {
   @Before
   public void setUp() {
     bag = new Bag(108);
-    bag.fillBag(108);
+    bag.fillBag();
   }
   
 /*

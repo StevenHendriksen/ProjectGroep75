@@ -65,7 +65,7 @@ public class Peer {
             for (int j = 0; j < gamelogic.hasPlayers().size(); j++) {
               Player player = gamelogic.hasPlayers().get(j);
               for (int i = 0; i < 6; i++) {
-                player.changeTiles(gamelogic.drawTile(player), i);
+                player.changeTiles(gamelogic.drawTile(player));
               }
             }
             server.sendAll("TURN " + gamelogic.turn().hasName());
@@ -73,8 +73,8 @@ public class Peer {
         }
       } else if (command.equals("DRAWTILE")) {
         for (int i = 0; i < 6; i++) {
-          if (player.hasTiles()[i] == null) {
-            player.changeTiles(gamelogic.drawTile(gamelogic.getPlayer(connection)), i);
+          if (player.getTiles().getBag()[i] == null) {
+            player.changeTiles(gamelogic.drawTile(gamelogic.getPlayer(connection)));
           }
         }
         result = "DRAWTILE";
