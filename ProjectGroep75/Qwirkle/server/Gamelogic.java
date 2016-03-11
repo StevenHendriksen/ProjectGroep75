@@ -87,6 +87,7 @@ public class Gamelogic {
 		assert ycoord <= board.getdimYp() && ycoord >= board.getdimYm();
 
 		String result = "ERROR Invalid move";
+		int result2 = 0;
 
 		this.tile = new Tile(tile);
 
@@ -99,6 +100,7 @@ public class Gamelogic {
 		if (board.getTile(xcoord, ycoord) == null) {
 			if (xcoord == 0 && ycoord == 0) {
 				result = "MOVEOK_PUT";
+				return result;
 			}
 
 			if (board.getTile(xcoord + 1, ycoord) == null) {
@@ -117,38 +119,52 @@ public class Gamelogic {
 				empty = empty + 1;
 			}
 
-			if (empty > 0) {
+			if (empty < 4) {
 				for (int i = 0; i < 6; i++) {
-					if ((board.getTile(xcoord + i, ycoord).getColor() != this.tile.getColor()
-							|| equal(board.getTile(xcoord + i, ycoord), this.tile)) && max_x == 0) {
-						break;
-					} else if (board.getTile(xcoord + i, ycoord) == null) {
+					if (board.getTile(xcoord + i, ycoord) == null) {
 						max_x = i;
+					} else if (max_x == 0 && ((board.getTile(xcoord + i, ycoord).getColor() != this.tile.getColor()
+							&& board.getTile(xcoord + i, ycoord).getShape() != this.tile.getShape())
+							|| equal(board.getTile(xcoord + i, ycoord), this.tile))) {
+						result = "rechts";
+						break;
 					}
 
-					if ((board.getTile(xcoord - i, ycoord).getColor() != this.tile.getColor()
-							|| equal(board.getTile(xcoord - i, ycoord), this.tile)) && min_x == 0) {
-						break;
-					} else if (board.getTile(xcoord - i, ycoord) == null) {
+					if (board.getTile(xcoord - i, ycoord) == null) {
 						min_x = i;
+					} else if (min_x == 0 && ((board.getTile(xcoord - i, ycoord).getColor() != this.tile.getColor()
+							&& board.getTile(xcoord - i, ycoord).getShape() != this.tile.getShape())
+							|| equal(board.getTile(xcoord - i, ycoord), this.tile))) {
+						result = "links";
+						break;
 					}
 
-					if ((board.getTile(xcoord, ycoord + i).getColor() != this.tile.getColor()
-							|| equal(board.getTile(xcoord, ycoord + i), this.tile)) && max_y == 0) {
-						break;
-					} else if (board.getTile(xcoord, ycoord + i) == null) {
+					if (board.getTile(xcoord, ycoord + i) == null) {
 						max_y = i;
+					} else if (max_y == 0 && ((board.getTile(xcoord, ycoord + i).getColor() != this.tile.getColor()
+							&& board.getTile(xcoord, ycoord + i).getShape() != this.tile.getShape())
+							|| equal(board.getTile(xcoord, ycoord + i), this.tile))) {
+						result = "boven";
+						break;
 					}
 
-					if ((board.getTile(xcoord, ycoord - i).getColor() != this.tile.getColor()
-							|| equal(board.getTile(xcoord, ycoord - i), this.tile)) && min_y == 0) {
-						break;
-					} else if (board.getTile(xcoord, ycoord - 1) == null) {
+					if (board.getTile(xcoord, ycoord - i) == null) {
 						min_y = i;
+					} else if (min_y == 0 && ((board.getTile(xcoord, ycoord - i).getColor() != this.tile.getColor()
+							&& board.getTile(xcoord, ycoord - i).getShape() != this.tile.getShape())
+							|| equal(board.getTile(xcoord, ycoord - i), this.tile))) {
+						result = "onder";
+						break;
+					}
+					
+					if(i == 5){
+						result2 = 1;
 					}
 				}
-
-				result = "MOVEOK_PUT";
+				
+				if(result2 == 1){
+					result = "MOVEOK_PUT";
+				}
 			}
 		}
 
@@ -184,7 +200,7 @@ public class Gamelogic {
 	// @ \result == (bag.emptyBag());
 	public String gameEnd() {
 		String result = "";
-		
+
 		if (bag.emptySpots() == 0) {
 			if (pass == players.size()) {
 				result = "GAMEEND";
@@ -353,7 +369,9 @@ public class Gamelogic {
 		assert tile <= 36 && tile >= 0;
 		assert xcoord <= board.getdimXp() && xcoord >= board.getdimXm();
 		assert ycoord <= board.getdimYp() && ycoord >= board.getdimYm();
+		
 		this.tile = new Tile(tile);
+		
 		int score = 1;
 		int qwirkle1 = 1;
 		int qwirkle2 = 1;
