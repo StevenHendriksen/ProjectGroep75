@@ -201,13 +201,13 @@ public class Gamelogic {
 	public String gameEnd() {
 		String result = "";
 
-		if (bag.emptySpots() == 0) {
+		if (bag.emptySpots() == 108) {
 			if (pass == players.size()) {
 				result = "GAMEEND";
 			}
 
 			for (int i = 0; i < players.size(); i++) {
-				if (players.get(i).hasTiles().length == 0) {
+				if (players.get(i).getTiles().getBag().length == 0) {
 					players.get(i).changeScore(6);
 					result = "GAMEEND";
 				}
@@ -337,6 +337,10 @@ public class Gamelogic {
 		assert ycoord <= board.getdimYp() + 1 && ycoord >= board.getdimYm() - 1;
 		if (moveOkPut(tile, xcoord, ycoord).equals("MOVEOK_PUT")) {
 			board.putTile(xcoord, ycoord, tile);
+		}
+		
+		if(bag.emptySpots() != 108){
+			this.turn().addTile(bag.takeTile());
 		}
 
 		pass = 0;
@@ -517,16 +521,13 @@ public class Gamelogic {
 	 * 
 	 * @
 	 */
+	
+	//OPNIEUW DOEN
 	public void moveTrade(int number) {
 		bag.putTile(number);
 
 		Tile instancetile = new Tile(number);
 
-		for (int i = 0; i < 6; i++) {
-			if (equal(turn().hasTiles()[i], instancetile)) {
-				turn().changeTiles(bag.takeTile(), i);
-			}
-		}
 
 		pass = 0;
 	}
