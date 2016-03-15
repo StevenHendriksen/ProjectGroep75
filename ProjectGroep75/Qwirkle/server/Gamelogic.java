@@ -42,9 +42,9 @@ public class Gamelogic {
 			for (int p = 0; p < players.size(); p++) {
 				sendall = sendall + " " + players.get(p).hasScore() + "," + players.get(p).hasName();
 			}
-			player.getConnection().getServer().sendAll(sendall);
+			//player.getConnection().getServer().sendAll(sendall);
 		}
-		return bag.takeTile();
+		return tile;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class Gamelogic {
 	 * 
 	 * ensures \result == (board.getTile(x,y) == null && (
 	 */
-	public String moveOkPut(int tile, int xcoord, int ycoord) {
+	public String moveOkPut(int tile, int xcoord, int ycoord, Player player) {
 		assert tile <= 36 && tile >= 0;
 		assert xcoord <= board.getdimXp() && xcoord >= board.getdimXm();
 		assert ycoord <= board.getdimYp() && ycoord >= board.getdimYm();
@@ -96,8 +96,12 @@ public class Gamelogic {
 		int min_x = 0;
 		int max_y = 0;
 		int min_y = 0;
-
-		if (board.getTile(xcoord, ycoord) == null) {
+		System.out.println("0 0: " + turn() + " " + player.hasName() + " " +  (xcoord == 0 && ycoord == 0));
+		if(turn().equals(player) && xcoord == 0 && ycoord == 0){
+		  return "MOVEOK_PUT";
+		}
+		
+		if (board.getTile(xcoord, ycoord) == null && turn().equals(player)) {
 			if (xcoord == 0 && ycoord == 0) {
 				result = "MOVEOK_PUT";
 				return result;
@@ -202,12 +206,13 @@ public class Gamelogic {
 		String result = "";
 
 		if (bag.emptySpots() == 108) {
+		  System.out.println(1);
 			if (pass == players.size()) {
 				result = "GAMEEND";
 			}
 
 			for (int i = 0; i < players.size(); i++) {
-				if (players.get(i).getTiles().getBag().length == 0) {
+				if (players.get(i).getTiles().emptySpots() == 6) {
 					players.get(i).changeScore(6);
 					result = "GAMEEND";
 				}
@@ -331,11 +336,12 @@ public class Gamelogic {
 	 * 
 	 * @
 	 */
-	public void movePut(int xcoord, int ycoord, int tile) {
+	
+	public void movePut(int xcoord, int ycoord, int tile, Player player) {
 		assert tile <= 36 && tile >= 0;
 		assert xcoord <= board.getdimXp() + 1 && xcoord >= board.getdimXm() - 1;
 		assert ycoord <= board.getdimYp() + 1 && ycoord >= board.getdimYm() - 1;
-		if (moveOkPut(tile, xcoord, ycoord).equals("MOVEOK_PUT")) {
+		if (moveOkPut(tile, xcoord, ycoord, player).equals("MOVEOK_PUT")) {
 			board.putTile(xcoord, ycoord, tile);
 		}
 		
@@ -345,7 +351,7 @@ public class Gamelogic {
 
 		pass = 0;
 	}
-
+  
 	/**
 	 * The method that calculates the score.
 	 * 

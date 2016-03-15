@@ -72,12 +72,12 @@ public class Peer {
       Scanner fullCommand = new Scanner(str);
 
       String command = fullCommand.next();
+      command = command.replace("", ""); //To fix a weird bug where it would place 's in front of messages from the server
       if (command.equals("IDENTIFYOK")) {
         System.out.println("Succesfully connected");
       }
       if (command.equals("GAMESTART")) {
         System.out.println("Game is starting");
-        game.start();
       }
       if (command.equals("GAMEEND")) {
         System.out.println("Game has ended");
@@ -102,13 +102,16 @@ public class Peer {
         System.out.println("Player Passed: " + name);
         game.pass(name);
       }
+      //check protocol
       if (command.equals("DRAWTILE")) {
         while (fullCommand.hasNext()) {
           // adds the previously mentioned
           System.out.println("Adding tile");
-          if (player.hasTiles().length == 6) {
+          player.addTile(new Tile(new Integer(fullCommand.next())));
+          /*
+          if (player.getTiles().emptySpots() == 0) {
             int position = 0;
-            for (int i = 0; i < player.hasTiles().length - 1; i++) {
+            for (int i = 0; i < player.getTiles(). - 1; i++) {
               if (player.hasTiles()[i] == null) {
                 position = i;
                 break;
@@ -119,9 +122,10 @@ public class Peer {
             player.changeTiles(new Tile(new Integer(fullCommand.next())), 
                 player.hasTiles().length - 1);
           }
+          */
 
         }
-        tui.setHand(player.hasTiles());
+        player.getTiles().setBag(player.getTiles().getBag());
       }
       if (command.equals("MOVEOK_PUT")) {
         Scanner fullCommandTiles = new Scanner(cmd);
@@ -134,12 +138,12 @@ public class Peer {
           int xvalue = new Integer(in.next());
           int yvalue = new Integer(in.next());
           System.out.println("putTile: " + xvalue + yvalue + tileInt);
-          if (board.getTile(xvalue, yvalue) == null) {
+          if (game.getTurn().equals(player.hasName())) {
             for (int i = 0; i < 6; i++) {
-              if (equal(player.hasTiles()[i], tileInt)) {
-                Tile[] tiles = player.hasTiles();
+              if (equal(player.getTiles().getBag()[i], tileInt)) {
+                Tile[] tiles = player.getTiles().getBag();
                 tiles[i] = null;
-                player.setTiles(tiles);
+                player.getTiles().setBag(tiles);
               }
             }
             board.putTile(xvalue, yvalue, tileInt);
@@ -168,12 +172,14 @@ public class Peer {
         System.out.println(output);
         tui.chatEntry(name, output, true);
       }*/
+      /*
       if (command.equals("LOBBY")) {
         while (fullCommand.hasNext()) {
           game.getLobby().addPlayer(fullCommand.next());
         }
         game.getLobby().print();
       }
+      */
       scan.close();
       fullCommand.close();
       tui.update();

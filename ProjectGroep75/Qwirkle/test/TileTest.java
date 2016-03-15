@@ -22,7 +22,7 @@ public class TileTest {
   @Test
   public void TileintTest() {
     Tile tile2 = new Tile(0);
-
+    
     assertTrue(tile.getColor() == tile2.getColor());
     assertTrue(tile.getShape() == tile2.getShape());
   }

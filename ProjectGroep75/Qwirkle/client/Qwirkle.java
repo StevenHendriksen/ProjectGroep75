@@ -19,12 +19,13 @@ public class Qwirkle {
   public Peer peer; // change to private in final version
   private ServerCommunication sc = null;
   private Thread scThread = null;
-  private static final String functions = "CHAT,LOBBY";
+  private static final String functions = "";
   private Lobby lobby;
   private Player player;
   private Ai ai;
   private boolean manual;
   private tui tui;
+  String turn;
 
   /**
    * Main used for testing purposes mainly.
@@ -34,7 +35,8 @@ public class Qwirkle {
    */
 
   public static void main(String[] args) {
-    Qwirkle qwirkle = new Qwirkle(false);
+    Qwirkle qwirkle = new Qwirkle(true);
+    qwirkle.start();
     qwirkle.test();
   }
 
@@ -44,7 +46,8 @@ public class Qwirkle {
    */
 
   public void test() {
-    peer.handleCommand("GAMESTART");
+    //peer.handleCommand("GAMESTART");
+    System.out.println("test");
     board.putTile(-5, -5, 8);
     board.putTile(5, 5, 3);
     board.putTile(-5, 5, 31);
@@ -65,10 +68,14 @@ public class Qwirkle {
     // tui.chatEntry("Steven", "Banter", true);
     // tui.update();
     board.putTile(-5, 5, 10);
+    tui.update();
     // tui.chatEntry("Steven", "Banter", true);
     // tui.chatEntry("Steven", "Banter", false);
     // tui.chatEntry("Steven", "Banter", true);
     // tui.update();
+    while(true){
+      
+    }
   }
 
   // ------------------ Constructor ------------------------
@@ -125,7 +132,7 @@ public class Qwirkle {
     }
 
     // if (functions.contains("CHAT")) {
-    board = new Board();
+    board = new Board(this);
     tui = new tui(board/* , true */);
     /*
      * } else { board = new Board(); tui = new tui(board, false); }
@@ -141,7 +148,6 @@ public class Qwirkle {
       sc.write("IDENTIFY " + name + " " + functions);
     }
     tui.update();
-    in.close();
     if (manual) {
       while (true) {
         String typedMessage = in.nextLine();
@@ -176,6 +182,7 @@ public class Qwirkle {
    */
 
   public void turn(String name) {
+    this.turn = name;
     System.out.println("Turn: " + name);
   }
 
@@ -236,6 +243,10 @@ public class Qwirkle {
   
   public Board getBoard() {
     return board;
+  }
+  
+  public String getTurn() {
+    return turn;
   }
   
   public Player getPlayer() {

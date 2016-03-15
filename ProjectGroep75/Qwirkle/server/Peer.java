@@ -65,7 +65,7 @@ public class Peer {
             for (int j = 0; j < gamelogic.hasPlayers().size(); j++) {
               Player player = gamelogic.hasPlayers().get(j);
               for (int i = 0; i < 6; i++) {
-                player.changeTiles(gamelogic.drawTile(player));
+                player.addTile((gamelogic.drawTile(player)));
               }
             }
             server.sendAll("TURN " + gamelogic.turn().hasName());
@@ -74,7 +74,7 @@ public class Peer {
       } else if (command.equals("DRAWTILE")) {
         for (int i = 0; i < 6; i++) {
           if (player.getTiles().getBag()[i] == null) {
-            player.changeTiles(gamelogic.drawTile(gamelogic.getPlayer(connection)));
+            player.addTile((gamelogic.drawTile(gamelogic.getPlayer(connection))));
           }
         }
         result = "DRAWTILE";
@@ -91,7 +91,6 @@ public class Peer {
           }
         }
       } else if (command.equals("MOVE_PUT")) {
-        result = "MOVEOK_PUT";
         Scanner fullCommandTiles = new Scanner(cmd);
         fullCommandTiles.next();
         String sendall = "MOVEOK_PUT";
@@ -108,25 +107,22 @@ public class Peer {
           xcoords[xcoords.length - 1] = xcoord;
           ycoords[ycoords.length - 1] = ycoord;
           if (gamelogic.getPlayer(connection).hasName().equals(gamelogic.turn().hasName()) 
-              && (straightline(xcoords, xcoord) || straightline(ycoords, ycoord) 
-                  || gamelogic.moveOkPut(tileInt, xcoord, ycoord).equals("MOVEOK_PUT"))) {
+              && (straightline(xcoords, xcoord) || straightline(ycoords, ycoord))
+                  && gamelogic.moveOkPut(tileInt, xcoord, ycoord, gamelogic.getPlayer(connection)).equals("MOVEOK_PUT")) {
             board.putTile(xcoord, ycoord, tileInt);
-            result = result + " " + tileInt + "@" + xcoord + "," + ycoord;
             sendall = sendall + " " + tileInt + "@" + xcoord + "," + ycoord;
             Tile drawnTile = gamelogic.drawTile(gamelogic.getPlayer(connection));
-            connection.getOut().write(drawnTile.tileToInt());
+            result = "DRAWTILE " + drawnTile.tileToInt() + "\n";
             gamelogic.score(xcoord, ycoord, tileInt, gamelogic.getPlayer(connection));
           } else {
             result = "ERROR: INVALID MOVE";
           }
           in.close();
         }
-        if (!sendall.equals("MOVEOK_PUT")) {
-          server.sendAll(sendall);
-        } else {
-          connection.getOut().write("Error");
-        }
 
+        server.sendAll(sendall);
+        connection.getOut().write(result);
+        result = "";
         gamelogic.nextTurn();
         server.sendAll("TURN " + gamelogic.turn().hasName());
 

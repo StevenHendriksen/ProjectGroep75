@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import client.tui;
+import client.Qwirkle;
 
 public class Board {
   // ------------------ Instance variables ----------------
@@ -21,6 +22,7 @@ public class Board {
   private int dimYp;
   private int dimYm;
 
+  Qwirkle game = null;
   private Map<String, Tile> tileLocs = new HashMap<String, Tile>();
 
   /**
@@ -28,7 +30,7 @@ public class Board {
    */
 
   public static void main(String[] args) {
-    Board board = new Board();
+    Board board = new Board(null);
     tui tui = new tui(board/*, true*/);
     //tui.chatEntry("Stan", "hoi Stan", false);
     board.putTile(0, 0, 5);
@@ -37,14 +39,15 @@ public class Board {
     board.putTile(-5, 5, 5);
     board.putTile(5, -5, 5);
     //tui.chatEntry("you", "hoi Steven", true);
-    //tui.update();
+    tui.update();
   }
 
   /**
    * Constructor that creates an empty Board.
    */
 
-  public Board() {
+  public Board(Qwirkle game) {
+    this.game = game;
   }
 
   /**
@@ -79,6 +82,7 @@ public class Board {
    */
 
   public void putTile(int xcoord, int ycoord, int tile) {
+    System.out.println("put tile:" + tile);
     tileLocs.put(xcoord + " " + ycoord, new Tile(tile));
   }
 
@@ -271,6 +275,9 @@ public class Board {
    * console and chatbox.
    */
 
+  public Qwirkle getGame() {
+    return game;
+  }
 
   
   /**

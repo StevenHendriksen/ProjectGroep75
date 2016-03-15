@@ -43,6 +43,17 @@ public class BagTest {
     bag.putTile(6);
     assertTrue(bag.emptySpots() == 102);
   }
+ 
+  
+  @Test
+  public void fillBag() {
+    assertTrue(bag.emptySpots() == 0);
+    
+    bag = new Bag(6);
+    bag.fillBag();
+    bag.printBag();
+    assertTrue(bag.emptySpots() == 0);
+  }
 
   @Test
   public void emptyBagTest() {

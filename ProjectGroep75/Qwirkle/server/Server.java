@@ -18,7 +18,7 @@ public class Server extends Thread {
   private Board board;
   private Peer peer;
   private Bag bag;
-  private String functions = "CHAT,LOBBY";
+  private String functions = "";
 
   // ------------------ Constructor ------------------------
 
@@ -44,7 +44,7 @@ public class Server extends Thread {
         server = new ServerSocket(new Integer(port));
         bag = new Bag(108);
         bag.fillBag();
-        board = new Board();
+        board = new Board(null);
         gamelogic = new Gamelogic(board, bag);
         System.out.println(
               "Waiting for client on port " + port + " with IP-adress: " 

@@ -10,7 +10,6 @@ public class tui {
   private List<String> consoleEntry = new ArrayList<String>();
   private Board board;
   //private boolean chat;
-  private Tile[] hand; // todo: move
 
   public tui(Board board/*, boolean chat*/) {
     this.board = board;
@@ -160,6 +159,7 @@ public class tui {
     List<String> handPrints = new ArrayList<String>();
 
     String handPrint = "Tiles:";
+    Tile[] hand = board.getGame().getPlayer().getTiles().getBag();
     for (int k = 0; k < hand.length; k++) {
       handPrint = handPrint + " " + hand[k];
     }
@@ -200,7 +200,4 @@ public class tui {
   */
 
   // todo: move
-  public void setHand(Tile[] tiles) {
-    hand = tiles;
-  }
 }

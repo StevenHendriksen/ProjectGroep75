@@ -45,7 +45,7 @@ public class Bag {
   }
 
   public void printBag() {
-    for (int i = 0; i < bagSize - 1; i++) {
+    for (int i = 0; i < bagSize; i++) {
       System.out.println(getBag()[i]);
     }
   }
@@ -145,16 +145,20 @@ public class Bag {
   
   public int emptySpots() {
     int count = 0;
-    for (int i = 0; i < 108; i++) {
+    for (int i = 0; i < bagSize; i++) {
       if (getBag()[i] == null) {
         count++;
       }
     }
     return count;
   }
+  
+  public void setBag(Tile[] tiles) {
+    this.tiles = tiles;
+  }
 
   public void putTile(int tile) {
-    for (int i = 0; i < bagSize-1; i++) {
+    for (int i = 0; i < bagSize; i++) {
       if (tiles[i] == null) {
         tiles[i] = new Tile(tile);
         return;

@@ -38,6 +38,12 @@ public class PlayerTest {
     assertTrue(test1);
   }
   
+  @Test
+  public void fillHandTest() {
+    player.getTiles().fillBag();
+    player.getTiles().printBag();
+  }
+  
 /*
   @Test
   public void changeTilesTest() {

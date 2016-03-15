@@ -75,6 +75,7 @@ public class Connection extends Thread {
           if (handledCommand == "SERVER_GAMEEND") {
             this.close(connection);
           }
+          write(handledCommand, new PrintWriter(connection.getOutputStream()));
         }
 
         clientMessage = inputStream.readLine();
